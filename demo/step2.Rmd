@@ -1,5 +1,5 @@
 ---
-title: "Step 2: Model Fitting"
+title: "Step 2: Model Training & Validation"
 author: "https://celehs.github.io/PETLER/"
 ---
 
