@@ -1,0 +1,6 @@
+template:
+  params:
+    bootswatch: spacelab
+
+navbar:
+  type: inverse
