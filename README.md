@@ -1,15 +1,9 @@
 ## Overview
 
-Large clinical datasets derived from insurance claims and electronic health record (EHR)
-systems are valuable sources for precision medicine research. These datasets can be used to
-develop models for personalized prediction of risk or treatment response. Efficiently deriving
-prediction models using real world data, however, faces practical and methodological challenges.
-For example, event time information such as time to cancer progression is not readily
-available. Simple estimates of the event time based on billing or procedure codes may
-poorly approximate the true event time.
+Large clinical datasets derived from insurance claims and electronic health record (EHR) systems are valuable sources for precision medicine research. These datasets can be used to develop models for personalized prediction of risk or treatment response. Efficiently deriving
+prediction models using real world data, however, faces practical and methodological challenges. For example, event time information such as time to cancer progression is not readily available. Simple estimates of the event time based on billing or procedure codes may poorly approximate the true event time.
 
-This package implements a two-step semi-supervised learning method on predicting event time with longitudinal encounter records (PETLER). In step I, we employ a functional principal component analysis approach to efficiently approximate the intensity functions of individual encounters using the observed
-point processes in the unlabeled set. In step II, we fit a penalized proportional odds model to the event time outcomes with features derived in step I in the labeled data where the non-parametric baseline function is approximated using B-splines. 
+This package implements a two-step semi-supervised learning method on predicting event time with longitudinal encounter records (PETLER). In step I, we employ a functional principal component analysis approach to efficiently approximate the intensity functions of individual encounters using the observed point processes in the unlabeled set. In step II, we fit a penalized proportional odds model to the event time outcomes with features derived in step I in the labeled data where the non-parametric baseline function is approximated using B-splines. 
 
 ## Installation
 
