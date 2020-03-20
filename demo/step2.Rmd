@@ -52,5 +52,4 @@ output
 
 ```{r}
 proc.time()
-Sys.time()
 ```

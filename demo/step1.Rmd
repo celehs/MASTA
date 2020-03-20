@@ -43,5 +43,4 @@ save(codes,
 
 ```{r}
 proc.time()
-Sys.time()
 ```
