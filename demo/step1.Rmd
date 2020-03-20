@@ -1,0 +1,47 @@
+---
+title: "Step 1: Data Engineering"
+author: "https://celehs.github.io/PETLER/"
+---
+
+```{r, message=F}
+source("setup.R")
+source("step1.R")
+```
+
+```{r}
+str(codes)
+str(TrainFt)
+str(ValidFt)
+str(TrainSurv_pred_org)
+str(TrainSurv)
+str(ValidSurv_pred_org)
+str(ValidSurv)
+str(TrainN)
+str(ValidN)
+str(nn)
+str(TrainPK)
+str(ValidPK)
+str(Tend)
+```
+
+```{r}
+save(codes, 
+     TrainFt, 
+     ValidFt, 
+     TrainSurv_pred_org, 
+     TrainSurv, 
+     ValidSurv_pred_org, 
+     ValidSurv,
+     TrainN,
+     ValidN,
+     nn,
+     TrainPK,
+     ValidPK,
+     Tend,
+     file = "step1.RData")
+```
+
+```{r}
+proc.time()
+Sys.time()
+```

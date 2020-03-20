@@ -27,9 +27,15 @@ devtools::install_github("celehs/PETLER")
 
 ## Getting Started
 
-Click [HERE](https://celehs.github.io/PETLER/demo.html) to view an example. The data used for this demo can be found [HERE](https://github.com/celehs/PETLER/tree/master/demo). 
+WORK IN PROGRESS...
 
-Click [HERE](https://celehs.github.io/PETLER/reference/ppfpca.html) to view the documentation for the main function `ppfpca`.
+- [STEP 1](): Data Engineering
+
+- [STEP 2](): Spline Model Fitting
+
+The data used for this demo can be found [HERE](https://github.com/celehs/PETLER/tree/master/demo). 
+
+Click [HERE](https://celehs.github.io/PETLER/reference/petler.html) to view the documentation for the main function `petler`.
 
 ## References
 

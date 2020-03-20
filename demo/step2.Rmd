@@ -1,0 +1,25 @@
+---
+title: "Step 2: Model Fitting"
+author: "https://celehs.github.io/PETLER/"
+---
+
+```{r, message=F}
+source("setup.R")
+```
+
+```{r}
+load("step1.RData")
+```
+
+```{r}
+source("step2.R")
+```
+
+```{r}
+output
+```
+
+```{r}
+proc.time()
+Sys.time()
+```
