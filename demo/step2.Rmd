@@ -42,6 +42,11 @@ lines(tseq,log(h.fun(tseq,knots,Boundary.knots,bg.init.NPMLE)),col="red")
 ```
 
 ```{r}
+str(bgbbest)
+str(cstats)
+```
+
+```{r}
 output
 ```
 
