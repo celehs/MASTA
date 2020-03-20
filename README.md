@@ -29,9 +29,9 @@ devtools::install_github("celehs/PETLER")
 
 WORK IN PROGRESS...
 
-- [STEP 1](): Data Engineering
+- [STEP 1](https://celehs.github.io/PETLER/demo/step1.html): Data Engineering
 
-- [STEP 2](): Spline Model Fitting
+- [STEP 2](https://celehs.github.io/PETLER/demo/step2.html): Spline Model Fitting
 
 The data used for this demo can be found [HERE](https://github.com/celehs/PETLER/tree/master/demo). 
 
