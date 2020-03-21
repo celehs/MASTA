@@ -1,21 +1,40 @@
 Package: PETLER
 Type: Package
-Title: Event Time Annotation with Longitudinal Medical Encounters
+Title: Predicting Event Time with Longitudinal Encounter Records
 Version: 0.1.0
 Authors@R: c(
-  person("Liang", "Liang", role = "aut"),
-  person("Hajime", "Uno", role = c("aut", "cre"), email = "huno@jimmy.harvard.edu"),
-  person("Ming", "Yang", role = "aut"),
-  person("Tianxi", "Cai", role = "aut")
-  )
-Description: Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
+    person("Liang", "Liang", role = "aut"),
+    person("Hajime", "Uno", role = c("aut", "cre"), email = "huno@jimmy.harvard.edu"),
+    person("Ming", "Yang", role = "aut"),
+    person("Tianxi", "Cai", role = "aut")
+    )
+Description: Implements an algorithm to identify the occurrence of event outcome from 
+    trajectories of several predictors.
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 7.0.2
-LinkingTo: Rcpp, RcppArmadillo
-Imports: Rcpp, RcppArmadillo, foreign, plyr, corrplot, RColorBrewer,
-        rpart, rpart.utils, doParallel, foreach, rootSolve,
-        splines, survC1, gglasso, glmnet, parallel
-Depends: survival
+LinkingTo: 
+    Rcpp, 
+    RcppArmadillo
+Imports: 
+    Rcpp, 
+    RcppArmadillo, 
+    foreign, 
+    plyr, 
+    corrplot, 
+    RColorBrewer, 
+    rpart, 
+    rpart.utils, 
+    doParallel, 
+    foreach, 
+    rootSolve,
+    splines, 
+    survC1, 
+    gglasso, 
+    glmnet, 
+    parallel
+Depends: 
+    R (>= 2.10),
+    survival
 LazyData: true
 NeedsCompilation: yes

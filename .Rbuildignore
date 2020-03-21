@@ -1,5 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-demo/
-docs/
+^demo0$
+^demo$
+^docs$
+^data-raw$
+^data_org$
 _pkgdown.yml
