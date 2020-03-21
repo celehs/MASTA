@@ -1,3 +1,5 @@
+__Predicting Event Time with Longitudinal Encounter Records__
+
 ## Overview
 
 Large clinical datasets derived from insurance claims and electronic health record (EHR) systems are valuable sources for precision medicine research. These datasets can be used to develop models for personalized prediction of risk or treatment response. Efficiently deriving

@@ -1,0 +1,83 @@
+---
+title: "PETLER Demo"
+author: "https://celehs.github.io/PETLER/"
+---
+
+```{r}
+library(PETLER)
+```
+
+```{r, include=FALSE}
+library(data.table)
+library(foreign)
+library(plyr)
+library(corrplot)
+library(RColorBrewer)
+library(rpart)
+library(rpart.utils)
+library(doParallel)
+library(foreach)
+library(rootSolve)
+library(splines)
+library(survC1)
+library(gglasso)
+library(glmnet)
+library(parallel)
+
+source("../R/Cheng1995-edit.R")
+source("../R/Likelihood_BS_GrpLasso_RealData.R")
+source("../R/NPMLE_RealData.R")
+source("../R/PP_FPCA_CPP_Parallel.R")
+source("../R/PETLER-package.R")
+
+FPC_Kern_S <- function(x, t, N, h1, h2) {
+  grp <- rep(1:length(N), N)
+  M <- outer(t, x, "-")
+  D1 <- dnorm(M, 0, h1)
+  D2 <- dnorm(M, 0, h2)   
+  S2 <- rowsum(D2, grp)
+  list(f_mu = colSums(D1), 
+       Cov_G = crossprod(S2) - crossprod(D2))
+}
+
+n.grid = 401
+PPIC_K = FALSE
+cov_group = NULL
+propvar = 0.85
+StdFollowUp = TRUE
+thresh = 0.7
+PCAthresh = 0.9
+seed = 1234
+seed2 = 100
+n_core = 4
+```
+
+```{r}
+# data_org[c("TrainSurv", "ValidSurv")]
+# data_org[c("TrainCode", "ValidCode")]
+# data_org[c("TrainN", "ValidN")]
+str(data_org)
+```
+
+```{r}
+TrainSurv <- data_org$TrainSurv
+ValidSurv <- data_org$ValidSurv
+TrainCode <- data_org$TrainCode
+ValidCode <- data_org$ValidCode
+TrainN <- data_org$TrainN
+ValidN <- data_org$ValidN
+```
+
+```{r}
+codes <- names(TrainCode)[grep("pred", names(TrainCode))]
+nn <- nrow(TrainSurv) ## labeled
+NN <- length(unique(TrainCode$case)) ## - nn ## unlabeled
+nnv <- nrow(ValidSurv) ## validation
+c(nn, NN, nnv)
+unique(TrainCode$case)
+```
+
+
+```{r}
+proc.time()
+```
