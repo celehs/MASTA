@@ -3,45 +3,28 @@
 \name{petler}
 \alias{petler}
 \title{Main function implementing the PETLER algorithm}
+\usage{
+petler(
+  object,
+  cov_group = NULL,
+  thresh = 0.7,
+  PCAthresh = 0.9,
+  seed = 1234,
+  seed2 = 100
+)
+}
 \arguments{
-\item{datadir_org}{a path for the directory where the original data files are saved. 
-If NULL is specified (default), a directory named "./data_org" will be automatically specified.\cr
-                   Note that 6 original data must be saved as the following file names;\cr
-                      1. TrainSurv.csv: baseline survival data for training (labeled); 1st colum: patient id, 2nd colum: event indicator (1=event, 0=censoring),
-                                        3rd colum: event time, 4th colum: follow-up time, 5th colum--: covariates.\cr
-                      2. ValidSurv.csv: baseline survival data for validation; baseline survival data for training (labeled); 1st colum: patient id, 
-                                        2nd colum: event indicator (1=event, 0=censoring), 3rd colum: event time, 4th colum: follow-up time, 
-                                        5th colum--: covariates.\cr
-                      3. TrainCode.csv: 1st colum: patient id, 2nd colum: follow-up time, 3rd colum: time label (month), 4th colum-- : predictors.\cr
-                      4. ValidCode.csv: 1st colum: patient id, 2nd colum: follow-up time, 3rd colum: time label (month), 4th colum-- : predictors.\cr
-                      5. TrainN.csv:    1st colum: patient id, 2nd colum-- : total number of counts for each predictor.\cr
-                      6. ValidN.csv:    1st colum: patient id, 2nd colum-- : total number of counts for each predictor.\cr}
+\item{object}{...}
 
-\item{datadir_base_func}{a path for the directory where the base function data will be saved. If NULL is specified (default), a directory named "./data_base_func" will be automatically created under the current working directly.}
+\item{cov_group}{...}
 
-\item{outdir}{a path for the directory where output files will be saved. If NULL is specified (default), a directory named "./outdir" will be automatically created under the current working directly.}
+\item{thresh}{...}
 
-\item{read_base_func}{a logical indicating whether to create base function data \code{FALSE} or to read base function data files you already created \code{TRUE}. Default is TRUE.}
+\item{PCAthresh}{...}
 
-\item{n.grid}{an integer value for grid points used in estimating covariance function g. Default is \code{401}.}
+\item{seed}{...}
 
-\item{PPIC_K}{a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose the number of principal components K (K.select="PPIC") \code{TRUE} or another criterion to choose K (K.select="PropVar") \code{FALSE} in the PP_FPCA_CPP_Parallel function (hidden). Default is \code{FALSE}.}
-
-\item{cov_group}{a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.}
-
-\item{propvar}{a proportion of variation used to select number of FPCs. Default is \code{0.85}.}
-
-\item{n_core}{an integer to specify the number of core using for parallel computing. Default is \code{4}.}
-
-\item{StdFollowUp}{a logical indicating whether to use standardize follow-up time or not. Standardize follow-up time will be calculated as TrainCode$month/TrainCode$analysisfu).}
-
-\item{thresh}{a default is \code{0.7}, which means if there are codes with >70\% patients no codes, only use first code time.}
-
-\item{PCAthresh}{a threshold value for PCA. Default is \code{0.9}.}
-
-\item{seed}{random seed used for the sampling. Default is \code{1234}.}
-
-\item{seed2}{random seed used for the sampling. Default is \code{100}.}
+\item{seed2}{...}
 }
 \value{
 A list with components:
@@ -55,11 +38,5 @@ A list with components:
 Several output files will be saved in the \code{outdir} directory.
 }
 \description{
-This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
-}
-\details{
-For more details, please contact to the package manager.
-}
-\references{
-Wu, S., Müller, H., & Zhang, Z. (2013). FUNCTIONAL DATA ANALYSIS FOR POINT PROCESSES WITH RARE EVENTS. Statistica Sinica, 23(1), 1-23.
+...
 }

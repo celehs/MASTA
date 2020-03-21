@@ -18,23 +18,20 @@ LinkingTo:
     RcppArmadillo
 Imports: 
     Rcpp, 
-    RcppArmadillo, 
-    foreign, 
-    plyr, 
-    corrplot, 
-    RColorBrewer, 
-    rpart, 
-    rpart.utils, 
+    RcppArmadillo,
+    data.table, 
     doParallel, 
     foreach, 
-    rootSolve,
-    splines, 
-    survC1, 
-    gglasso, 
-    glmnet, 
-    parallel
+    parallel, 
+    survC1,
+    rootSolve, 
+    splines,
+    glmnet,
+    gglasso,
+    rpart,
+    rpart.utils 
 Depends: 
-    R (>= 2.10),
+    R (>= 3.0),
     survival
 LazyData: true
 NeedsCompilation: yes
