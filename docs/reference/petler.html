@@ -76,10 +76,10 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
+  <a href="../index.html">Home</a>
+</li>
+<li>
+  <a href="../demo/getting-started.html">Getting Started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -109,60 +109,25 @@
     <p>This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>petler</span>(
+  <span class='no'>object</span>,
+  <span class='kw'>cov_group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>thresh</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
+  <span class='kw'>PCAthresh</span> <span class='kw'>=</span> <span class='fl'>0.9</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1234</span>,
+  <span class='kw'>seed2</span> <span class='kw'>=</span> <span class='fl'>100</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>datadir_org</th>
-      <td><p>a path for the directory where the original data files are saved. 
-If NULL is specified (default), a directory named "./data_org" will be automatically specified.<br />
-                   Note that 6 original data must be saved as the following file names;<br />
-                      1. TrainSurv.csv: baseline survival data for training (labeled); 1st colum: patient id, 2nd colum: event indicator (1=event, 0=censoring),
-                                        3rd colum: event time, 4th colum: follow-up time, 5th colum--: covariates.<br />
-                      2. ValidSurv.csv: baseline survival data for validation; baseline survival data for training (labeled); 1st colum: patient id, 
-                                        2nd colum: event indicator (1=event, 0=censoring), 3rd colum: event time, 4th colum: follow-up time, 
-                                        5th colum--: covariates.<br />
-                      3. TrainCode.csv: 1st colum: patient id, 2nd colum: follow-up time, 3rd colum: time label (month), 4th colum-- : predictors.<br />
-                      4. ValidCode.csv: 1st colum: patient id, 2nd colum: follow-up time, 3rd colum: time label (month), 4th colum-- : predictors.<br />
-                      5. TrainN.csv:    1st colum: patient id, 2nd colum-- : total number of counts for each predictor.<br />
-                      6. ValidN.csv:    1st colum: patient id, 2nd colum-- : total number of counts for each predictor.<br /></p></td>
-    </tr>
-    <tr>
-      <th>datadir_base_func</th>
-      <td><p>a path for the directory where the base function data will be saved. If NULL is specified (default), a directory named "./data_base_func" will be automatically created under the current working directly.</p></td>
-    </tr>
-    <tr>
-      <th>outdir</th>
-      <td><p>a path for the directory where output files will be saved. If NULL is specified (default), a directory named "./outdir" will be automatically created under the current working directly.</p></td>
-    </tr>
-    <tr>
-      <th>read_base_func</th>
-      <td><p>a logical indicating whether to create base function data <code>FALSE</code> or to read base function data files you already created <code>TRUE</code>. Default is TRUE.</p></td>
-    </tr>
-    <tr>
-      <th>n.grid</th>
-      <td><p>an integer value for grid points used in estimating covariance function g. Default is <code>401</code>.</p></td>
-    </tr>
-    <tr>
-      <th>PPIC_K</th>
-      <td><p>a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose the number of principal components K (K.select="PPIC") <code>TRUE</code> or another criterion to choose K (K.select="PropVar") <code>FALSE</code> in the PP_FPCA_CPP_Parallel function (hidden). Default is <code>FALSE</code>.</p></td>
+      <th>object</th>
+      <td><p>results returned by the <code>petler.base</code> function</p></td>
     </tr>
     <tr>
       <th>cov_group</th>
       <td><p>a vector of consecutive integers describing the grouping only for covariates. When <code>NULL</code> is specified (default), each covariate will be in different group.</p></td>
-    </tr>
-    <tr>
-      <th>propvar</th>
-      <td><p>a proportion of variation used to select number of FPCs. Default is <code>0.85</code>.</p></td>
-    </tr>
-    <tr>
-      <th>n_core</th>
-      <td><p>an integer to specify the number of core using for parallel computing. Default is <code>4</code>.</p></td>
-    </tr>
-    <tr>
-      <th>StdFollowUp</th>
-      <td><p>a logical indicating whether to use standardize follow-up time or not. Standardize follow-up time will be calculated as TrainCode$month/TrainCode$analysisfu).</p></td>
     </tr>
     <tr>
       <th>thresh</th>
@@ -191,14 +156,6 @@ If NULL is specified (default), a directory named "./data_org" will be automatic
 
 <dt>group</dt><dd><p>A vector of consecutive integers describing the grouping coefficients</p></dd>
 
-Several output files will be saved in the outdir directory.
-
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>For more details, please contact to the package manager.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Wu, S., Müller, H., &amp; Zhang, Z. (2013). FUNCTIONAL DATA ANALYSIS FOR POINT PROCESSES WITH RARE EVENTS. Statistica Sinica, 23(1), 1-23.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -206,8 +163,6 @@ Several output files will be saved in the outdir directory.
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
     </ul>
 
   </div>

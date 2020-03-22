@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sample Data of the PETLER Pacakge — data_org • PETLER</title>
+<title>Base functions for PETLER — petler.base • PETLER</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Sample Data of the PETLER Pacakge — data_org" />
-<meta property="og:description" content="A list of training and validation data for illustrating the use of the PETLER algorithm" />
+<meta property="og:title" content="Base functions for PETLER — petler.base" />
+<meta property="og:description" content="Function used to create base functions for the PETLER algorithm." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,33 +100,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sample Data of the PETLER Pacakge</h1>
+    <h1>Base functions for PETLER</h1>
     
-    <div class="hidden name"><code>data_org.Rd</code></div>
+    <div class="hidden name"><code>petler.base.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A list of training and validation data for illustrating the use of the PETLER algorithm</p>
+    <p>Function used to create base functions for the PETLER algorithm.</p>
     </div>
 
-    <pre class="usage"><span class='no'>data_org</span></pre>
+    <pre class="usage"><span class='fu'>petler.base</span>(<span class='no'>data</span>, <span class='kw'>PPIC_K</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>n.grid</span> <span class='kw'>=</span> <span class='fl'>401</span>, <span class='kw'>propvar</span> <span class='kw'>=</span> <span class='fl'>0.85</span>, <span class='kw'>n_core</span> <span class='kw'>=</span> <span class='fl'>4</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>input data used to create base. See <code><a href='https://rdrr.io/r/utils/data.html'>data(data_org)</a></code> for example.</p></td>
+    </tr>
+    <tr>
+      <th>PPIC_K</th>
+      <td><p>a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
+the number of principal components K (K.select="PPIC") <code>TRUE</code> or another criterion to choose 
+K (K.select="PropVar") <code>FALSE</code> in the PP_FPCA_CPP_Parallel function (hidden). Default is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>n.grid</th>
+      <td><p>an integer value for grid points used in estimating covariance function g. Default is <code>401</code>.</p></td>
+    </tr>
+    <tr>
+      <th>propvar</th>
+      <td><p>a proportion of variation used to select number of FPCs. Default is <code>0.85</code>.</p></td>
+    </tr>
+    <tr>
+      <th>n_core</th>
+      <td><p>an integer to specify the number of core using for parallel computing. Default is <code>4</code>.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A list with 4 data tables:</p><dl class='dl-horizontal'>
-  <dt>TrainSurv</dt><dd><p>baseline survival data for training (labeled); 1st colum: patient id, 2nd colum: event indicator (1=event, 0=censoring), 3rd colum: event time, 4th colum: follow-up time, 5th colum--: covariates.</p></dd>
-  <dt>ValidSurv</dt><dd><p>baseline survival data for validation; baseline survival data for training (labeled); 1st colum: patient id, 2nd colum: event indicator (1=event, 0=censoring), 3rd colum: event time, 4th colum: follow-up time, 5th colum--: covariates.</p></dd>
-  <dt>TrainCode</dt><dd><p>1st colum: patient id, 2nd colum: follow-up time, 3rd colum: time label (month), 4th colum-- : predictors.</p></dd>
-  <dt>ValidCode</dt><dd><p>1st colum: patient id, 2nd colum: follow-up time, 3rd colum: time label (month), 4th colum-- : predictors.</p></dd>
-
-</dl>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
+      <li><a href="#arguments">Arguments</a></li>
     </ul>
 
   </div>
