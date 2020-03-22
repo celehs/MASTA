@@ -23,7 +23,7 @@ devtools::install_github("celehs/PETLER")
 
 ## Getting Started
 
-Click [HERE](https://celehs.github.com/PETLER/demo/example.html) to view a data example that illustrates the use of the PETLER algorithm.
+Click [HERE](https://celehs.github.io/PETLER/demo/example.html) to view a data example that illustrates the use of the PETLER algorithm.
 
 ## References
 
