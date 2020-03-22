@@ -1,5 +1,5 @@
 ---
-title: "Getting Started"
+title: "PETLER Example"
 author: "https://celehs.github.io/PETLER/"
 ---
 

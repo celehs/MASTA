@@ -7,7 +7,7 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Getting Started"
-      href: demo/getting-started.html  
+    - text: "Example"
+      href: demo/example.html  
     - text: "Reference"
       href: reference/index.html
