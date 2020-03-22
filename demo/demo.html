@@ -371,58 +371,121 @@ summary {
 <pre class="r"><code>library(PETLER)</code></pre>
 <pre><code>## Loading required package: survival</code></pre>
 <pre class="r"><code>data(data_org)
-str(data_org)</code></pre>
-<pre><code>## List of 6
-##  $ TrainSurv:Classes 'data.table' and 'data.frame':  500 obs. of  7 variables:
-##   ..$ case      : int [1:500] 1 2 3 4 5 6 7 8 9 10 ...
-##   ..$ delta     : int [1:500] 1 0 0 0 0 0 0 0 1 0 ...
-##   ..$ sx        : num [1:500] 9.36 13.93 12.55 14.85 80.66 ...
-##   ..$ sc        : num [1:500] 49.4 13.9 12.6 14.9 80.7 ...
-##   ..$ base_pred1: int [1:500] 87 31 37 87 37 45 83 82 65 30 ...
-##   ..$ base_pred2: int [1:500] 0 1 1 0 0 1 1 1 0 1 ...
-##   ..$ base_pred3: int [1:500] 1 1 0 0 0 1 0 1 0 1 ...
-##   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
-##  $ ValidSurv:Classes 'data.table' and 'data.frame':  400 obs. of  7 variables:
-##   ..$ case      : int [1:400] 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 ...
-##   ..$ delta     : int [1:400] 0 0 0 0 0 0 0 0 0 0 ...
-##   ..$ sx        : num [1:400] 71.72 70.37 98.63 17.61 5.55 ...
-##   ..$ sc        : num [1:400] 71.72 70.37 98.63 17.61 5.55 ...
-##   ..$ base_pred1: int [1:400] 72 36 39 38 76 59 32 76 50 35 ...
-##   ..$ base_pred2: int [1:400] 0 1 1 1 0 1 0 0 0 0 ...
-##   ..$ base_pred3: int [1:400] 0 0 0 1 1 1 0 0 1 0 ...
-##   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
-##  $ TrainCode:Classes 'data.table' and 'data.frame':  20292 obs. of  6 variables:
-##   ..$ case      : int [1:20292] 1 1 1 1 1 1 1 1 1 1 ...
-##   ..$ analysisfu: num [1:20292] 49.4 49.4 49.4 49.4 49.4 ...
-##   ..$ month     : int [1:20292] 0 1 2 3 4 5 6 7 8 9 ...
-##   ..$ pred1     : int [1:20292] 0 0 0 0 0 0 0 0 0 0 ...
-##   ..$ pred2     : int [1:20292] 0 0 0 0 0 0 0 0 0 0 ...
-##   ..$ pred3     : int [1:20292] 0 0 0 0 0 0 0 0 0 0 ...
-##   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
-##  $ ValidCode:Classes 'data.table' and 'data.frame':  17025 obs. of  6 variables:
-##   ..$ case      : int [1:17025] 1001 1001 1001 1001 1001 1001 1001 1001 1001 1001 ...
-##   ..$ analysisfu: num [1:17025] 71.7 71.7 71.7 71.7 71.7 ...
-##   ..$ month     : int [1:17025] 0 1 2 3 4 5 6 7 8 9 ...
-##   ..$ pred1     : int [1:17025] 0 0 0 0 0 0 0 0 0 1 ...
-##   ..$ pred2     : int [1:17025] 0 0 0 0 0 0 0 0 0 0 ...
-##   ..$ pred3     : int [1:17025] 0 0 0 0 0 0 0 0 0 0 ...
-##   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
-##  $ TrainN   :Classes 'data.table' and 'data.frame':  500 obs. of  4 variables:
-##   ..$ case       : int [1:500] 1 2 3 4 5 6 7 8 9 10 ...
-##   ..$ pred1_total: int [1:500] 0 0 0 4 24 0 0 0 2 10 ...
-##   ..$ pred2_total: int [1:500] 1 0 0 0 3 0 0 0 2 12 ...
-##   ..$ pred3_total: int [1:500] 0 0 0 0 0 0 0 0 2 0 ...
-##   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
-##  $ ValidN   :Classes 'data.table' and 'data.frame':  400 obs. of  4 variables:
-##   ..$ case       : int [1:400] 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 ...
-##   ..$ pred1_total: int [1:400] 3 0 0 3 21 4 0 3 0 0 ...
-##   ..$ pred2_total: int [1:400] 1 2 4 0 1 0 0 0 0 0 ...
-##   ..$ pred3_total: int [1:400] 0 0 0 0 0 1 0 0 0 0 ...
-##   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+data_org[1:2]</code></pre>
+<pre><code>## $TrainSurv
+##       id event_ind event_time   fu_time cov_1 cov_2 cov_3
+##   1:   1         1   9.363450 49.412731    87     0     1
+##   2:   2         0  13.930185 13.930185    31     1     1
+##   3:   3         0  12.550308 12.550308    37     1     0
+##   4:   4         0  14.850103 14.850103    87     0     0
+##   5:   5         0  80.657084 80.657084    37     0     0
+##  ---                                                     
+## 496: 496         0   8.443532  8.443532    68     0     0
+## 497: 497         0  38.833676 38.833676    33     1     0
+## 498: 498         0  42.743326 42.743326    80     0     1
+## 499: 499         0  31.474333 31.474333    50     1     1
+## 500: 500         0   7.523614  7.523614    48     0     0
+## 
+## $ValidSurv
+##        id event_ind event_time   fu_time cov_1 cov_2 cov_3
+##   1: 1001         0  71.720739 71.720739    72     0     0
+##   2: 1002         0  70.373717 70.373717    36     1     0
+##   3: 1003         0  98.628337 98.628337    39     1     0
+##   4: 1004         0  17.609856 17.609856    38     1     1
+##   5: 1005         0   5.552361  5.552361    76     0     1
+##  ---                                                      
+## 396: 1396         0  76.780287 76.780287    45     0     0
+## 397: 1397         0  60.418891 60.418891    55     0     0
+## 398: 1398         0  27.367556 27.367556    83     1     1
+## 399: 1399         0  24.607803 24.607803    47     1     1
+## 400: 1400         0  29.305955 29.305955    71     1     1</code></pre>
+<pre class="r"><code>data_org[3:4]</code></pre>
+<pre><code>## $TrainCode
+##         id   fu_time month pred1 pred2 pred3
+##     1:   1 49.412731     0     0     0     0
+##     2:   1 49.412731     1     0     0     0
+##     3:   1 49.412731     2     0     0     0
+##     4:   1 49.412731     3     0     0     0
+##     5:   1 49.412731     4     0     0     0
+##    ---                                      
+## 20288: 500  7.523614     3     0     0     0
+## 20289: 500  7.523614     4     0     0     0
+## 20290: 500  7.523614     5     0     0     0
+## 20291: 500  7.523614     6     0     0     0
+## 20292: 500  7.523614     7     0     0     0
+## 
+## $ValidCode
+##          id  fu_time month pred1 pred2 pred3
+##     1: 1001 71.72074     0     0     0     0
+##     2: 1001 71.72074     1     0     0     0
+##     3: 1001 71.72074     2     0     0     0
+##     4: 1001 71.72074     3     0     0     0
+##     5: 1001 71.72074     4     0     0     0
+##    ---                                      
+## 17021: 1400 29.30595    25     0     0     0
+## 17022: 1400 29.30595    26     0     0     0
+## 17023: 1400 29.30595    27     0     0     0
+## 17024: 1400 29.30595    28     0     0     0
+## 17025: 1400 29.30595    29     0     0     0</code></pre>
+<pre class="r"><code>data_org</code></pre>
+<pre><code>## $TrainSurv
+##       id event_ind event_time   fu_time cov_1 cov_2 cov_3
+##   1:   1         1   9.363450 49.412731    87     0     1
+##   2:   2         0  13.930185 13.930185    31     1     1
+##   3:   3         0  12.550308 12.550308    37     1     0
+##   4:   4         0  14.850103 14.850103    87     0     0
+##   5:   5         0  80.657084 80.657084    37     0     0
+##  ---                                                     
+## 496: 496         0   8.443532  8.443532    68     0     0
+## 497: 497         0  38.833676 38.833676    33     1     0
+## 498: 498         0  42.743326 42.743326    80     0     1
+## 499: 499         0  31.474333 31.474333    50     1     1
+## 500: 500         0   7.523614  7.523614    48     0     0
+## 
+## $ValidSurv
+##        id event_ind event_time   fu_time cov_1 cov_2 cov_3
+##   1: 1001         0  71.720739 71.720739    72     0     0
+##   2: 1002         0  70.373717 70.373717    36     1     0
+##   3: 1003         0  98.628337 98.628337    39     1     0
+##   4: 1004         0  17.609856 17.609856    38     1     1
+##   5: 1005         0   5.552361  5.552361    76     0     1
+##  ---                                                      
+## 396: 1396         0  76.780287 76.780287    45     0     0
+## 397: 1397         0  60.418891 60.418891    55     0     0
+## 398: 1398         0  27.367556 27.367556    83     1     1
+## 399: 1399         0  24.607803 24.607803    47     1     1
+## 400: 1400         0  29.305955 29.305955    71     1     1
+## 
+## $TrainCode
+##         id   fu_time month pred1 pred2 pred3
+##     1:   1 49.412731     0     0     0     0
+##     2:   1 49.412731     1     0     0     0
+##     3:   1 49.412731     2     0     0     0
+##     4:   1 49.412731     3     0     0     0
+##     5:   1 49.412731     4     0     0     0
+##    ---                                      
+## 20288: 500  7.523614     3     0     0     0
+## 20289: 500  7.523614     4     0     0     0
+## 20290: 500  7.523614     5     0     0     0
+## 20291: 500  7.523614     6     0     0     0
+## 20292: 500  7.523614     7     0     0     0
+## 
+## $ValidCode
+##          id  fu_time month pred1 pred2 pred3
+##     1: 1001 71.72074     0     0     0     0
+##     2: 1001 71.72074     1     0     0     0
+##     3: 1001 71.72074     2     0     0     0
+##     4: 1001 71.72074     3     0     0     0
+##     5: 1001 71.72074     4     0     0     0
+##    ---                                      
+## 17021: 1400 29.30595    25     0     0     0
+## 17022: 1400 29.30595    26     0     0     0
+## 17023: 1400 29.30595    27     0     0     0
+## 17024: 1400 29.30595    28     0     0     0
+## 17025: 1400 29.30595    29     0     0     0</code></pre>
 <pre class="r"><code>system.time(obj &lt;- petler.base(data_org))</code></pre>
-<pre><code>## Warning: executing %dopar% sequentially: no parallel backend registered</code></pre>
 <pre><code>##    user  system elapsed 
-##   4.099   0.030   4.129</code></pre>
+##   5.972   1.195   4.816</code></pre>
 <pre class="r"><code>str(obj)</code></pre>
 <pre><code>## List of 16
 ##  $ nn                : int 500
@@ -445,23 +508,23 @@ str(data_org)</code></pre>
 ##   ..$ base_pred2: int [1:400] 0 1 1 1 0 1 0 0 0 0 ...
 ##   ..$ base_pred3: int [1:400] 0 0 0 1 1 1 0 0 1 0 ...
 ##  $ TrainN            :'data.frame':  500 obs. of  4 variables:
-##   ..$ case       : int [1:500] 1 2 3 4 5 6 7 8 9 10 ...
+##   ..$ case       : Factor w/ 500 levels &quot;1&quot;,&quot;10&quot;,&quot;100&quot;,..: 1 112 223 334 445 457 468 479 490 2 ...
 ##   ..$ pred1_total: int [1:500] 0 0 0 4 24 0 0 0 2 10 ...
 ##   ..$ pred2_total: int [1:500] 1 0 0 0 3 0 0 0 2 12 ...
 ##   ..$ pred3_total: int [1:500] 0 0 0 0 0 0 0 0 2 0 ...
 ##  $ ValidN            :'data.frame':  400 obs. of  4 variables:
-##   ..$ case       : int [1:400] 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 ...
+##   ..$ case       : Factor w/ 400 levels &quot;1001&quot;,&quot;1002&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
 ##   ..$ pred1_total: int [1:400] 3 0 0 3 21 4 0 3 0 0 ...
 ##   ..$ pred2_total: int [1:400] 1 2 4 0 1 0 0 0 0 0 ...
 ##   ..$ pred3_total: int [1:400] 0 0 0 0 0 1 0 0 0 0 ...
 ##  $ TrainSurv_pred_org:'data.frame':  500 obs. of  3 variables:
-##   ..$ base_pred1: int [1:500] 87 31 37 87 37 45 83 82 65 30 ...
-##   ..$ base_pred2: int [1:500] 0 1 1 0 0 1 1 1 0 1 ...
-##   ..$ base_pred3: int [1:500] 1 1 0 0 0 1 0 1 0 1 ...
-##  $ ValidSurv_pred_org:'data.frame':  500 obs. of  3 variables:
-##   ..$ base_pred1: int [1:500] 87 31 37 87 37 45 83 82 65 30 ...
-##   ..$ base_pred2: int [1:500] 0 1 1 0 0 1 1 1 0 1 ...
-##   ..$ base_pred3: int [1:500] 1 1 0 0 0 1 0 1 0 1 ...
+##   ..$ cov_1: int [1:500] 87 31 37 87 37 45 83 82 65 30 ...
+##   ..$ cov_2: int [1:500] 0 1 1 0 0 1 1 1 0 1 ...
+##   ..$ cov_3: int [1:500] 1 1 0 0 0 1 0 1 0 1 ...
+##  $ ValidSurv_pred_org:'data.frame':  400 obs. of  3 variables:
+##   ..$ cov_1: int [1:400] 72 36 39 38 76 59 32 76 50 35 ...
+##   ..$ cov_2: int [1:400] 0 1 1 1 0 1 0 0 0 0 ...
+##   ..$ cov_3: int [1:400] 0 0 0 1 1 1 0 0 1 0 ...
 ##  $ TrainFt           : num [1:500, 1:15] 49.4 13.9 12.6 1 4 ...
 ##   ..- attr(*, &quot;dimnames&quot;)=List of 2
 ##   .. ..$ : chr [1:500] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; ...
@@ -1157,10 +1220,15 @@ str(data_org)</code></pre>
 ##   .. .. ..$ basis_10: num [1:401] -1.61 -1.68 -1.74 -1.81 -1.87 ...
 ##   .. ..$ baseline: num [1:10] 0.12539 -1.3427 -0.40917 -0.18765 0.00789 ...</code></pre>
 <pre class="r"><code>system.time(out &lt;- petler(obj))
-str(out)</code></pre>
+out</code></pre>
+<ul>
+<li><p><code>bgbbest_FromChengInit_BFGS</code> Details of the fitted model.</p></li>
+<li><p><code>Cstat_BrierSc_ChengInit_BFGS</code> Performance of the derived algorithm: C-statistics and adjusted Brier scores.</p></li>
+<li><p><code>group</code> A vector of consecutive integers describing the grouping coefficients.</p></li>
+</ul>
 <pre class="r"><code>proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##   5.986   0.156   6.128</code></pre>
+##   7.887   1.312   6.828</code></pre>
 
 
 

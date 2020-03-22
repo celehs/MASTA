@@ -3,24 +3,36 @@ title: "Getting Started"
 author: "https://celehs.github.io/PETLER/"
 ---
 
+```{r, include=F}
+options(width = 100)
+```
+
 ```{r}
 library(PETLER)
 ```
 
 ```{r}
 data(data_org)
-str(data_org)
+data_org[1:2]
+data_org[3:4]
+data_org
 ```
 
-```{r}
+```{r, eval=T}
 system.time(obj <- petler.base(data_org))
 str(obj)
 ```
 
 ```{r, eval=F}
 system.time(out <- petler(obj))
-str(out)
+out
 ```
+
+- `bgbbest_FromChengInit_BFGS` Details of the fitted model.
+
+- `Cstat_BrierSc_ChengInit_BFGS` Performance of the derived algorithm: C-statistics and adjusted Brier scores.
+
+- `group` A vector of consecutive integers describing the grouping coefficients.
 
 ```{r}
 proc.time()

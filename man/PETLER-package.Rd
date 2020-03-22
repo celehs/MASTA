@@ -8,3 +8,6 @@
 \description{
 Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
 }
+\details{
+Visit the documentation website for more details. https://celehs.github.io/PETLER/
+}

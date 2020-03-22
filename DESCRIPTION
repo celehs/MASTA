@@ -22,10 +22,9 @@ LinkingTo:
 Imports: 
     Rcpp, 
     RcppArmadillo,
-    data.table, 
-    doParallel, 
+    doParallel,
     foreach, 
-    parallel,
+    data.table, 
     survC1,
     rootSolve, 
     splines,
