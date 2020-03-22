@@ -14,17 +14,17 @@ petler(
 )
 }
 \arguments{
-\item{object}{...}
+\item{object}{results returned by the \code{petler.base} function}
 
-\item{cov_group}{...}
+\item{cov_group}{a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.}
 
-\item{thresh}{...}
+\item{thresh}{a default is \code{0.7}, which means if there are codes with >70\% patients no codes, only use first code time.}
 
-\item{PCAthresh}{...}
+\item{PCAthresh}{a threshold value for PCA. Default is \code{0.9}.}
 
-\item{seed}{...}
+\item{seed}{random seed used for the sampling. Default is \code{1234}.}
 
-\item{seed2}{...}
+\item{seed2}{random seed used for the sampling. Default is \code{100}.}
 }
 \value{
 A list with components:
@@ -34,9 +34,7 @@ A list with components:
 \item{Cstat_BrierSc_ChengInit_BFGS}{Performance of the derived algorithm. C-statistics, etc.}
 
 \item{group}{A vector of consecutive integers describing the grouping coefficients}
-
-Several output files will be saved in the \code{outdir} directory.
 }
 \description{
-...
+This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
 }

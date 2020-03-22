@@ -13,12 +13,12 @@ str(data_org)
 ```
 
 ```{r}
-obj <- petler.base(data_org)
+system.time(obj <- petler.base(data_org))
 str(obj)
 ```
 
 ```{r, eval=T}
-out <- petler(obj)
+system.time(out <- petler(obj))
 str(out)
 ```
 

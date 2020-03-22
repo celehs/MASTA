@@ -8,6 +8,3 @@
 \description{
 Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
 }
-\references{
-Wu, S., Müller, H., & Zhang, Z. (2013). FUNCTIONAL DATA ANALYSIS FOR POINT PROCESSES WITH RARE EVENTS. Statistica Sinica, 23(1), 1-23.
-}

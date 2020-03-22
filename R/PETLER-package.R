@@ -4,25 +4,26 @@
 #' @title PETLER Package
 #' @description
 #' Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
-#' @references
-#' Wu, S., Müller, H., & Zhang, Z. (2013). FUNCTIONAL DATA ANALYSIS FOR POINT PROCESSES WITH RARE EVENTS. Statistica Sinica, 23(1), 1-23.
 #' @useDynLib PETLER
-#' @import survival data.table doParallel foreach parallel survC1 rootSolve splines glmnet gglasso rpart rpart.utils  
+#' @import survival data.table doParallel foreach survC1 rootSolve splines glmnet gglasso rpart rpart.utils  
 #' @importFrom Rcpp sourceCpp
 #' @importFrom grDevices dev.off pdf
 #' @importFrom graphics hist lines plot
 #' @importFrom utils read.csv read.table write.table
-#' @importFrom stats IQR aggregate approx as.formula binomial bw.SJ bw.bcv bw.nrd bw.nrd0 bw.ucv coef cor density dnorm glm knots median optim optimize prcomp predict quantile runif sd stepfun uniroot var
+#' @importFrom stats IQR aggregate approx as.formula binomial bw.SJ bw.bcv bw.nrd bw.nrd0 bw.ucv 
+#' coef cor density dnorm glm knots median optim optimize prcomp predict quantile runif sd stepfun uniroot var
 NULL
 
 #' @name petler.base
-#' @title ...
-#' @description ...
-#' @param data ...
-#' @param PPIC_K ...
-#' @param n.grid ...
-#' @param propvar ...
-#' @param n_core ...
+#' @title Base functions for PETLER
+#' @description Function used to create base functions for the PETLER algorithm.
+#' @param data input data used to create base. See \code{data(data_org)} for example.
+#' @param PPIC_K a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
+#' the number of principal components K (K.select="PPIC") \code{TRUE} or another criterion to choose 
+#' K (K.select="PropVar") \code{FALSE} in the PP_FPCA_CPP_Parallel function (hidden). Default is \code{FALSE}.
+#' @param n.grid an integer value for grid points used in estimating covariance function g. Default is \code{401}.
+#' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
+#' @param n_core an integer to specify the number of core using for parallel computing. Default is \code{4}.
 #' @export
 petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = 4) {
   TrainSurv <- data.frame(data$TrainSurv)
@@ -157,18 +158,17 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
 
 #' @name petler
 #' @title Main function implementing the PETLER algorithm
-#' @description ...
-#' @param object ...
-#' @param cov_group ...
-#' @param thresh ...
-#' @param PCAthresh ...
-#' @param seed ...
-#' @param seed2 ...
+#' @description This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
+#' @param object results returned by the \code{petler.base} function
+#' @param cov_group a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.
+#' @param thresh a default is \code{0.7}, which means if there are codes with >70\% patients no codes, only use first code time.
+#' @param PCAthresh a threshold value for PCA. Default is \code{0.9}.
+#' @param seed random seed used for the sampling. Default is \code{1234}.
+#' @param seed2 random seed used for the sampling. Default is \code{100}.
 #' @return A list with components:
 #' @return \item{bgbbest_FromChengInit_BFGS}{Details of the fitted model}
 #' @return \item{Cstat_BrierSc_ChengInit_BFGS}{Performance of the derived algorithm. C-statistics, etc.}
 #' @return \item{group}{A vector of consecutive integers describing the grouping coefficients}
-#' @return Several output files will be saved in the \code{outdir} directory.
 #' @export
 petler <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) {  
   TrainSurv <- object$TrainSurv

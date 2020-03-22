@@ -13,6 +13,9 @@ Description: Implements an algorithm to identify the occurrence of event outcome
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 7.0.2
+Depends: 
+    R (>= 3.0),
+    survival
 LinkingTo: 
     Rcpp, 
     RcppArmadillo
@@ -22,16 +25,12 @@ Imports:
     data.table, 
     doParallel, 
     foreach, 
-    parallel, 
     survC1,
     rootSolve, 
     splines,
     glmnet,
     gglasso,
     rpart,
-    rpart.utils 
-Depends: 
-    R (>= 3.0),
-    survival
+    rpart.utils
 LazyData: true
 NeedsCompilation: yes

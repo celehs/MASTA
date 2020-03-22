@@ -2,21 +2,23 @@
 % Please edit documentation in R/PETLER-package.R
 \name{petler.base}
 \alias{petler.base}
-\title{...}
+\title{Base functions for PETLER}
 \usage{
 petler.base(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = 4)
 }
 \arguments{
-\item{data}{...}
+\item{data}{input data used to create base. See \code{data(data_org)} for example.}
 
-\item{PPIC_K}{...}
+\item{PPIC_K}{a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
+the number of principal components K (K.select="PPIC") \code{TRUE} or another criterion to choose 
+K (K.select="PropVar") \code{FALSE} in the PP_FPCA_CPP_Parallel function (hidden). Default is \code{FALSE}.}
 
-\item{n.grid}{...}
+\item{n.grid}{an integer value for grid points used in estimating covariance function g. Default is \code{401}.}
 
-\item{propvar}{...}
+\item{propvar}{a proportion of variation used to select number of FPCs. Default is \code{0.85}.}
 
-\item{n_core}{...}
+\item{n_core}{an integer to specify the number of core using for parallel computing. Default is \code{4}.}
 }
 \description{
-...
+Function used to create base functions for the PETLER algorithm.
 }
