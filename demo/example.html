@@ -380,7 +380,7 @@ summary {
 <h2>Input Data</h2>
 <p>Load the sample data from the <code>PETLER</code> package. Use <code>?data_org</code> or click <a href="https://celehs.github.io/PETLER/reference/data_org.html">HERE</a> to view the data format and variable definitions.</p>
 <pre class="r"><code>data(data_org)</code></pre>
-<p>The first two data tables consists of labeled training and validation survival outcome (<code>event_ind</code>, <code>event_time</code>, <code>fu_time</code>) and baseline covariates (<code>cov_1</code>-<code>cov_3</code>).</p>
+<p>The first two data tables consists of labeled training and validation data with survival outcome (<code>event_ind</code>, <code>event_time</code>, <code>fu_time</code>) and baseline covariates (<code>cov_1</code>-<code>cov_3</code>).</p>
 <pre class="r"><code>data_org[1:2]</code></pre>
 <pre><code>## $TrainSurv
 ##       id event_ind event_time   fu_time cov_1 cov_2 cov_3
@@ -409,7 +409,7 @@ summary {
 ## 398: 1398         0  27.367556 27.367556    83     1     1
 ## 399: 1399         0  24.607803 24.607803    47     1     1
 ## 400: 1400         0  29.305955 29.305955    71     1     1</code></pre>
-<p>The first two data tables consists of training and validation longitudinal encounters. <code>fu_time</code> is the follow-up time and <code>pred1</code>-<code>pred3</code> are the numbers of medical occurrences in each month (from baseline).</p>
+<p>The first two data tables consists of training and validation longitudinal encounters. <code>fu_time</code> is the length of follow-up time and <code>pred1</code>-<code>pred3</code> are the numbers of medical occurrences in each month (from baseline). Before running the PETLER algorithm, the variable <code>month</code> will be standarzied (internally) by the follow-up time to ensure the standarzied time is between 0 and 1 for all patients.</p>
 <pre class="r"><code>data_org[3:4]</code></pre>
 <pre><code>## $TrainCode
 ##         id   fu_time month pred1 pred2 pred3
@@ -445,7 +445,7 @@ summary {
 <p>Next, we can use the <code>petler.base</code> function to create the base functions required to run the PETLER algorithm. By default, you only need to provide data in the list format mentioned above. However, you can view the help documentation (<code>?petler.base</code>) or click <a href="https://celehs.github.io/PETLER/reference/petler.base.html">HERE</a> to customize configurable arguments.</p>
 <pre class="r"><code>system.time(obj &lt;- petler.base(data_org))</code></pre>
 <pre><code>##    user  system elapsed 
-##   6.164   1.389   5.191</code></pre>
+##   6.385   1.586   5.199</code></pre>
 <p>In order to analyze very large data, the <code>petler.base</code> function uses multi-core parallel computing by default (<code>n_core = 4</code>), and the core algorithms are written in efficient C++ code.</p>
 <pre class="r"><code>names(obj)</code></pre>
 <pre><code>##  [1] &quot;nn&quot;                 &quot;codes&quot;              &quot;Tend&quot;               &quot;TrainSurv&quot;         
@@ -458,7 +458,7 @@ summary {
 <p>We can now run the PETLER algorithm by calling the <code>petler</code> function and providing the base object obtained from the previous step. Use <code>?petler</code> or click <a href="https://celehs.github.io/PETLER/reference/petler.html">HERE</a> to view help documentation and configurable arguments.</p>
 <pre class="r"><code>system.time(out &lt;- petler(obj))</code></pre>
 <pre><code>##    user  system elapsed 
-## 207.614   0.086 207.704</code></pre>
+## 209.442   0.097 209.544</code></pre>
 <p>The <code>petler</code> function returns the following list of results:</p>
 <ul>
 <li><p><code>bgbbest_FromChengInit_BFGS</code> Details of the fitted model</p></li>
