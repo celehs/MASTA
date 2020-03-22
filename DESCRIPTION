@@ -13,7 +13,7 @@ Description: Implements an algorithm to identify the occurrence of event outcome
 License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 7.0.2
-URL: https://celehs.github.io/PETLER/
+URL: https://github.com/celehs/PETLER/, https://celehs.github.io/PETLER/
 BugReports: https://github.com/celehs/PETLER/issues
 Depends: 
     R (>= 3.0),

@@ -2,7 +2,7 @@
 % Please edit documentation in R/PETLER-package.R
 \name{petler.base}
 \alias{petler.base}
-\title{Base functions for PETLER}
+\title{Base Creation for PETLER}
 \usage{
 petler.base(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = 4)
 }

@@ -16,7 +16,7 @@
 NULL
 
 #' @name petler.base
-#' @title Base functions for PETLER
+#' @title Base Creation for PETLER
 #' @description Function used to create base functions for the PETLER algorithm.
 #' @param data input data used to create base. See \code{data(data_org)} for example.
 #' @param PPIC_K a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
