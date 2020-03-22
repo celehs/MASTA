@@ -5,7 +5,7 @@
 #' @description
 #' Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
 #' @useDynLib PETLER
-#' @import survival data.table doParallel foreach survC1 rootSolve splines glmnet gglasso rpart rpart.utils  
+#' @import survival data.table doParallel foreach parallel survC1 rootSolve splines glmnet gglasso rpart rpart.utils  
 #' @importFrom Rcpp sourceCpp
 #' @importFrom grDevices dev.off pdf
 #' @importFrom graphics hist lines plot
@@ -26,6 +26,7 @@ NULL
 #' @param n_core an integer to specify the number of core using for parallel computing. Default is \code{4}.
 #' @export
 petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = 4) {
+  
   TrainSurv <- data.frame(data$TrainSurv)
   ValidSurv <- data.frame(data$ValidSurv)
   TrainCode <- data.frame(data$TrainCode)
@@ -45,24 +46,35 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
   ValidFU <- unique.data.frame(ValidCode[, 1:2])$analysisfu
   TrainCode$monthstd <- TrainCode$month / TrainCode$analysisfu # standardize follow up time
   ValidCode$monthstd <- ValidCode$month / ValidCode$analysisfu # standardize follow up time 
+  
   #--TRAINING---
+  base <- list()
   K      = NULL
   ft.e   = ft.e.S = PKTS = NULL
-  for(i in seq_along(codes)) {
+  for(i in seq_along(codes)){
+    # cat(i,"\n")
+    
     tmp2    = TrainN[,i+1]>0
     TrainNP = TrainN[tmp2,i+1]
+    
+    
+    
+    ### PKs from Two-step procedure
     txt     = paste0("t=with(TrainCode,unlist(sapply(seq_along(month),function(j) rep(month[j],",codes[i],"[j]))))")
     eval(parse(text = txt))
     id      = (1:{nn+NN})[tmp2]
     id      = rep(id,TrainNP)
     PKTS    = cbind(PKTS,GetPK(id = id,t = t,tseq = sort(unique(TrainCode$month)),nn=nrow(TrainN)))
+    
+    ### (i)
     txt  = paste0("t=with(TrainCode,unlist(sapply(seq_along(monthstd),function(j) rep(monthstd[j],",codes[i],"[j]))))")
     eval(parse(text = txt))
     tmp  = TrainCode[,c("case","month",codes[i])]
     tmp  = tmp[tmp[,3]>0,-3]
     t1   = tapply(tmp[,2],factor(tmp[,1],levels = TrainPatNum),FUN=min)
     t1   = t1[!is.na(t1)]
-    registerDoParallel(cores = n_core)
+    
+    ### (ii)
     if(PPIC_K){
       tmp = PP_FPCA_CPP_Parallel(t, h1 = bw.nrd(t), h2 = bw.nrd(t)^{5/6}, TrainNP,
                                  bw = "nrd", ngrid = n.grid, Tend = Tend,
@@ -71,8 +83,9 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
       tmp = PP_FPCA_CPP_Parallel(t, h1 = bw.nrd(t), h2 = bw.nrd(t)^{5/6},
                                  TrainNP, bw = "nrd", ngrid = n.grid,
                                  Tend = Tend, K.select = "PropVar",
-                                 propvar = propvar, derivatives = TRUE, nsubs = 4)
+                                 propvar = propvar, derivatives = TRUE, nsubs=4)
     }
+    
     ft.e.tmp = cbind(matrix(TrainFU,nrow=length(TrainFU),ncol=3),-tmp$baseline[1],log(1+TrainN[,i+1]))
     nns  = sum(tmp2)
     ft.e.tmp[tmp2,1]      = t1
@@ -83,33 +96,68 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     }),1]
     ft.e.tmp[tmp2,4] = tmp$scores[,2]
     ft.e = cbind(ft.e,ft.e.tmp)
+    
     ft.e.S.tmp = cbind(ft.e.tmp[,1],VTM(-tmp$baseline[1:4],length(TrainFU)),log(1+TrainN[,i+1]))
     ft.e.S.tmp[tmp2,2:5] = as.matrix(tmp$scores[,2:5])
     ft.e.S = cbind(ft.e.S,ft.e.S.tmp)
+    
     K    = c(K,tmp$K)
+    
+    # write.table(tmp$scores,paste0(datadir_base_func, dirpath, codes[i], "_scores.dat"),row.names = FALSE)
+    # write.table(tmp$densities,paste0(datadir_base_func, dirpath, codes[i], "_dens.dat"),row.names = FALSE)
+    # write.table(tmp$derivatives,paste0(datadir_base_func, dirpath,  codes[i],"_deriv.dat"),row.names = FALSE)
+    # write.table(tmp$mean,paste0(datadir_base_func, dirpath, codes[i],"_mean.dat"),row.names = FALSE)
+    # write.table(tmp$basis,paste0(datadir_base_func, dirpath, codes[i], "_basis.dat"),row.names = FALSE)
+    # write.table(tmp$baseline,paste0(datadir_base_func, dirpath, codes[i], "_baseline.dat"),row.names = FALSE)
+    
+    base[[i]] <- list(scores = tmp$scores, dens = tmp$densities, deriv = tmp$derivatives,
+                      mean = tmp$mean, basis = tmp$basis, baseline = tmp$baseline)
+
     txt = paste0(codes[i],"_FPCA=list(mean=tmp$mean,basis=tmp$basis);rm(tmp)")
     eval(parse(text = txt))
   }
+  
+  names(base) <- codes
+  
   names(K) = codes
+  # write.table(K,paste0(datadir_base_func, dirpath, "FPCAnums.dat"))
   colnames(ft.e) = paste0(c("1stCode","Pk","ChP","1stScore","logN"), rep(c(seq_along(codes)), each=5))
   colnames(ft.e.S) = paste0(c("1stCode","1stScore","2ndScore","3rdScore","4thScore","logN"), rep(c(seq_along(codes)), each=6))
   colnames(PKTS) = codes
   row.names(ft.e) = row.names(ft.e.S) = row.names(PKTS) = TrainPatNum
+  # write.table(ft.e,paste0(datadir_base_func, dirpath, ifelse(StdFollowUp,"Std","Org"), "Ft_Train.dat"))
+  # write.table(ft.e.S,paste0(datadir_base_func, dirpath, ifelse(StdFollowUp,"Std","Org"), "Sc_Train.dat"))
+  # write.table(PKTS,paste0(datadir_base_func, dirpath, ifelse(StdFollowUp,"Std","Org"), "PKTS_Train.dat"))
+  
+  # cat("done Train\n")
+  
+  
   #--Validation---
+  ############################################
+  # for(i in codes){
+  #   txt = paste0(i,"_FPCA=list(mean=read.table(paste0(datadir,dirpath,'",i,"','_mean.dat'),header=TRUE),
+  #                basis=read.table(paste0(datadir,dirpath,'",i,"','_basis.dat'),header=TRUE))")
+  #   eval(parse(text = txt))
+  # }
+  # K   = unlist(read.table(paste0(datadir,dirpath,"FPCAnums.dat")))
   txt = paste0("mean.fun=list(",paste0(paste0(codes,"_FPCA$mean"),collapse = ","),")")
   eval(parse(text = txt))
   txt = paste0("basis.fun=list(",paste0(paste0(codes,"_FPCA$basis"),collapse = ","),")")
   eval(parse(text = txt))
+  
   ft.e2 = ft.e.S2 = PKTS2 = NULL
   for(i in seq_along(codes)){
+    # cat(i,"\n")
     tmp2    = ValidN[,i+1]>0
     ValidNP = ValidN[tmp2,i+1]
+    
     ### PKs from Two-step procedure
     txt     = paste0("t=with(ValidCode,unlist(sapply(seq_along(month),function(j) rep(month[j],",codes[i],"[j]))))")
     eval(parse(text = txt))
     id      = (1:nnv)[tmp2]
     id      = rep(id,ValidNP)
     PKTS2   = cbind(PKTS2,GetPK(id = id,t = t,tseq = sort(unique(ValidCode$month)),nn=nrow(ValidN)))
+    
     txt  = paste0("t=with(ValidCode,unlist(sapply(seq_along(monthstd),function(j) rep(monthstd[j],",codes[i],"[j]))))")
     eval(parse(text = txt))
     tmp  = ValidCode[,c("case","month",codes[i])]
@@ -117,6 +165,7 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     t1   = tapply(tmp[,2],factor(tmp[,1],levels = ValidPatNum),FUN=min)
     t1   = t1[!is.na(t1)]
     tmp   = PP_FPCA_Pred2(t,ValidNP,mean.fun[[i]],basis.fun[[i]],K[i])
+    
     ft.e.tmp = cbind(matrix(ValidFU,nrow=length(ValidFU),ncol=3),-tmp$baseline[1],log(1+ValidN[,i+1]))
     nns  = sum(tmp2)
     ft.e.tmp[tmp2,1] = t1
@@ -127,20 +176,29 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     }),1]
     ft.e.tmp[tmp2,4] = tmp$scores[,2]
     ft.e2 = cbind(ft.e2,ft.e.tmp)
+    
     ft.e.S.tmp = cbind(ft.e.tmp[,1],VTM(-tmp$baseline[1:4],length(ValidFU)),log(1+ValidN[,i+1]))
     ft.e.S.tmp[tmp2,2:5] = as.matrix(tmp$scores[,2:5])
     ft.e.S2 = cbind(ft.e.S2,ft.e.S.tmp)
   }
+  
   colnames(ft.e2)   = paste0(c("1stCode","Pk","ChP","1stScore","logN"), rep(c(seq_along(codes)), each=5))
   colnames(ft.e.S2) = paste0(c("1stCode","1stScore","2ndScore","3rdScore","4thScore","logN"), rep(c(seq_along(codes)), each=6))
   colnames(PKTS2)   = codes
   row.names(ft.e2)  = row.names(ft.e.S2) = row.names(PKTS2) = ValidPatNum
-  TrainFt   = ft.e[1:nn, ]
-  TrainSc   = ft.e.S[1:nn, ]
+  # write.table(ft.e2, paste0(datadir_base_func, dirpath, ifelse(StdFollowUp,"Std","Org"), "Ft_Valid.dat"))
+  # write.table(ft.e.S2, paste0(datadir_base_func, dirpath, ifelse(StdFollowUp,"Std","Org"), "Sc_Valid.dat"))
+  # write.table(PKTS2, paste0(datadir_base_func, dirpath, ifelse(StdFollowUp,"Std","Org"), "PKTS_Valid.dat"))
+  
+  TrainFt   = ft.e[1:nn,]
+  TrainSc   = ft.e.S[1:nn,]
   ValidFt   = ft.e2
   ValidSc   = ft.e.S2
-  TrainPK = PKTS[row.names(PKTS) %in% TrainSurv$case, ]
+  
+  #---
+  TrainPK = PKTS[row.names(PKTS)%in%TrainSurv$case,]
   ValidPK = PKTS2
+  
   list(nn = nn, 
        codes = codes, 
        Tend = Tend,
@@ -148,12 +206,15 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
        ValidSurv = ValidSurv,     
        TrainN = TrainN,
        ValidN = ValidN, 
+       TrainSurv_pred_org = TrainSurv_pred_org, 
+       ValidSurv_pred_org = ValidSurv_pred_org,
        TrainFt = TrainFt, 
        ValidFt = ValidFt,
        TrainPK = TrainPK,
        ValidPK = ValidPK,
-       TrainSurv_pred_org = TrainSurv_pred_org, 
-       ValidSurv_pred_org = ValidSurv_pred_org)
+       TrainSc = TrainSc,
+       ValidSc = ValidSc,
+       base = base)
 }
 
 #' @name petler
@@ -171,19 +232,19 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
 #' @return \item{group}{A vector of consecutive integers describing the grouping coefficients}
 #' @export
 petler <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) {  
+  nn <- object$nn 
+  codes <- object$codes
+  Tend <- object$Tend  
   TrainSurv <- object$TrainSurv
   ValidSurv <- object$ValidSurv 
+  TrainSurv_pred_org <- object$TrainSurv_pred_org
+  ValidSurv_pred_org <- object$ValidSurv_pred_org  
   TrainN <- object$TrainN
   ValidN <- object$ValidN  
   TrainFt <- object$TrainFt
   ValidFt <- object$ValidFt
   TrainPK <- object$TrainPK
   ValidPK <- object$ValidPK
-  TrainSurv_pred_org <- object$TrainSurv_pred_org
-  ValidSurv_pred_org <- object$ValidSurv_pred_org
-  nn <- object$nn 
-  codes <- object$codes
-  Tend <- obj$Tend  
   #--switch peak & change point if later one is bigger---
   for(i in seq_along(codes)){
     tmp = TrainFt[,5*(i-1)+2] < TrainFt[,5*(i-1)+3]

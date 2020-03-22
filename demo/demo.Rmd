@@ -17,7 +17,7 @@ system.time(obj <- petler.base(data_org))
 str(obj)
 ```
 
-```{r, eval=T}
+```{r, eval=F}
 system.time(out <- petler(obj))
 str(out)
 ```
