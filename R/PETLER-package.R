@@ -5,12 +5,7 @@
 #' @description
 #' Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
 #' @details Visit the documentation website for more details. https://celehs.github.io/PETLER/ 
-#' @useDynLib PETLER
 #' @import survival doParallel foreach data.table survC1 rootSolve splines glmnet gglasso rpart rpart.utils  
-#' @importFrom Rcpp sourceCpp
-#' @importFrom grDevices dev.off pdf
-#' @importFrom graphics hist lines plot
-#' @importFrom utils read.csv read.table write.table
 #' @importFrom stats IQR aggregate approx as.formula binomial bw.SJ bw.bcv bw.nrd bw.nrd0 bw.ucv 
 #' coef cor density dnorm glm knots median optim optimize prcomp predict quantile runif sd stepfun uniroot var
 NULL
