@@ -5,7 +5,7 @@ using namespace arma;
 // [[Rcpp::depends(RcppArmadillo)]]
 
 // [[Rcpp::export]]
-List FPC_Kern_S(NumericVector x, NumericVector t, IntegerVector N, double h1, double h2) {
+List FPC_Kern_S_cpp(NumericVector x, NumericVector t, IntegerVector N, double h1, double h2) {
   int nx = x.size();
   int nn = N.size();
   IntegerVector idx = cumsum(N);

@@ -1,4 +1,4 @@
-FPC.Kern.S <- function(x, t, N, h1, h2) {
+FPC_Kern_S <- function(x, t, N, h1, h2) {
   grp <- rep(1:length(N), N)
   M <- outer(t, x, "-")
   D1 <- dnorm(M, 0, h1)
