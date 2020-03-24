@@ -52,7 +52,7 @@ Next, we can use the `petler.base` function to create the base functions require
 system.time(obj <- petler.base(data_org))
 ```
 
-In order to analyze very large data, the `petler.base` function uses multi-core parallel computing by default (`n_core = 4`), and the core algorithms are written in efficient C++ code.
+In order to analyze very large data, the `petler.base` function uses multi-core parallel computing by default (`n_core = 4`).
 
 ```{r}
 names(obj)
