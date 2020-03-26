@@ -11,7 +11,7 @@ petler.base(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = 4)
 
 \item{PPIC_K}{a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
 the number of principal components K (K.select="PPIC") \code{TRUE} or another criterion to choose 
-K (K.select="PropVar") \code{FALSE} in the PP_FPCA_CPP_Parallel function (hidden). Default is \code{FALSE}.}
+K (K.select="PropVar") \code{FALSE} in the PP_FPCA_Parallel function (hidden). Default is \code{FALSE}.}
 
 \item{n.grid}{an integer value for grid points used in estimating covariance function g. Default is \code{401}.}
 

@@ -2,10 +2,27 @@ FPC_Kern_S <- function(x, t, N, h1, h2) {
   grp <- rep(1:length(N), N)
   M <- outer(t, x, "-")
   D1 <- dnorm(M, 0, h1)
-  D2 <- dnorm(M, 0, h2)   
-  S2 <- rowsum(D2, grp)
-  list(f_mu = colSums(D1), 
-       Cov_G = crossprod(S2) - crossprod(D2))
+  D2 <- if (h1 == h2) D1 else dnorm(M, 0, h2)   
+  Cov_G <- crossprod(rowsum(D2, grp)) - crossprod(D2)
+  list(f_mu = colSums(D1), Cov_G = Cov_G)
+}
+
+FPC.Kern.S <- function(t, N, h1 = NULL, h2 = NULL, bw = "ucv", Tend = 1, ngrid = 101) {
+  ## if h is null then set it to be the optimal bandwidth under GCV
+  h <- switch(bw, 
+              "nrd0" = bw.nrd0(t),
+              "nrd" = bw.nrd(t),
+              "ucv" = bw.ucv(t), # leave one out cross validation
+              "bcv" = bw.bcv(t), # biased cross validation            
+              "SJ-ste" = bw.SJ(t, method = "ste"), 
+              "SJ-dpi" = bw.SJ(t, method = "dpi"))
+  if (is.null(h1)) h1 <- h
+  if (is.null(h2)) h2 <- h
+  x <- seq(0, Tend, length.out = ngrid)
+  tmp <- FPC_Kern_S(x, t, N, h1, h2)
+  f_mu <- as.numeric(tmp$f_mu) / sum(N)
+  G <- tmp$Cov_G / sum(N * (N - 1)) - outer(f_mu, f_mu)
+  list(f_mu = f_mu, G = G)
 }
 
 ######################################################################
@@ -32,12 +49,12 @@ VTM<-function(vc, dm){
 ########################################################################
 ############                    Parallel                    ############     
 ########################################################################
-PP_FPCA_CPP_Parallel<-function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1, # assume it is transformed to [0,1]
-                      ngrid = 101, K.select = c('PropVar','PPIC'), Kmax = 10,
-                      propvar = 0.9, ## For K.select == PropVar
-                      density.method = c("kernel","local linear"), ## PPIC
-                      polybinx = FALSE, derivatives = FALSE,
-                      nsubs = 10, subsize = NULL,PPIC.sub = TRUE){
+PP_FPCA_Parallel <- function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1, # assume it is transformed to [0,1]
+                             ngrid = 101, K.select = c('PropVar','PPIC'), Kmax = 10,
+                             propvar = 0.9, ## For K.select == PropVar
+                             density.method = c("kernel","local linear"), ## PPIC
+                             polybinx = FALSE, derivatives = FALSE,
+                             nsubs = 10, subsize = NULL,PPIC.sub = TRUE) {
   ## eleminate patients with 0 observed event
   if(sum(N==0)>0){
     NN      = N
@@ -46,24 +63,6 @@ PP_FPCA_CPP_Parallel<-function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1,
     # cat("Note: patients with zero observed event have been eliminated from analysis!","\n")
   }
   n      = length(N) # number of patients with at least one observed event
-  ## if h is null then set it to be the optimal bandwidth under GCV
-  if(is.null(h1) & is.null(h2)){
-    if(bw == "nrd0"){
-      h1 = h2 = bw.nrd0(t)
-    } else if(bw == "nrd"){
-      h1 = h2 = bw.nrd(t)
-    } else if(bw == "ucv"){ # leave one out cross validation
-      h1 = h2 = bw.ucv(t)
-    } else if(bw == "bcv"){ # biased cross validation
-      h1 = h2 = bw.bcv(t)
-    } else if(bw == "SJ-ste"){
-      h1 = h2 = bw.SJ(t,method=c("ste"))
-    } else if(bw == "SJ-dpi"){
-      h1 = h2 = bw.SJ(t,method=c("dpi"))
-    } else {
-      h1 = h2 = bw.ucv(t)
-    }
-  }
   ## get a fine grid (x,y)
   # tmp  = range(t)
   x    = y = seq(0,Tend,length.out = ngrid)
@@ -74,13 +73,17 @@ PP_FPCA_CPP_Parallel<-function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1,
   }
   cumsumsub = cumsum(c(0,subsize))
   cumsumN   = c(0,cumsum(sapply(1:nsubs,function(i) sum(N[{cumsumsub[i]+1}:cumsumsub[i+1]]))))
-  tmplist  = foreach(i=1:nsubs) %dopar% {
-    tmp    = FPC_Kern_S(x,t[{cumsumN[i]+1}:cumsumN[i+1]],N[{cumsumsub[i]+1}:cumsumsub[i+1]],h1,h2)
-    list(f_mu = as.numeric(tmp$f_mu)/sum(N), g=tmp$Cov_G/sum(N*(N-1)))
-  }
-  f_mu     = apply(simplify2array(lapply(tmplist,`[[`,1)),1,sum)
-  G        = apply(simplify2array(lapply(tmplist,`[[`,2)),c(1,2),sum)
-  G        = G-outer(f_mu,f_mu)
+  # tmplist  = foreach(i=1:nsubs) %dopar% {
+  #   tmp    = FPC_Kern_S(x,t[{cumsumN[i]+1}:cumsumN[i+1]],N[{cumsumsub[i]+1}:cumsumsub[i+1]],h1,h2)
+  #   list(f_mu = as.numeric(tmp$f_mu)/sum(N), g=tmp$Cov_G/sum(N*(N-1)))
+  # }
+  # f_mu     = apply(simplify2array(lapply(tmplist,`[[`,1)),1,sum)
+  # G        = apply(simplify2array(lapply(tmplist,`[[`,2)),c(1,2),sum)
+  # G        = G-outer(f_mu,f_mu)
+  
+  print(system.time(tmplist <- FPC.Kern.S(t, N, h1, h2, bw, Tend, ngrid))) 
+  f_mu <- tmplist$f_mu
+  G <- tmplist$G
   
   G.eigen  = svd(G)
   delta    = sqrt(x[2]-x[1])
@@ -387,37 +390,6 @@ den_locNW<-function(partition,t,N){
     ### find bandwidth that minimize generalized cross validation
     # here set lower limit to be the min(diff(partition_x)) to avoid error
     hh   = optimize(GCV_locNW,lower=min(diff(partition_x)),upper=IQR(t))$minimum
-    ### use the obtained GCV bandwidth to get local linear regression estimates
-    S   = sapply(t[a],function(x) x-partition_x)
-    S   = dnorm(S/hh)
-    S   = t(apply(S,2,function(x) x/sum(x)))
-    return(S%*%f_H)
-  })
-}
-
-### local constant
-### allows for different bins for different patients
-den_locNW2<-function(nbreak=NULL,t,N){
-  n           = length(N)
-  if(is.null(nbreak)) nbreak = pmax(floor(N/2),50)
-  f_locNW   = lapply(seq(1,n),function(i){
-    a         = (sum(N[1:i])-N[i]+1):sum(N[1:i])
-    ### the histogram density estimate for the ith subject
-    f_H       = hist(t[a],breaks=nbreak[i],plot=FALSE)
-    partition = f_H$breaks
-    f_H       = f_H$counts/N[i]/diff(partition)
-    partition_x = {partition[-1]+partition[-length(partition)]}/2
-    ### leave one out cross validation, local constant regression (NW)
-    GCV_locNW = function(hh){
-      S   = sapply(partition_x,function(x) x-partition_x)
-      S   = dnorm(S/hh)
-      S   = apply(S,1,function(x) x/sum(x))
-      f_oneout = S%*%f_H
-      return(sum({{f_H-f_oneout}/{1-mean(diag(S))}}^2))
-    }
-    ### find bandwidth that minimize generalized cross validation
-    # here set lower limit to be the min(diff(partition_x)) to avoid error
-    hh   = optimize(GCV_NW,lower=min(diff(partition_x)),upper=IQR(t[a]))$minimum
     ### use the obtained GCV bandwidth to get local linear regression estimates
     S   = sapply(t[a],function(x) x-partition_x)
     S   = dnorm(S/hh)

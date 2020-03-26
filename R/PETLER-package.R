@@ -6,6 +6,7 @@
 #' Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
 #' @details Visit the documentation website for more details. https://celehs.github.io/PETLER/ 
 #' @import survival doParallel foreach data.table survC1 rootSolve splines glmnet gglasso rpart rpart.utils  
+#' @importFrom graphics hist 
 #' @importFrom stats IQR aggregate approx as.formula binomial bw.SJ bw.bcv bw.nrd bw.nrd0 bw.ucv 
 #' coef cor density dnorm glm knots median optim optimize prcomp predict quantile runif sd stepfun uniroot var
 NULL
@@ -16,7 +17,7 @@ NULL
 #' @param data input data used to create base. See \code{data(data_org)} for example.
 #' @param PPIC_K a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
 #' the number of principal components K (K.select="PPIC") \code{TRUE} or another criterion to choose 
-#' K (K.select="PropVar") \code{FALSE} in the PP_FPCA_CPP_Parallel function (hidden). Default is \code{FALSE}.
+#' K (K.select="PropVar") \code{FALSE} in the PP_FPCA_Parallel function (hidden). Default is \code{FALSE}.
 #' @param n.grid an integer value for grid points used in estimating covariance function g. Default is \code{401}.
 #' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
 #' @param n_core an integer to specify the number of core using for parallel computing. Default is \code{4}.
@@ -82,14 +83,13 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     ### (ii)
     registerDoParallel(cores=n_core)
     if(PPIC_K){
-      tmp = PP_FPCA_CPP_Parallel(t, h1 = bw.nrd(t), h2 = bw.nrd(t)^{5/6}, TrainNP,
-                                 bw = "nrd", ngrid = n.grid, Tend = Tend,
-                                 K.select = "PPIC", derivatives = TRUE, nsubs=4)
+      tmp = PP_FPCA_Parallel(t, h1 = bw.nrd(t), h2 = bw.nrd(t)^{5/6}, TrainNP,
+                             bw = "nrd", ngrid = n.grid, Tend = Tend,
+                             K.select = "PPIC", derivatives = TRUE, nsubs=4)
     } else{
-      tmp = PP_FPCA_CPP_Parallel(t, h1 = bw.nrd(t), h2 = bw.nrd(t)^{5/6},
-                                 TrainNP, bw = "nrd", ngrid = n.grid,
-                                 Tend = Tend, K.select = "PropVar",
-                                 propvar = propvar, derivatives = TRUE, nsubs=4)
+      tmp = PP_FPCA_Parallel(t, h1 = bw.nrd(t), h2 = bw.nrd(t)^{5/6}, TrainNP, 
+                             bw = "nrd", ngrid = n.grid, Tend = Tend, 
+                             K.select = "PropVar", propvar = propvar, derivatives = TRUE, nsubs=4)
     }
     
     ft.e.tmp = cbind(matrix(TrainFU,nrow=length(TrainFU),ncol=3),-tmp$baseline[1],log(1+TrainN[,i+1]))
