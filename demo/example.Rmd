@@ -9,7 +9,6 @@ options(width = 100)
 
 ## Prerequisites
 
-
 If `PETLER` is not installed, uncomment the code below and install it from GitHub.
 
 ```{r}
@@ -48,7 +47,7 @@ __NOTE__: If you plan to use your own data, you need to prepare it in the order 
 
 Next, we can use the `petler.base` function to create the base functions required to run the PETLER algorithm. By default, you only need to provide data in the list format mentioned above. However, you can view the help documentation (`?petler.base`) or click [HERE](https://celehs.github.io/PETLER/reference/petler.base.html) to customize configurable arguments.
 
-```{r, eval=T}
+```{r}
 system.time(obj <- petler.base(data_org))
 ```
 
