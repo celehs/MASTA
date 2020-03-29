@@ -4,7 +4,7 @@
 \alias{petler.base}
 \title{Base Creation for PETLER}
 \usage{
-petler.base(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = 4)
+petler.base(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = NULL)
 }
 \arguments{
 \item{data}{input data used to create base. See \code{data(data_org)} for example.}
@@ -17,7 +17,7 @@ K (K.select="PropVar") \code{FALSE} in the PP_FPCA_Parallel function (hidden). D
 
 \item{propvar}{a proportion of variation used to select number of FPCs. Default is \code{0.85}.}
 
-\item{n_core}{an integer to specify the number of core using for parallel computing. Default is \code{4}.}
+\item{n_core}{an integer to specify the number of core using for parallel computing.}
 }
 \description{
 Function used to create base functions for the PETLER algorithm.

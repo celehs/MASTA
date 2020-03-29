@@ -1,6 +1,18 @@
+GetPK <- function(id, t, tseq, nn) {
+  PK <- rep(NA, nn)
+  e <- diff(tseq)
+  aa <- tapply(t, id, FUN = function(t) {
+    x <- hist(t, breaks = tseq, plot = FALSE)$counts
+    avg_sp <- cumsum(x) / tseq[-1]
+    avg_sp2 <- c(0, head(avg_sp, -1))
+    which.max((avg_sp - avg_sp2) / (avg_sp2 + e))
+  })
+  PK[unique(id)] <- tseq[aa + 1]
+  PK
+}
+
 ### All functions need in simulations
 ### Survival likelihood; Ridge, Glasso; Prediction Accuracy; Rule based algorithm (comparison)
-
 
 ### No penalty on BS at all in glasso and ridge
 ### do not optimize over BS at all in glasso and ridge
@@ -438,24 +450,6 @@ logifit<-function(Delta,Z,train,baseline){
   fit$Delta  = predict(fit,newdata = df,type="response")>fit$thresh
 
   return(fit)
-}
-
-
-
-GetPK<-function(id,t,tseq,nn){
-  lt  = length(tseq)-1
-  e   = diff(tseq)
-  aa  = tapply(t,id,FUN=function(t){
-    x = hist(t,breaks = tseq,plot = FALSE)$counts
-    avg_sp = cumsum(x)/tseq[-1]
-    avg_sp2 = c(0,avg_sp[-lt])
-    avg_sp = {avg_sp-avg_sp2}/{avg_sp2+e}
-    # avg_sp = {avg_sp[-lt]-avg_sp[-1]}/{avg_sp[-1]+e}
-    which.max(avg_sp)
-  })
-  PK = rep(NA,nn)
-  PK[unique(id)] = tseq[aa+1]
-  PK
 }
 
 
