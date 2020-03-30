@@ -1,5 +1,5 @@
 ---
-title: "Parallel Computing"
+title: "Multicore Computing"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{scalability}

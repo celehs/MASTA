@@ -49,7 +49,7 @@ Getting Started
 
 - Step II <https://celehs.github.io/PETLER/articles/step2.html>
 
-- Scalability <https://celehs.github.io/PETLER/articles/scalability.html>
+- Multicore <https://celehs.github.io/PETLER/articles/scalability.html>
 
 - Reference <https://celehs.github.io/PETLER/reference/index.html>
 

@@ -15,7 +15,7 @@ navbar:
       href: articles/step1.html  
     - text: "Step II"
       href: articles/step2.html        
-    - text: "Scalability"
-      href: articles/scalability.html        
+    - text: "Multicore"
+      href: articles/multicore.html        
     - text: "Reference"
       href: reference/index.html
