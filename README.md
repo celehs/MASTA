@@ -45,7 +45,9 @@ Getting Started
 
 - Data <https://celehs.github.io/PETLER/articles/data.html>
 
-- Example <https://celehs.github.io/PETLER/articles/example.html>
+- Step I <https://celehs.github.io/PETLER/articles/step1.html>
+
+- Step II <https://celehs.github.io/PETLER/articles/step2.html>
 
 - Scalability <https://celehs.github.io/PETLER/articles/scalability.html>
 

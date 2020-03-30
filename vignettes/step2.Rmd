@@ -1,5 +1,5 @@
 ---
-title: "PETLER Example"
+title: "Step II: Model Fitting"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{example}
@@ -18,16 +18,6 @@ options(width=100)
 ```{r lib}
 library(PETLER)
 ```
-
-## Base Creation
-
-Next, we can use the `petler.base` function to create the base functions required to run the PETLER algorithm. By default, you only need to provide data in the list format mentioned above. However, you can view the help documentation (`?petler.base`) or click [HERE](https://celehs.github.io/PETLER/reference/petler.base.html) to customize configurable arguments.
-
-
-
-In order to analyze very large data, the `petler.base` function uses multi-core parallel computing by default.
-
-## PETLER Output
 
 First, we load the FPCA results from step I. 
 
