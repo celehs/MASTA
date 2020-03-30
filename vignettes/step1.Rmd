@@ -29,12 +29,17 @@ saveRDS(obj, "step1.rds")
 obj <- readRDS("step1.rds")
 ```
 
-```{r, fig.width=7, fig.height=9}
-par(mfrow = c(3, 1))
-for (i in 1:3) {
-  mean <- obj$base[[i]]$mean
-  plot(mean$x, mean$f_mu, type = "l", col = "blue", 
-       xlab = "x", ylab = "density", main = paste0("pred", i)) 
-}
+```{r}
+DF.long <- rbind(
+  cbind(code = "pred1", obj$base[[1]]$mean),
+  cbind(code = "pred2", obj$base[[2]]$mean),
+  cbind(code = "pred3", obj$base[[3]]$mean))
+data.table::data.table(DF.long)
 ```
 
+
+```{r, fig.width=7, fig.height=7}
+library(ggplot2)
+ggplot(DF.long, aes(x = x, y = f_mu)) + geom_line(colour = "blue") + 
+  facet_wrap(~ code, ncol = 1, scales = "free") + theme_bw() + ylab("density")
+```
