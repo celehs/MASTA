@@ -1,33 +1,60 @@
-__Predicting Event Time with Longitudinal Encounter Records__
+**Predicting Event Time with Longitudinal Encounter Records**
 
-## Overview
+Overview
+--------
 
-Large clinical datasets derived from insurance claims and electronic health record (EHR) systems are valuable sources for precision medicine research. These datasets can be used to develop models for personalized prediction of risk or treatment response. Efficiently deriving
-prediction models using real world data, however, faces practical and methodological challenges. For example, event time information such as time to cancer progression is not readily available. Simple estimates of the event time based on billing or procedure codes may poorly approximate the true event time.
+Large clinical datasets derived from insurance claims and electronic
+health record (EHR) systems are valuable sources for precision medicine
+research. These datasets can be used to develop models for personalized
+prediction of risk or treatment response. Efficiently deriving
+prediction models using real world data, however, faces practical and
+methodological challenges. For example, event time information such as
+time to cancer progression is not readily available. Simple estimates of
+the event time based on billing or procedure codes may poorly
+approximate the true event time.
 
-This package implements a two-step semi-supervised learning method on predicting event time with longitudinal encounter records (PETLER). In step I, we employ a functional principal component analysis approach to efficiently approximate the intensity functions of individual encounters using the observed point processes in the unlabeled set. In step II, we fit a penalized proportional odds model to the event time outcomes with features derived in step I in the labeled data where the non-parametric baseline function is approximated using B-splines. 
+This package implements a two-step semi-supervised learning method on
+predicting event time with longitudinal encounter records (PETLER). In
+step I, we employ a functional principal component analysis approach to
+efficiently approximate the intensity functions of individual encounters
+using the observed point processes in the unlabeled set. In step II, we
+fit a penalized proportional odds model to the event time outcomes with
+features derived in step I in the labeled data where the non-parametric
+baseline function is approximated using B-splines.
 
-## Installation
+Installation
+------------
 
-If `devtools` is not installed, uncomment the code below and install it from CRAN.
+Install development version from GitHub.
 
 ``` r
-# install.packages("devtools")
+# install.packages("remotes")
+remotes::install_github("celehs/PETLER")
 ```
 
-Install development version from GitHub:
+Load the package into R.
 
 ``` r
-devtools::install_github("celehs/PETLER")
+library(PETLER)
 ```
 
-## Getting Started
+    ## Loading required package: survival
+    
+Getting Started
+---------------
 
-Click [HERE](https://celehs.github.io/PETLER/demo/example.html) to view a data example that illustrates the use of the PETLER algorithm.
+- Data <https://celehs.github.io/PETLER/articles/data.html>
 
-## References
+- Example <https://celehs.github.io/PETLER/articles/example.html>
 
-- Liang, L., Uno, H., Ma, Y., Cai, T. __Robust Approach to Event Time Annotation
-Using Longitudinal Medical Encounters__. _Working Paper_.
+- Reference <https://celehs.github.io/PETLER/reference/index.html>
 
-- Wu, S., Müller, H., Zhang, Z. (2013). __Functional Data Analysis for Point Processes with Rare Events__. _Statistica Sinica_, 23:1-23. <https://doi.org/10.5705/ss.2010.162>
+References
+----------
+
+-   Liang, L., Uno, H., Ma, Y., Cai, T. **Robust Approach to Event Time
+    Annotation Using Longitudinal Medical Encounters**. *Working Paper*.
+
+-   Wu, S., Müller, H., Zhang, Z. (2013). **Functional Data Analysis for
+    Point Processes with Rare Events**. *Statistica Sinica*, 23:1-23.
+    <a href="https://doi.org/10.5705/ss.2010.162" class="uri">https://doi.org/10.5705/ss.2010.162</a>

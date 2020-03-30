@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PETLER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -79,7 +79,10 @@
   <a href="../index.html">Home</a>
 </li>
 <li>
-  <a href="../demo/example.html">Example</a>
+  <a href="../articles/data.html">Data</a>
+</li>
+<li>
+  <a href="../articles/example.html">Example</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -106,7 +109,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Base Creation for PETLER</h1>
-    <small class="dont-index">Source: <a href='https://github.com/celehs/PETLER/blob/master/R/PETLER-package.R'><code>R/PETLER-package.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/celehs/PETLER/blob/master/R/PETLER-pkg.R'><code>R/PETLER-pkg.R</code></a></small>
     <div class="hidden name"><code>petler.base.Rd</code></div>
     </div>
 
@@ -114,7 +117,7 @@
     <p>Function used to create base functions for the PETLER algorithm.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>petler.base</span>(<span class='no'>data</span>, <span class='kw'>PPIC_K</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>n.grid</span> <span class='kw'>=</span> <span class='fl'>401</span>, <span class='kw'>propvar</span> <span class='kw'>=</span> <span class='fl'>0.85</span>, <span class='kw'>n_core</span> <span class='kw'>=</span> <span class='fl'>4</span>)</pre>
+    <pre class="usage"><span class='fu'>petler.base</span>(<span class='no'>data</span>, <span class='kw'>PPIC_K</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>n.grid</span> <span class='kw'>=</span> <span class='fl'>401</span>, <span class='kw'>propvar</span> <span class='kw'>=</span> <span class='fl'>0.85</span>, <span class='kw'>n_core</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -127,7 +130,7 @@
       <th>PPIC_K</th>
       <td><p>a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
 the number of principal components K (K.select="PPIC") <code>TRUE</code> or another criterion to choose 
-K (K.select="PropVar") <code>FALSE</code> in the PP_FPCA_CPP_Parallel function (hidden). Default is <code>FALSE</code>.</p></td>
+K (K.select="PropVar") <code>FALSE</code> in the PP_FPCA_Parallel function (hidden). Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>n.grid</th>
@@ -139,7 +142,7 @@ K (K.select="PropVar") <code>FALSE</code> in the PP_FPCA_CPP_Parallel function (
     </tr>
     <tr>
       <th>n_core</th>
-      <td><p>an integer to specify the number of core using for parallel computing. Default is <code>4</code>.</p></td>
+      <td><p>an integer to specify the number of core using for parallel computing.</p></td>
     </tr>
     </table>
 

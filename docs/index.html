@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">PETLER</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -42,7 +42,10 @@
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="demo/example.html">Example</a>
+  <a href="articles/data.html">Data</a>
+</li>
+<li>
+  <a href="articles/example.html">Example</a>
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
@@ -78,15 +81,21 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>If <code>devtools</code> is not installed, uncomment the code below and install it from CRAN.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a></code></pre></div>
-<p>Install development version from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"celehs/PETLER"</span>)</a></code></pre></div>
+<p>Install development version from GitHub.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("remotes")</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"celehs/PETLER"</span>)</a></code></pre></div>
+<p>Load the package into R.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PETLER)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">## Loading required package: survival</span></a></code></pre></div>
 </div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
-<p>Click <a href="https://celehs.github.io/PETLER/demo/example.html">HERE</a> to view a data example that illustrates the use of the PETLER algorithm.</p>
+<ul>
+<li><p>Data <a href="https://celehs.github.io/PETLER/articles/data.html" class="uri">https://celehs.github.io/PETLER/articles/data.html</a></p></li>
+<li><p>Example <a href="https://celehs.github.io/PETLER/articles/example.html" class="uri">https://celehs.github.io/PETLER/articles/example.html</a></p></li>
+<li><p>Reference <a href="https://celehs.github.io/PETLER/reference/index.html" class="uri">https://celehs.github.io/PETLER/reference/index.html</a></p></li>
+</ul>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">

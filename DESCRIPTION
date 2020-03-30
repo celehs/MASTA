@@ -1,7 +1,7 @@
 Package: PETLER
 Type: Package
 Title: Predicting Event Time with Longitudinal Encounter Records
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Liang", "Liang", role = "aut"),
     person("Hajime", "Uno", role = c("aut", "cre"), email = "huno@jimmy.harvard.edu"),
@@ -31,3 +31,7 @@ Imports:
     rpart.utils
 LazyData: true
 NeedsCompilation: no
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
