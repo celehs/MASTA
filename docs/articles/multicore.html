@@ -116,50 +116,8 @@
 <a class="sourceLine" id="cb4-7" data-line-number="7">  h2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/bandwidth.html">bw.nrd</a></span>(t)<span class="op">^</span>(<span class="dv">5</span><span class="op">/</span><span class="dv">6</span>)  </a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="kw"><a href="../reference/FPC.Kern.S.html">FPC.Kern.S</a></span>(x, t, TrainNP, h1, h2, <span class="dt">n_core =</span> n_core))[<span class="st">"elapsed"</span>]</a>
 <a class="sourceLine" id="cb4-9" data-line-number="9">}</a></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">DF &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span>(</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="dt">codes =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"pred"</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>), </a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">ngrid =</span>  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">400</span>) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="dt">n_core =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>),</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">  <span class="dt">time =</span> <span class="ot">NA</span>)</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(DF))  {</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">  code &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(DF<span class="op">$</span>code[i])</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">  DF<span class="op">$</span>time[i] &lt;-<span class="st"> </span><span class="kw">timing</span>(code, DF<span class="op">$</span>ngrid[i], DF<span class="op">$</span>n_core[i])</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span>(DF, <span class="st">"multicore.rds"</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(DF, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(n_core), <span class="dt">y =</span> time)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste</a></span>(<span class="st">"ngrid ="</span>, ngrid) <span class="op">~</span><span class="st"> </span>codes) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span>(<span class="dt">stat =</span> <span class="st">"identity"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span>(<span class="st">"Number of CPU Cores"</span>) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Elapsed Time (seconds)"</span>)</a></code></pre></div>
-<p><img src="multicore_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">DF</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">##    codes ngrid n_core   time</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">## 1  pred1   101      1  5.344</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">## 2  pred2   101      1  1.687</span></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">## 3  pred3   101      1  0.557</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">## 4  pred1   201      1 12.555</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">## 5  pred2   201      1  5.355</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">## 6  pred3   201      1  1.757</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 7  pred1   401      1 40.778</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 8  pred2   401      1 19.297</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 9  pred3   401      1  5.940</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 10 pred1   101      2  2.235</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 11 pred2   101      2  1.027</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">## 12 pred3   101      2  0.327</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">## 13 pred1   201      2  6.462</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">## 14 pred2   201      2  3.009</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">## 15 pred3   201      2  1.083</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">## 16 pred1   401      2 20.592</span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">## 17 pred2   401      2  9.566</span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">## 18 pred3   401      2  3.129</span></a>
-<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">## 19 pred1   101      4  1.198</span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">## 20 pred2   101      4  0.620</span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">## 21 pred3   101      4  0.425</span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">## 22 pred1   201      4  2.986</span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">## 23 pred2   201      4  1.729</span></a>
-<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">## 24 pred3   201      4  0.660</span></a>
-<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">## 25 pred1   401      4 10.363</span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">## 26 pred2   401      4  4.619</span></a>
-<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">## 27 pred3   401      4  1.980</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># timing(code = "pred1", ngrid = 101, n_core = 4)</span></a></code></pre></div>
+<p><img src="multicore_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
