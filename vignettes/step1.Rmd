@@ -37,9 +37,21 @@ DF.long <- rbind(
 data.table::data.table(DF.long)
 ```
 
+```{r}
+TrainCode <- data_org$TrainCode
+TrainCode[, monthstd := month / fu_time]  
+DF.t <- rbind(
+  data.frame(code = "pred1", t = with(TrainCode, rep(monthstd, pred1))),
+  data.frame(code = "pred2", t = with(TrainCode, rep(monthstd, pred2))),
+  data.frame(code = "pred3", t = with(TrainCode, rep(monthstd, pred3))))
+```
 
 ```{r, fig.width=7, fig.height=7}
 library(ggplot2)
-ggplot(DF.long, aes(x = x, y = f_mu)) + geom_line(colour = "blue") + 
-  facet_wrap(~ code, ncol = 1, scales = "free") + theme_bw() + ylab("density")
+ggplot(DF.t, aes(x = t)) + 
+  geom_histogram(aes(y = ..density..), color="black", fill="white", binwidth = 0.01) + 
+  geom_line(aes(x = x, y = f_mu), data = DF.long, colour = "blue") + 
+  facet_wrap(~ code, ncol = 1, scales = "free_y") + 
+  xlab("x") + theme_bw()
 ```
+
