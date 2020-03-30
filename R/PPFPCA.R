@@ -10,9 +10,20 @@ FPC_Kern_S <- function(x, t, N, h1, h2) {
        Cov_G = crossprod(v) - crossprod(D2))
 }
 
-FPC.Kern.S <- function(x, t, N, h1 = NULL, h2 = NULL, bw = "ucv", nsubs = 10, n_core = NULL) {
+#' @title Mean Density and Covariance Functions for FPCA
+#' @description Compute mean density function and covariance function for functional principal components analysis (FPCA)
+#' @param x time grid between 0 and 1 
+#' @param t observed event times of all the individuals, can have duplicates
+#' @param N vector, contains num of observed event of each patient
+#' @param h1 bandwidth for mean density function
+#' @param h2 bandwidth for covariance function
+#' @param bw bandwidth selection method
+#' @param nsubs number of subsets for parallel computing
+#' @param n_core number of cores for parallel computing
+#' @export
+FPC.Kern.S <- function(x, t, N, h1 = NULL, h2 = NULL, bw = "ucv", nsubs = NULL, n_core = NULL) {
   if (is.null(n_core)) n_core <- parallel::detectCores()
-  registerDoParallel(cores = n_core)  
+  if (is.null(nsubs)) nsubs <- n_core * 5
   h <- switch(bw, 
               "nrd0" = bw.nrd0(t),
               "nrd" = bw.nrd(t),
@@ -29,6 +40,7 @@ FPC.Kern.S <- function(x, t, N, h1 = NULL, h2 = NULL, bw = "ucv", nsubs = 10, n_
   cumsumsub <- cumsum(c(0, subsize))
   grp <- rep(seq(subsize), subsize)
   cumsumN <- c(0, cumsum(rowsum(N, grp))) 
+  registerDoParallel(cores = n_core)  
   tmplist <- foreach(i = 1:nsubs) %dopar% {
     tsub <- t[(cumsumN[i] + 1):cumsumN[i + 1]]
     Nsub <- N[(cumsumsub[i] + 1):cumsumsub[i + 1]]

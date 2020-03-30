@@ -12,7 +12,6 @@
 #' coef cor density dnorm glm knots median optim optimize prcomp predict quantile runif sd stepfun uniroot var
 NULL
 
-#' @name petler.base
 #' @title Base Creation for PETLER
 #' @description Function used to create base functions for the PETLER algorithm.
 #' @param data input data used to create base. See \code{data(data_org)} for example.
@@ -179,7 +178,6 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
        base = base)
 }
 
-#' @name petler
 #' @title Main function implementing the PETLER algorithm
 #' @description This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
 #' @param object results returned by the \code{petler.base} function
