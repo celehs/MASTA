@@ -17,7 +17,6 @@ options(width=100)
 
 ```{r}
 library(PETLER)
-library(ggplot2)
 ```
 
 ```{r}
@@ -64,6 +63,7 @@ DF <- readRDS("multicore.rds")
 ```
 
 ```{r, fig.width=7, fig.height=7, echo=FALSE}
+library(ggplot2)
 ggplot(DF, aes(x = factor(n_core), y = time)) + 
   facet_grid(paste("ngrid =", ngrid) ~ codes) + 
   geom_bar(stat = "identity") + theme_bw() +
