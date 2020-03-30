@@ -8,4 +8,3 @@
 #'   \item{ValidCode}{1st colum: patient id, 2nd colum: follow-up time, 3rd colum: time label (month), 4th colum-- : predictors.}
 #' }
 "data_org"
-

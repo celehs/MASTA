@@ -1,0 +1,60 @@
+---
+title: "Parallel Computing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  cache = TRUE,
+  collapse = TRUE
+)
+options(width=100)
+```
+
+```{r lib}
+library(PETLER)
+```
+
+```{r}
+TrainCode <- data_org$TrainCode
+TrainCode[, monthstd := month / fu_time]  
+TrainCode
+```
+
+```{r}
+colSums(TrainCode[, 4:6])
+```
+
+```{r}
+f <- function(code, ngrid = 401) {
+  x <- seq(0, 1, length.out = ngrid)  
+  pred <- TrainCode[[code]]
+  TrainNP <- pred[pred > 0] 
+  month <- rep(TrainCode$month, pred)
+  t <- monthstd <- rep(TrainCode$monthstd, pred)
+  h1 <- bw.nrd(t)
+  h2 <- bw.nrd(t)^(5/6)  
+  times <- rep(NA, 3)
+  names(times) <- c(1, 2, 4)
+  times[1] <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 1))["elapsed"]
+  times[2] <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 2))["elapsed"]
+  times[3] <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 4))["elapsed"]
+  hist(month, xlab = "Time (months)", main = code, las = 1)
+  hist(monthstd, xlab = "Time (standardized)", main = code, las = 1)  
+  barplot(times, col = "lightblue", xlab = "CPU Cores", 
+          ylab = "Seconds", main = code, las = 1)  
+  times
+}
+```
+
+```{r, fig.width=7, fig.height=7}
+par(mfcol = c(3, 3))
+time1 <- f("pred1")
+time2 <- f("pred2")
+time3 <- f("pred3")
+cbind(time1, time2, time3)
+```

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OLD Sample Data of the PETLER Pacakge — data_org_old • PETLER</title>
+<title>Mean Density and Covariance Functions for FPCA — FPC.Kern.S • PETLER</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="OLD Sample Data of the PETLER Pacakge — data_org_old" />
-<meta property="og:description" content="A list of training and validation data for illustrating the use of the PETLER algorithm" />
+<meta property="og:title" content="Mean Density and Covariance Functions for FPCA — FPC.Kern.S" />
+<meta property="og:description" content="Compute mean density function and covariance function for functional principal components analysis (FPCA)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -85,6 +85,9 @@
   <a href="../articles/example.html">Example</a>
 </li>
 <li>
+  <a href="../articles/scalability.html">Scalability</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -108,33 +111,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>OLD Sample Data of the PETLER Pacakge</h1>
-    <small class="dont-index">Source: <a href='https://github.com/celehs/PETLER/blob/master/R/PETLER-data.R'><code>R/PETLER-data.R</code></a></small>
-    <div class="hidden name"><code>data_org_old.Rd</code></div>
+    <h1>Mean Density and Covariance Functions for FPCA</h1>
+    <small class="dont-index">Source: <a href='https://github.com/celehs/PETLER/blob/master/R/PPFPCA.R'><code>R/PPFPCA.R</code></a></small>
+    <div class="hidden name"><code>FPC.Kern.S.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A list of training and validation data for illustrating the use of the PETLER algorithm</p>
+    <p>Compute mean density function and covariance function for functional principal components analysis (FPCA)</p>
     </div>
 
-    <pre class="usage"><span class='no'>data_org_old</span></pre>
+    <pre class="usage"><span class='fu'>FPC.Kern.S</span>(
+  <span class='no'>x</span>,
+  <span class='no'>t</span>,
+  <span class='no'>N</span>,
+  <span class='kw'>h1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>h2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bw</span> <span class='kw'>=</span> <span class='st'>"ucv"</span>,
+  <span class='kw'>nsubs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>n_core</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>time grid between 0 and 1</p></td>
+    </tr>
+    <tr>
+      <th>t</th>
+      <td><p>observed event times of all the individuals, can have duplicates</p></td>
+    </tr>
+    <tr>
+      <th>N</th>
+      <td><p>vector, contains num of observed event of each patient</p></td>
+    </tr>
+    <tr>
+      <th>h1</th>
+      <td><p>bandwidth for mean density function</p></td>
+    </tr>
+    <tr>
+      <th>h2</th>
+      <td><p>bandwidth for covariance function</p></td>
+    </tr>
+    <tr>
+      <th>bw</th>
+      <td><p>bandwidth selection method</p></td>
+    </tr>
+    <tr>
+      <th>nsubs</th>
+      <td><p>number of subsets for parallel computing</p></td>
+    </tr>
+    <tr>
+      <th>n_core</th>
+      <td><p>number of cores for parallel computing</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A list with 4 data tables:</p><dl class='dl-horizontal'>
-  <dt>TrainSurv</dt><dd><p>baseline survival data for training (labeled); 1st colum: patient id, 2nd colum: event indicator (1=event, 0=censoring), 3rd colum: event time, 4th colum: follow-up time, 5th colum--: covariates.</p></dd>
-  <dt>ValidSurv</dt><dd><p>baseline survival data for validation; baseline survival data for training (labeled); 1st colum: patient id, 2nd colum: event indicator (1=event, 0=censoring), 3rd colum: event time, 4th colum: follow-up time, 5th colum--: covariates.</p></dd>
-  <dt>TrainCode</dt><dd><p>1st colum: patient id, 2nd colum: follow-up time, 3rd colum: time label (month), 4th colum-- : predictors.</p></dd>
-  <dt>ValidCode</dt><dd><p>1st colum: patient id, 2nd colum: follow-up time, 3rd colum: time label (month), 4th colum-- : predictors.</p></dd>
-
-</dl>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
+      <li><a href="#arguments">Arguments</a></li>
     </ul>
 
   </div>

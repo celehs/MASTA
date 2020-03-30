@@ -47,6 +47,9 @@
   <a href="../articles/example.html">Example</a>
 </li>
 <li>
+  <a href="../articles/scalability.html">Scalability</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -81,8 +84,8 @@
 
     
     
-<div id="htmlwidget-53639bad1b5a243292d9" style="width:480px;height:432.632880098888px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-53639bad1b5a243292d9">{"x":{"diagram":"\ndigraph flowchart {\n  node [fontname = Helvetica, shape = rectangle]        \n  tab1 [label = \"Input Data\"]\n  tab2 [label = \"Labeled (N = 1,100)\"]\n  tab3 [label = \"Unlabeled (N = 20,000)\"]\n  tab4 [label = \"Training (N = 600)\"]\n  tab5 [label = \"Validation (N = 500)\"]\n  tab1 -> tab2;\n  tab1 -> tab3;\n  tab2 -> tab4;\n  tab2 -> tab5;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><p>The first two data tables consists of labeled training and validation data with survival outcome (<code>event_ind</code>, <code>event_time</code>, <code>fu_time</code>) and baseline covariates (<code>cov_1</code>-<code>cov_3</code>).</p>
+<div id="htmlwidget-f5f4ecba9eda48ef2b0a" style="width:480px;height:432.632880098888px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f5f4ecba9eda48ef2b0a">{"x":{"diagram":"\ndigraph flowchart {\n  node [fontname = Helvetica, shape = rectangle]        \n  tab1 [label = \"Input Data\"]\n  tab2 [label = \"Labeled (N = 1,100)\"]\n  tab3 [label = \"Unlabeled (N = 20,000)\"]\n  tab4 [label = \"Training (N = 600)\"]\n  tab5 [label = \"Validation (N = 500)\"]\n  tab1 -> tab2;\n  tab1 -> tab3;\n  tab2 -> tab4;\n  tab2 -> tab5;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><p>The first two data tables consists of labeled training and validation data with survival outcome (<code>event_ind</code>, <code>event_time</code>, <code>fu_time</code>) and baseline covariates (<code>cov_1</code>-<code>cov_3</code>).</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">PETLER<span class="op">::</span>data_org[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## $TrainSurv</span></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">##       id event_ind event_time   fu_time cov_1 cov_2 cov_3</span></a>

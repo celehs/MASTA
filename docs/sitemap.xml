@@ -4,6 +4,9 @@
     <loc>https://celehs.github.io/PETLER//index.html</loc>
   </url>
   <url>
+    <loc>https://celehs.github.io/PETLER//reference/FPC.Kern.S.html</loc>
+  </url>
+  <url>
     <loc>https://celehs.github.io/PETLER//reference/PETLER-package.html</loc>
   </url>
   <url>
@@ -20,5 +23,8 @@
   </url>
   <url>
     <loc>https://celehs.github.io/PETLER//articles/example.html</loc>
+  </url>
+  <url>
+    <loc>https://celehs.github.io/PETLER//articles/scalability.html</loc>
   </url>
 </urlset>

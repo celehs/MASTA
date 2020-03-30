@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   data: data.html
   example: example.html
+  scalability: scalability.html
 urls:
   reference: https://celehs.github.io/PETLER//reference
   article: https://celehs.github.io/PETLER//articles

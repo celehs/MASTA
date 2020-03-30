@@ -47,6 +47,8 @@ Getting Started
 
 - Example <https://celehs.github.io/PETLER/articles/example.html>
 
+- Scalability <https://celehs.github.io/PETLER/articles/scalability.html>
+
 - Reference <https://celehs.github.io/PETLER/reference/index.html>
 
 References
