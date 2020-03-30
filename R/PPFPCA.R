@@ -52,7 +52,7 @@ FPC.Kern.S <- function(x, t, N, h1 = NULL, h2 = NULL, bw = "ucv", nsubs = NULL, 
   L2 <- lapply(tmplist, `[[`, 2)
   f_mu <- Reduce("+", L1) / sum(N)
   G <- Reduce("+", L2) / sum(N * (N - 1)) - tcrossprod(f_mu)
-  list(f_mu = f_mu, G = G, cumsumsub = cumsumsub, cumsumN = cumsumN)
+  list(f_mu = f_mu, G = G)
 }
 
 ######################################################################
