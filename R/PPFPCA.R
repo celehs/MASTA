@@ -316,7 +316,7 @@ den_locpoly2<-function(t,N){
 ############        Predict Scores for New Subjects         ############     
 ########################################################################
 ### make prediction for patients with or without codes
-PP_FPCA_Pred2 <- function(t, N, mean.fun, eigen.fun, K, parallel = FALSE){
+PP.FPCA.Pred <- function(t, N, mean.fun, eigen.fun, K, parallel = FALSE){
   NZ <- N == 0
   delta <- mean.fun[2, 1] - mean.fun[1, 1]
   baseline <- as.numeric(t(eigen.fun[, -1]) %*% mean.fun[, -1] * delta) # second term in xi

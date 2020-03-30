@@ -116,7 +116,6 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
   eval(parse(text = txt))
   txt <- paste0("basis.fun=list(",paste0(paste0(codes,"_FPCA$basis"),collapse = ","),")")
   eval(parse(text = txt))  
-
   ft.e2 <- ft.e.S2 <- PKTS2 <- NULL
   for (i in seq_along(codes)) {
     # cat(i, "\n")
@@ -134,7 +133,7 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     tmp <- tmp[tmp[, 3] > 0, -3]
     t1 <- tapply(tmp[, 2], factor(tmp[, 1], levels = ValidPatNum), FUN = min)
     t1 <- t1[!is.na(t1)]
-    tmp <- PP_FPCA_Pred2(t, ValidNP, mean.fun[[i]], basis.fun[[i]], K[i])
+    tmp <- PP.FPCA.Pred(t, ValidNP, mean.fun[[i]], basis.fun[[i]], K[i])
     ft.e.tmp <- cbind(matrix(ValidFU, nrow = length(ValidFU), ncol = 3), -tmp$baseline[1], log(1 + ValidN[, i + 1]))
     nns <- sum(tmp2)
     ft.e.tmp[tmp2, 1] <- t1
