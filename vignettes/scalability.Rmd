@@ -2,14 +2,14 @@
 title: "Parallel Computing"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{example}
+  %\VignetteIndexEntry{scalability}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  cache = TRUE,
+  eval = TRUE,
   collapse = TRUE
 )
 options(width=100)
@@ -38,16 +38,16 @@ f <- function(code, ngrid = 401) {
   t <- monthstd <- rep(TrainCode$monthstd, pred)
   h1 <- bw.nrd(t)
   h2 <- bw.nrd(t)^(5/6)  
-  times <- rep(NA, 3)
-  names(times) <- c(1, 2, 4)
-  times[1] <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 1))["elapsed"]
-  times[2] <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 2))["elapsed"]
-  times[3] <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 4))["elapsed"]
+  t1 <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 1))
+  t2 <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 2)) 
+  t4 <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 4)) 
+  elapsed <- cbind(t1, t2, t4)["elapsed", ]
+  names(elapsed) <- c(1, 2, 4)
   hist(month, xlab = "Time (months)", main = code, las = 1)
   hist(monthstd, xlab = "Time (standardized)", main = code, las = 1)  
-  barplot(times, col = "lightblue", xlab = "CPU Cores", 
+  barplot(elapsed, col = "lightblue", xlab = "CPU Cores", 
           ylab = "Seconds", main = code, las = 1)  
-  times
+  elapsed
 }
 ```
 
