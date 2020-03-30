@@ -43,13 +43,13 @@ library(PETLER)
 Getting Started
 ---------------
 
-- Data <https://celehs.github.io/PETLER/articles/data.html>
+- Input Data <https://celehs.github.io/PETLER/articles/data.html>
 
-- Step I <https://celehs.github.io/PETLER/articles/step1.html>
+- Step I: Functional PCA <https://celehs.github.io/PETLER/articles/step1.html>
 
-- Step II <https://celehs.github.io/PETLER/articles/step2.html>
+- Step II: Model Fitting <https://celehs.github.io/PETLER/articles/step2.html>
 
-- Multicore <https://celehs.github.io/PETLER/articles/scalability.html>
+- Multicore Computing <https://celehs.github.io/PETLER/articles/multicore.html>
 
 - Reference <https://celehs.github.io/PETLER/reference/index.html>
 
