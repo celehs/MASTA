@@ -120,7 +120,7 @@ petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
 
   ft.e2 <- ft.e.S2 <- PKTS2 <- NULL
   for (i in seq_along(codes)) {
-    cat(i, "\n")
+    # cat(i, "\n")
     tmp2 <- ValidN[, i + 1] > 0
     ValidNP <- ValidN[tmp2, i + 1]
     ### PKs from Two-step procedure

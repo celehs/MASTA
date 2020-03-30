@@ -103,13 +103,11 @@ PP_FPCA_Parallel <- function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1, #
   }
   cumsumsub <- cumsum(c(0, subsize))
   cumsumN <- c(0, cumsum(sapply(1:nsubs, function(i) sum(N[(cumsumsub[i] + 1):cumsumsub[i + 1]]))))
-  print(system.time({
-    tmplist <- foreach(i = 1:nsubs) %dopar% {
-      tmp <- FPC_Kern_S(x, t[(cumsumN[i] + 1):cumsumN[i + 1]],
-                        N[(cumsumsub[i] + 1):cumsumsub[i + 1]], h1, h2)
-      list(f_mu = tmp$f_mu / sum(N), g = tmp$Cov_G / sum(N * (N - 1)))
-    }        
-  }))
+  tmplist <- foreach(i = 1:nsubs) %dopar% {
+    tmp <- FPC_Kern_S(x, t[(cumsumN[i] + 1):cumsumN[i + 1]],
+                      N[(cumsumsub[i] + 1):cumsumsub[i + 1]], h1, h2)
+    list(f_mu = tmp$f_mu / sum(N), g = tmp$Cov_G / sum(N * (N - 1)))
+  }        
   f_mu <- apply(simplify2array(lapply(tmplist, `[[`, 1)), 1, sum)
   G <- apply(simplify2array(lapply(tmplist, `[[`, 2)), c(1, 2), sum) - outer(f_mu, f_mu)
   G.eigen <- svd(G)
