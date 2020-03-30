@@ -1,0 +1,48 @@
+---
+title: "PETLER Example"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  eval = TRUE,
+  collapse = TRUE
+)
+options(width=100)
+```
+
+```{r lib}
+library(PETLER)
+```
+
+## Base Creation
+
+Next, we can use the `petler.base` function to create the base functions required to run the PETLER algorithm. By default, you only need to provide data in the list format mentioned above. However, you can view the help documentation (`?petler.base`) or click [HERE](https://celehs.github.io/PETLER/reference/petler.base.html) to customize configurable arguments.
+
+```{r base}
+system.time(obj <- petler.base(data_org))
+names(obj)
+```
+
+In order to analyze very large data, the `petler.base` function uses multi-core parallel computing by default.
+
+## PETLER Output
+
+We can now run the PETLER algorithm by calling the `petler` function and providing the base object obtained from the previous step. Use `?petler` or click [HERE](https://celehs.github.io/PETLER/reference/petler.html) to view help documentation and configurable arguments.
+
+```{r petler}
+system.time(out <- petler(obj))
+out
+```
+
+The `petler` function returns the following list of results:
+
+- `bgbbest_FromChengInit_BFGS` Details of the fitted model
+
+- `Cstat_BrierSc_ChengInit_BFGS` C-statistics and adjusted Brier scores of the derived algorithm
+
+- `group` A vector of consecutive integers describing the grouping coefficients

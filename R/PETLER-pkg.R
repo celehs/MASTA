@@ -12,7 +12,7 @@
 #' coef cor density dnorm glm knots median optim optimize prcomp predict quantile runif sd stepfun uniroot var
 NULL
 
-#' @title Base Creation for PETLER
+#' @title Functional PCA for PETLER
 #' @description Function used to create base functions for the PETLER algorithm.
 #' @param data input data used to create base. See \code{data(data_org)} for example.
 #' @param PPIC_K a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
@@ -22,7 +22,7 @@ NULL
 #' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
 #' @param n_core an integer to specify the number of core using for parallel computing. 
 #' @export
-petler.base <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = NULL) {
+petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = NULL) {
   if (is.null(n_core)) n_core <- parallel::detectCores()
   registerDoParallel(cores = n_core)  
   TrainSurv <- data.frame(data$TrainSurv)
