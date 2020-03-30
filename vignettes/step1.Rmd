@@ -20,12 +20,14 @@ library(PETLER)
 
 We can use the `petler.fpca` function to create the base functions required to run the PETLER algorithm. By default, you only need to provide data in the list format mentioned above. However, you can view the help documentation (`?petler.fpca`) or click [HERE](https://celehs.github.io/PETLER/reference/petler.fpca.html) to customize configurable arguments.
 
-```{r fpca, eval=F}
+```{r fpca, eval=FALSE}
 system.time(obj <- petler.fpca(data_org))
+##    user  system elapsed 
+## 142.076  18.887  75.564
 saveRDS(obj, "step1.rds")
 ```
 
-```{r, echo=F}
+```{r, echo=FALSE}
 obj <- readRDS("step1.rds")
 ```
 

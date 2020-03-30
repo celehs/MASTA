@@ -3,8 +3,9 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   data: data.html
-  example: example.html
-  scalability: scalability.html
+  multicore: multicore.html
+  step1: step1.html
+  step2: step2.html
 urls:
   reference: https://celehs.github.io/PETLER//reference
   article: https://celehs.github.io/PETLER//articles
