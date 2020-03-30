@@ -27,15 +27,48 @@ obj <- readRDS("step1.rds")
 
 We can now run the PETLER algorithm by calling the `petler` function and providing the base object obtained from the previous step. Use `?petler` or click [HERE](https://celehs.github.io/PETLER/reference/petler.html) to view help documentation and configurable arguments.
 
-```{r petler}
-system.time(out <- petler(obj))
-out
+```{r, eval=FALSE}
+system.time(fit <- petler(obj))
+##    user  system elapsed 
+## 292.297   0.338 292.641
 ```
 
-The `petler` function returns the following list of results:
+```{r, eval=FALSE, echo=FALSE}
+saveRDS(fit, "step2.rds")
+```
 
-- `bgbbest_FromChengInit_BFGS` Details of the fitted model
+```{r, echo=FALSE}
+fit <- readRDS("step2.rds")
+```
 
-- `Cstat_BrierSc_ChengInit_BFGS` C-statistics and adjusted Brier scores of the derived algorithm
+```{r, include=FALSE}
+bgbbest <- fit$bgbbest_FromChengInit_BFGS
+colnames(bgbbest)[2] <- "MLE"
+DF.wide <- data.frame(i = 1:nrow(bgbbest), bgbbest)
+DF.wide
+```
 
-- `group` A vector of consecutive integers describing the grouping coefficients
+```{r, fig.width=8, fig.height=6, echo=FALSE}
+library(ggplot2)
+DF.long <- tidyr::gather(DF.wide, key = "type", value = "coef", bgbm.init:BIC.Orig)
+ggplot(DF.long, aes(x = i, y = coef)) + 
+  geom_bar(stat="identity") + 
+  facet_wrap(~ type) + 
+  theme_bw() + xlab("") + ylab("") 
+```
+
+```{r}
+# Details of the fitted model
+fit$bgbbest_FromChengInit_BFGS
+```
+
+```{r}
+# C-statistics and adjusted Brier scores of the derived algorithm
+fit$Cstat_BrierSc_ChengInit_BFGS
+```
+
+```{r}
+# A vector of consecutive integers describing the grouping coefficients
+fit$group
+```
+
