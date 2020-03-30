@@ -15,8 +15,9 @@ knitr::opts_chunk$set(
 options(width=100)
 ```
 
-```{r lib}
+```{r}
 library(PETLER)
+library(ggplot2)
 ```
 
 ```{r}
@@ -30,31 +31,42 @@ colSums(TrainCode[, 4:6])
 ```
 
 ```{r}
-f <- function(code, ngrid = 401) {
+timing <- function(code, ngrid, n_core) {
   x <- seq(0, 1, length.out = ngrid)  
   pred <- TrainCode[[code]]
   TrainNP <- pred[pred > 0] 
-  month <- rep(TrainCode$month, pred)
-  t <- monthstd <- rep(TrainCode$monthstd, pred)
+  t <- rep(TrainCode$monthstd, pred)
   h1 <- bw.nrd(t)
   h2 <- bw.nrd(t)^(5/6)  
-  t1 <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 1))
-  t2 <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 2)) 
-  t4 <- system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = 4)) 
-  elapsed <- cbind(t1, t2, t4)["elapsed", ]
-  names(elapsed) <- c(1, 2, 4)
-  hist(month, xlab = "Time (months)", main = code, las = 1)
-  hist(monthstd, xlab = "Time (standardized)", main = code, las = 1)  
-  barplot(elapsed, col = "lightblue", xlab = "CPU Cores", 
-          ylab = "Seconds", main = code, las = 1)  
-  elapsed
+  system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = n_core))["elapsed"]
 }
 ```
 
-```{r, fig.width=7, fig.height=7}
-par(mfcol = c(3, 3))
-time1 <- f("pred1")
-time2 <- f("pred2")
-time3 <- f("pred3")
-cbind(time1, time2, time3)
+```{r, eval=FALSE}
+DF <- expand.grid(
+  codes = paste0("pred", 1:3), 
+  ngrid =  c(100, 200, 400) + 1, 
+  n_core = c(1, 2, 4),
+  time = NA)
+for (i in 1:nrow(DF))  {
+  code <- as.character(DF$code[i])
+  DF$time[i] <- timing(code, DF$ngrid[i], DF$n_core[i])
+}
+saveRDS(DF, "multicore.rds")
 ```
+
+```{r, echo=FALSE}
+DF <- readRDS("multicore.rds")
+```
+
+```{r, fig.width=7, fig.height=7}
+ggplot(DF, aes(x = factor(n_core), y = time)) + 
+  facet_grid(paste("ngrid =", ngrid) ~ codes) + 
+  geom_bar(stat = "identity") + theme_bw() +
+  xlab("Number of CPU Cores") + ylab("Elapsed Time (seconds)")
+```
+
+```{r}
+DF
+```
+
