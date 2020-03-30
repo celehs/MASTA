@@ -24,13 +24,15 @@ FPC_Kern_S <- function(x, t, N, h1, h2) {
 FPC.Kern.S <- function(x, t, N, h1 = NULL, h2 = NULL, bw = "ucv", nsubs = NULL, n_core = NULL) {
   if (is.null(n_core)) n_core <- parallel::detectCores()
   if (is.null(nsubs)) nsubs <- n_core * 5
-  h <- switch(bw, 
-              "nrd0" = bw.nrd0(t),
-              "nrd" = bw.nrd(t),
-              "ucv" = bw.ucv(t), # leave one out cross validation
-              "bcv" = bw.bcv(t), # biased cross validation            
-              "SJ-ste" = bw.SJ(t, method = "ste"), 
-              "SJ-dpi" = bw.SJ(t, method = "dpi"))
+  if (is.null(h1) | is.null(h2)) {
+    h <- switch(bw, 
+                "nrd0" = bw.nrd0(t),
+                "nrd" = bw.nrd(t),
+                "ucv" = bw.ucv(t), # leave one out cross validation
+                "bcv" = bw.bcv(t), # biased cross validation            
+                "SJ-ste" = bw.SJ(t, method = "ste"), 
+                "SJ-dpi" = bw.SJ(t, method = "dpi"))    
+  }
   if (is.null(h1)) h1 <- h
   if (is.null(h2)) h2 <- h
   n <- length(N)
