@@ -2,7 +2,7 @@
 
 export(FPC.Kern.S)
 export(petler)
-export(petler.base)
+export(petler.fpca)
 import(data.table)
 import(doParallel)
 import(foreach)

@@ -23,14 +23,17 @@ library(PETLER)
 
 Next, we can use the `petler.base` function to create the base functions required to run the PETLER algorithm. By default, you only need to provide data in the list format mentioned above. However, you can view the help documentation (`?petler.base`) or click [HERE](https://celehs.github.io/PETLER/reference/petler.base.html) to customize configurable arguments.
 
-```{r base}
-system.time(obj <- petler.base(data_org))
-names(obj)
-```
+
 
 In order to analyze very large data, the `petler.base` function uses multi-core parallel computing by default.
 
 ## PETLER Output
+
+First, we load the FPCA results from step I. 
+
+```{r}
+obj <- readRDS("step1.rds")
+```
 
 We can now run the PETLER algorithm by calling the `petler` function and providing the base object obtained from the previous step. Use `?petler` or click [HERE](https://celehs.github.io/PETLER/reference/petler.html) to view help documentation and configurable arguments.
 
