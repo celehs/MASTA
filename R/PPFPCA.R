@@ -55,6 +55,36 @@ FPC.Kern.S <- function(x, t, N, h1 = NULL, h2 = NULL, bw = "ucv", nsubs = NULL, 
   list(f_mu = f_mu, G = G)
 }
 
+########################################################################
+############        Predict Scores for New Subjects         ############     
+########################################################################
+### make prediction for patients with or without codes
+PP.FPCA.Pred <- function(t, N, mean.fun, eigen.fun, K, parallel = FALSE) {
+  NZ <- N == 0
+  delta <- mean.fun[2, 1] - mean.fun[1, 1]
+  baseline <- as.numeric(t(eigen.fun[, -1]) %*% mean.fun[, -1] * delta) # second term in xi
+  tmp2 <- apply(eigen.fun[, -1], 2, function(s) approx(x = mean.fun$x, y = s, xout = t)$y) ### check whether we need parallel this
+  indx <- rep(1:length(N[!NZ]), N[!NZ])
+  xi <- -baseline + t(apply(tmp2, 2, FUN = function(x) tapply(x, indx, mean))) # FPC scores, ith column for ith patient
+  if (K == 1) {
+    tmp <- mean.fun[, -1] + outer(eigen.fun[, 2], xi[1, ]) # density functions
+  } else {
+    tmp <- as.numeric(mean.fun[, -1]) + as.matrix(eigen.fun[, 1:K + 1]) %*% xi[1:K, ] # density functions
+  }
+  tmp <- apply(tmp, 2, function(x) {
+    x[x < 0] <- 0 # non-negative
+    x <- x / sum(x) # integrate to delta^2
+    return(x)
+  })
+  tmp <- tmp / delta
+  tmp2 <- {tmp[-c(1:2), ] -tmp[-c(1:2 + length(mean.fun[, 1]) - 2), ]} / diff(mean.fun[, 1], lag = 2)
+  derivatives <- cbind({mean.fun[-c(1:2), 1] + mean.fun[-c(1:2 + length(mean.fun[, 1]) - 2), 1]} / 2, tmp2)
+  list(scores = t(xi), 
+       densities = cbind(mean.fun[, 1], tmp), 
+       derivatives = derivatives, 
+       baseline = baseline)
+}
+
 ######################################################################
 ### Second version of the functional principal component analysis 
 ### on rare events (Wu et al.,	2013). 
@@ -310,33 +340,4 @@ den_locpoly2<-function(t,N){
     L   = W*{t(VTM(S2,nbreak[i]-1))-D*t(VTM(S1,nbreak[i]-1))}/t(VTM(S0*S2-S1^2,nbreak[i]-1))
     return(L%*%f_H)
   })
-}
-
-########################################################################
-############        Predict Scores for New Subjects         ############     
-########################################################################
-### make prediction for patients with or without codes
-PP.FPCA.Pred <- function(t, N, mean.fun, eigen.fun, K, parallel = FALSE){
-  NZ <- N == 0
-  delta <- mean.fun[2, 1] - mean.fun[1, 1]
-  baseline <- as.numeric(t(eigen.fun[, -1]) %*% mean.fun[, -1] * delta) # second term in xi
-  tmp2 <- apply(eigen.fun[, -1], 2, function(s) approx(x = mean.fun$x, y = s, xout = t)$y) ### check whether we need parallel this
-  indx <- rep(1:length(N[!NZ]), N[!NZ])
-  xi <- -baseline + t(apply(tmp2, 2, FUN = function(x) tapply(x, indx, mean))) # FPC scores, ith column for ith patient
-  if (K == 1) {
-    tmp <- mean.fun[, -1] + outer(eigen.fun[, 2], xi[1, ]) # density functions
-  } else {
-    tmp <- as.numeric(mean.fun[, -1]) + as.matrix(eigen.fun[, 1:K+1]) %*% xi[1:K, ] # density functions
-  }
-  tmp <- apply(tmp, 2, function(x) {
-    x[x < 0] <- 0 # non-negative
-    x <- x / sum(x) # integrate to delta^2
-    return(x)
-  })
-  tmp <- tmp / delta
-  tmp2 <- {tmp[-c(1:2), ] -tmp[-c(1:2 + length(mean.fun[, 1]) - 2), ]} / diff(mean.fun[, 1], lag = 2) 
-  list(scores = t(xi), 
-       densities = cbind(mean.fun[, 1], tmp), 
-       derivatives = cbind({mean.fun[-c(1:2), 1] + mean.fun[-c(1:2 + length(mean.fun[, 1]) - 2), 1]} / 2, tmp2), 
-       baseline = baseline)
 }
