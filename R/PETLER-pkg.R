@@ -137,7 +137,6 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     t1 <- t1[!is.na(t1)]
     tmp <- PP.FPCA.Pred(t, ValidNP, mean.fun[[i]], basis.fun[[i]], K[i])
     FPCA[[i]]$ValidPred <- tmp
-    # rownames(FPCA[[i]]$ValidPred$scores) <- unique(ValidCode[ValidCode[] > 0, 1])
     ft.e.tmp <- cbind(matrix(ValidFU, nrow = length(ValidFU), ncol = 3), -tmp$baseline[1], log(1 + ValidN[, i + 1]))
     nns <- sum(tmp2)
     ft.e.tmp[tmp2, 1] <- t1
