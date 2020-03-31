@@ -86,28 +86,50 @@
 
     
     
-<p>In step I, a functional PCA (<a href="https://doi.org/10.5705/ss.2010.162">Wu et al. 2013</a>) is first applied to estimate the mean density functions using longitudinal encounter data.</p>
+<p>In step I, we use the <code>petler.fpca</code> function to perform a functional PCA (<a href="https://doi.org/10.5705/ss.2010.162">Wu et al. 2013</a>), which is used to estimate the mean density functions (and covariance functions) using longitudinal encounter data.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PETLER)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/petler.fpca.html">petler.fpca</a></span>(data_org))</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">##    user  system elapsed </span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## 142.076  18.887  75.564</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span>(obj, <span class="st">"step1.rds"</span>) <span class="co"># save results for step II</span></a></code></pre></div>
+<div id="estimated-mean-density" class="section level2">
+<h2 class="hasAnchor">
+<a href="#estimated-mean-density" class="anchor"></a>Estimated Mean Density</h2>
 <p><img src="step1_files/figure-html/unnamed-chunk-3-1.png" width="864"></p>
-<p>The estimated mean density functions (and covariance functions) from FPCA are then used to obtain subject-specific densities, from which features will be extracted. Important features may include</p>
+</div>
+<div id="subject-specific-densities" class="section level2">
+<h2 class="hasAnchor">
+<a href="#subject-specific-densities" class="anchor"></a>Subject-Specific Densities</h2>
+<p>The estimated mean density functions (and covariance functions) from FPCA are then used to obtain subject-specific densities, from which features will be extracted. I</p>
+<p><img src="step1_files/figure-html/unnamed-chunk-6-1.png" width="864"><img src="step1_files/figure-html/unnamed-chunk-6-2.png" width="864"><img src="step1_files/figure-html/unnamed-chunk-6-3.png" width="864"></p>
+</div>
+<div id="feature-extraction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#feature-extraction" class="anchor"></a>Feature Extraction</h2>
+<p>Important features from subject-specific densities and FPCA may include:</p>
 <ul>
 <li><p>first code time (1stCode)</p></li>
 <li><p>peak time (Pk)</p></li>
 <li><p>change point time (ChP)</p></li>
-<li><p>first functional principal component score (1stScore)</p></li>
+<li><p>first functional PC score (1stScore)</p></li>
 <li><p>log of total number of codes (logN)</p></li>
 </ul>
 <p>The extracted features are saved in <code>step1.rds</code> and will be used in step II of the PETLER algorithm.</p>
-<p><img src="step1_files/figure-html/unnamed-chunk-6-1.png" width="864"><img src="step1_files/figure-html/unnamed-chunk-6-2.png" width="864"><img src="step1_files/figure-html/unnamed-chunk-6-3.png" width="864"></p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#estimated-mean-density">Estimated Mean Density</a></li>
+      <li><a href="#subject-specific-densities">Subject-Specific Densities</a></li>
+      <li><a href="#feature-extraction">Feature Extraction</a></li>
+      </ul>
+</div>
       </div>
 
 </div>

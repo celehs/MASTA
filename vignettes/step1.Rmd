@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 options(width=100)
 ```
 
-In step I, a functional PCA ([Wu et al. 2013](https://doi.org/10.5705/ss.2010.162)) is first applied to estimate the mean density functions using longitudinal encounter data. 
+In step I, we use the `petler.fpca` function to perform a functional PCA ([Wu et al. 2013](https://doi.org/10.5705/ss.2010.162)), which is used to estimate the mean density functions (and covariance functions) using longitudinal encounter data. 
 
 ```{r lib}
 library(PETLER)
@@ -43,6 +43,8 @@ DF.d <- rbind(
   cbind(code = "pred2", obj$FPCA$pred2$mean),
   cbind(code = "pred3", obj$FPCA$pred3$mean))
 ```
+
+## Estimated Mean Density
 
 ```{r, fig.width=9, fig.height=3, echo=FALSE}
 library(ggplot2)
@@ -84,7 +86,19 @@ f <- function(k) {
 }
 ```
 
-The estimated mean density functions (and covariance functions) from FPCA are then used to obtain subject-specific densities, from which features will be extracted. Important features may include
+## Subject-Specific Densities
+
+The estimated mean density functions (and covariance functions) from FPCA are then used to obtain subject-specific densities, from which features will be extracted. I
+
+```{r, fig.width=9, fig.height=3, echo=FALSE}
+f(1)
+f(2)
+f(3)
+```
+
+## Feature Extraction
+
+Important features from subject-specific densities and FPCA may include:
 
 - first code time (1stCode)
 
@@ -92,14 +106,8 @@ The estimated mean density functions (and covariance functions) from FPCA are th
 
 - change point time (ChP)
 
-- first functional principal component score (1stScore)
+- first functional PC score (1stScore)
 
 - log of total number of codes (logN) 
 
 The extracted features are saved in `step1.rds` and will be used in step II of the PETLER algorithm.
-
-```{r, fig.width=9, fig.height=3, echo=FALSE}
-f(1)
-f(2)
-f(3)
-```
