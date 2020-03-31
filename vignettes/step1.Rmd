@@ -88,7 +88,7 @@ f <- function(k) {
 
 ## Subject-Specific Densities
 
-The estimated mean density functions (and covariance functions) from FPCA are then used to obtain subject-specific densities, from which features will be extracted. I
+The estimated mean density functions (and covariance functions) from FPCA are then used to obtain subject-specific densities, from which features will be extracted.
 
 ```{r, fig.width=9, fig.height=3, echo=FALSE}
 f(1)
