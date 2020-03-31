@@ -22,10 +22,12 @@ PP.FPCA.Pred <- function(t, N, mean.fun, eigen.fun, K) {
   tmp <- tmp / delta
   tmp2 <- {tmp[-c(1:2), ] -tmp[-c(1:2 + length(mean.fun[, 1]) - 2), ]} / diff(mean.fun[, 1], lag = 2)
   derivatives <- cbind({mean.fun[-c(1:2), 1] + mean.fun[-c(1:2 + length(mean.fun[, 1]) - 2), 1]} / 2, tmp2)
-  colnames(xi) <- colnames(densities)[-1] <- colnames(derivatives)[-1] <- names(N)
-  list(scores = t(xi), 
-       densities = cbind(mean.fun[, 1], tmp), 
-       derivatives = derivatives, 
+  scores <- t(xi)
+  densities <- cbind(mean.fun[, 1], tmp)  
+  rownames(scores) <- colnames(densities)[-1] <- colnames(derivatives)[-1] <- names(N)
+  list(scores = scores,
+       densities = densities,
+       derivatives = derivatives,
        baseline = baseline)
 }
 
