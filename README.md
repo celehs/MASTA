@@ -1,7 +1,6 @@
-**Predicting Event Time with Longitudinal Encounter Records**
+__Predicting Event Time with Longitudinal Encounter Records__
 
-Overview
---------
+## Overview
 
 Large clinical datasets derived from insurance claims and electronic
 health record (EHR) systems are valuable sources for precision medicine
@@ -22,8 +21,7 @@ fit a penalized proportional odds model to the event time outcomes with
 features derived in step I in the labeled data where the non-parametric
 baseline function is approximated using B-splines.
 
-Installation
-------------
+## Installation
 
 Install development version from GitHub.
 
@@ -38,25 +36,18 @@ Load the package into R.
 library(PETLER)
 ```
 
-Getting Started
----------------
+## Getting Started
 
-- Input Data <https://celehs.github.io/PETLER/articles/data.html>
+- [Input Data for the PETLER Algorithm](https://celehs.github.io/PETLER/articles/data.html)
 
-- Step I: Feature Extraction <https://celehs.github.io/PETLER/articles/step1.html>
+- [Step I: Feature Extraction with Functional PCA](https://celehs.github.io/PETLER/articles/step1.html)
 
-- Step II: Model Estimation <https://celehs.github.io/PETLER/articles/step2.html>
+- [Step II: PO Model Estimation with B-Splines](https://celehs.github.io/PETLER/articles/step2.html)
 
-- Multicore Computing <https://celehs.github.io/PETLER/articles/multicore.html>
+- [Multicore Parallel Computing](https://celehs.github.io/PETLER/articles/multicore.html)
 
-- Reference <https://celehs.github.io/PETLER/reference/index.html>
+## References
 
-References
-----------
+- Liang, L., Uno, H., Ma, Y., Cai, T. __Robust Approach to Event Time Annotation Using Longitudinal Medical Encounters__. _Working Paper_.
 
--   Liang, L., Uno, H., Ma, Y., Cai, T. **Robust Approach to Event Time
-    Annotation Using Longitudinal Medical Encounters**. *Working Paper*.
-
--   Wu, S., Müller, H., Zhang, Z. (2013). **Functional Data Analysis for
-    Point Processes with Rare Events**. *Statistica Sinica*, 23:1-23.
-    <a href="https://doi.org/10.5705/ss.2010.162" class="uri">https://doi.org/10.5705/ss.2010.162</a>
+- Wu, S., Müller, H., Zhang, Z. (2013). __Functional Data Analysis for Point Processes with Rare Events__. _Statistica Sinica_, 23:1-23. <https://doi.org/10.5705/ss.2010.162>

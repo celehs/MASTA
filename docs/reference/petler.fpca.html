@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Functional PCA for PETLER — petler.fpca • PETLER</title>
+<title>Functional Principal Component Analysis (FPCA) — petler.fpca • PETLER</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Functional PCA for PETLER — petler.fpca" />
-<meta property="og:description" content="Function used to create base functions for the PETLER algorithm." />
+<meta property="og:title" content="Functional Principal Component Analysis (FPCA) — petler.fpca" />
+<meta property="og:description" content="Performs FPCA to extract features from longitudinal encounter data." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,13 +114,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Functional PCA for PETLER</h1>
-    <small class="dont-index">Source: <a href='https://github.com/celehs/PETLER/blob/master/R/PETLER-pkg.R'><code>R/PETLER-pkg.R</code></a></small>
+    <h1>Functional Principal Component Analysis (FPCA)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/celehs/PETLER/blob/master/R/petler-fpca.R'><code>R/petler-fpca.R</code></a></small>
     <div class="hidden name"><code>petler.fpca.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function used to create base functions for the PETLER algorithm.</p>
+    <p>Performs FPCA to extract features from longitudinal encounter data.</p>
     </div>
 
     <pre class="usage"><span class='fu'>petler.fpca</span>(<span class='no'>data</span>, <span class='kw'>PPIC_K</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>n.grid</span> <span class='kw'>=</span> <span class='fl'>401</span>, <span class='kw'>propvar</span> <span class='kw'>=</span> <span class='fl'>0.85</span>, <span class='kw'>n_core</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -130,7 +130,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>input data used to create base. See <code><a href='https://rdrr.io/r/utils/data.html'>data(data_org)</a></code> for example.</p></td>
+      <td><p>input data. See <code><a href='https://rdrr.io/r/utils/data.html'>data(data_org)</a></code> for example.</p></td>
     </tr>
     <tr>
       <th>PPIC_K</th>
