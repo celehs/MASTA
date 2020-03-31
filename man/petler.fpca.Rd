@@ -2,12 +2,12 @@
 % Please edit documentation in R/PETLER-pkg.R
 \name{petler.fpca}
 \alias{petler.fpca}
-\title{Functional PCA for PETLER}
+\title{Functional Principal Component Analysis (FPCA)}
 \usage{
 petler.fpca(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = NULL)
 }
 \arguments{
-\item{data}{input data used to create base. See \code{data(data_org)} for example.}
+\item{data}{input data. See \code{data(data_org)} for example.}
 
 \item{PPIC_K}{a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
 the number of principal components K (K.select="PPIC") \code{TRUE} or another criterion to choose 
@@ -20,5 +20,5 @@ K (K.select="PropVar") \code{FALSE} in the PP_FPCA_Parallel function (hidden). D
 \item{n_core}{an integer to specify the number of core using for parallel computing.}
 }
 \description{
-Function used to create base functions for the PETLER algorithm.
+Performs FPCA to extract features from longitudinal encounter data.
 }

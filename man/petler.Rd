@@ -14,7 +14,7 @@ petler(
 )
 }
 \arguments{
-\item{object}{results returned by the \code{petler.base} function}
+\item{object}{results returned by the \code{petler.fpca} function}
 
 \item{cov_group}{a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.}
 
