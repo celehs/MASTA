@@ -86,45 +86,24 @@
 
     
     
+<p>In step I, a functional PCA (<a href="https://doi.org/10.5705/ss.2010.162">Wu et al. 2013</a>) is first applied to estimate the mean density functions using longitudinal encounter data.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PETLER)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">data_org[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TrainCode"</span>, <span class="st">"ValidCode"</span>)]</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">## $TrainCode</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">##            id  fu_time month pred1 pred2 pred3</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">##      1:     1 49.41273     0     0     0     0</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">##      2:     1 49.41273     1     0     0     0</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">##      3:     1 49.41273     2     0     0     0</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">##      4:     1 49.41273     3     0     0     0</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">##      5:     1 49.41273     4     0     0     0</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">##     ---                                       </span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">## 810620: 20600 24.70637    20     0     0     0</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">## 810621: 20600 24.70637    21     0     0     0</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">## 810622: 20600 24.70637    22     0     0     0</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">## 810623: 20600 24.70637    23     0     0     1</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">## 810624: 20600 24.70637    24     0     0     2</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">## </span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">## $ValidCode</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">##           id  fu_time month pred1 pred2 pred3</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">##     1: 90001 71.72074     0     0     0     0</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">##     2: 90001 71.72074     1     0     0     0</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">##     3: 90001 71.72074     2     0     0     0</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">##     4: 90001 71.72074     3     0     0     0</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">##     5: 90001 71.72074     4     0     0     0</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">##    ---                                       </span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">## 20764: 90500 29.30595    25     0     0     0</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">## 20765: 90500 29.30595    26     0     0     0</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">## 20766: 90500 29.30595    27     0     0     0</span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">## 20767: 90500 29.30595    28     0     0     0</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">## 20768: 90500 29.30595    29     0     0     0</span></a></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/petler.fpca.html">petler.fpca</a></span>(data_org))</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">##    user  system elapsed </span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">## 142.076  18.887  75.564</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span>(obj, <span class="st">"step1.rds"</span>)</a></code></pre></div>
-<p>Estimated mean density function using longitudinal encounter data.</p>
-<p><img src="step1_files/figure-html/unnamed-chunk-4-1.png" width="864"></p>
-<p>Estimated subject-specific densities for 3 patients from the validation set.</p>
-<p><img src="step1_files/figure-html/unnamed-chunk-7-1.png" width="864"><img src="step1_files/figure-html/unnamed-chunk-7-2.png" width="864"><img src="step1_files/figure-html/unnamed-chunk-7-3.png" width="864"></p>
-<p>…</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/petler.fpca.html">petler.fpca</a></span>(data_org))</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">##    user  system elapsed </span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## 142.076  18.887  75.564</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span>(obj, <span class="st">"step1.rds"</span>) <span class="co"># save results for step II</span></a></code></pre></div>
+<p><img src="step1_files/figure-html/unnamed-chunk-3-1.png" width="864"></p>
+<p>The estimated mean density functions (and covariance functions) from FPCA are then used to obtain subject-specific densities, from which features will be extracted. Important features may include</p>
+<ul>
+<li><p>first code time (1stCode)</p></li>
+<li><p>peak time (Pk)</p></li>
+<li><p>change point time (ChP)</p></li>
+<li><p>first functional principal component score (1stScore)</p></li>
+<li><p>log of total number of codes (logN)</p></li>
+</ul>
+<p>The extracted features are saved in <code>step1.rds</code> and will be used in step II of the PETLER algorithm.</p>
+<p><img src="step1_files/figure-html/unnamed-chunk-6-1.png" width="864"><img src="step1_files/figure-html/unnamed-chunk-6-2.png" width="864"><img src="step1_files/figure-html/unnamed-chunk-6-3.png" width="864"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

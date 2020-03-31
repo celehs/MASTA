@@ -14,19 +14,17 @@ knitr::opts_chunk$set(
 options(width=100)
 ```
 
+In step I, a functional PCA ([Wu et al. 2013](https://doi.org/10.5705/ss.2010.162)) is first applied to estimate the mean density functions using longitudinal encounter data. 
+
 ```{r lib}
 library(PETLER)
-```
-
-```{r}
-data_org[c("TrainCode", "ValidCode")]
 ```
 
 ```{r fpca, eval=FALSE}
 system.time(obj <- petler.fpca(data_org))
 ##    user  system elapsed 
 ## 142.076  18.887  75.564
-saveRDS(obj, "step1.rds")
+saveRDS(obj, "step1.rds") # save results for step II
 ```
 
 ```{r, echo=FALSE}
@@ -45,8 +43,6 @@ DF.d <- rbind(
   cbind(code = "pred2", obj$FPCA$pred2$mean),
   cbind(code = "pred3", obj$FPCA$pred3$mean))
 ```
-
-Estimated mean density function using longitudinal encounter data.
 
 ```{r, fig.width=9, fig.height=3, echo=FALSE}
 library(ggplot2)
@@ -88,12 +84,22 @@ f <- function(k) {
 }
 ```
 
-Estimated subject-specific densities for 3 patients from the validation set.
+The estimated mean density functions (and covariance functions) from FPCA are then used to obtain subject-specific densities, from which features will be extracted. Important features may include
+
+- first code time (1stCode)
+
+- peak time (Pk)
+
+- change point time (ChP)
+
+- first functional principal component score (1stScore)
+
+- log of total number of codes (logN) 
+
+The extracted features are saved in `step1.rds` and will be used in step II of the PETLER algorithm.
 
 ```{r, fig.width=9, fig.height=3, echo=FALSE}
 f(1)
 f(2)
 f(3)
 ```
-
-...
