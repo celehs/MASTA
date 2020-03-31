@@ -38,8 +38,6 @@ Load the package into R.
 library(PETLER)
 ```
 
-    ## Loading required package: survival
-    
 Getting Started
 ---------------
 
