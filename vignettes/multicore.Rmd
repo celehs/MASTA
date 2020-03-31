@@ -26,10 +26,14 @@ TrainCode
 ```
 
 ```{r}
-colSums(TrainCode[, 4:6])
+# non-zero
+NZ <- TrainCode[, 4:6] != 0
+nz.pct <- round(colMeans(NZ) * 100)
+data.frame(nz = colSums(NZ), 
+           nz.pct = paste0(nz.pct, "%"))
 ```
 
-```{r}
+```{r, echo=FALSE}
 timing <- function(code, ngrid, n_core) {
   x <- seq(0, 1, length.out = ngrid)  
   pred <- TrainCode[[code]]
@@ -39,9 +43,7 @@ timing <- function(code, ngrid, n_core) {
   h2 <- bw.nrd(t)^(5/6)  
   system.time(FPC.Kern.S(x, t, TrainNP, h1, h2, n_core = n_core))["elapsed"]
 }
-```
 
-```{r}
 # timing(code = "pred1", ngrid = 101, n_core = 4)
 ```
 
