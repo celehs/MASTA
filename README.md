@@ -45,9 +45,9 @@ Getting Started
 
 - Input Data <https://celehs.github.io/PETLER/articles/data.html>
 
-- Step I: Functional PCA <https://celehs.github.io/PETLER/articles/step1.html>
+- Step I: Feature Extraction <https://celehs.github.io/PETLER/articles/step1.html>
 
-- Step II: Model Fitting <https://celehs.github.io/PETLER/articles/step2.html>
+- Step II: Model Estimation <https://celehs.github.io/PETLER/articles/step2.html>
 
 - Multicore Computing <https://celehs.github.io/PETLER/articles/multicore.html>
 

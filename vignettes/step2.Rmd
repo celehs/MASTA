@@ -1,5 +1,5 @@
 ---
-title: "Step II: Model Fitting"
+title: "Step II: Model Estimation"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{example}
