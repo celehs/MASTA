@@ -9,11 +9,13 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  eval = TRUE,
+  echo = TRUE,
   collapse = TRUE
 )
 options(width=100)
 ```
+
+The step I of the PETLER algorithm involves calculating the mean density function and covariance functions from large unlabeled data. To accelerate this calculation, we have implemented a fast and memory-efficient approach via multicore parallel computing. 
 
 ```{r}
 library(PETLER)
@@ -21,9 +23,11 @@ library(PETLER)
 
 ```{r}
 TrainCode <- data_org$TrainCode
-TrainCode[, monthstd := month / fu_time]  
+TrainCode[, monthstd := month / fu_time]  # standardized time (range: 0-1)
 TrainCode
 ```
+
+In the demo, the `TrainCode` data is used in the FPCA step and it contains longitudinal encounter records for 20,600 patients (20,000 unlabeled & 600 labeled).
 
 ```{r}
 # non-zero
@@ -63,6 +67,8 @@ saveRDS(DF, "multicore.rds")
 ```{r, echo=FALSE}
 DF <- readRDS("multicore.rds")
 ```
+
+The figure below shows the elapsed time (in seconds) for three event codes under different settings. Even for `ngrid` = 401, the elapsed time is less than one minute for each setting. The linear scalability allows the PETLER algorithm to be feasible even in studies with very large unlabeled data.
 
 ```{r, fig.width=7, fig.height=7, echo=FALSE}
 library(ggplot2)

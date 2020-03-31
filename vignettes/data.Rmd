@@ -49,7 +49,7 @@ library(PETLER)
 ?data_org # view data documentation
 ```
 
-`data_org` is a list with four data tables.
+`data_org` is a list with four components.
 
 ```{r}
 str(data_org)

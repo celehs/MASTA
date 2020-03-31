@@ -86,10 +86,11 @@
 
     
     
+<p>The step I of the PETLER algorithm involves calculating the mean density function and covariance functions from large unlabeled data. To accelerate this calculation, we have implemented a fast and memory-efficient approach via multicore parallel computing.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PETLER)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">TrainCode &lt;-<span class="st"> </span>data_org<span class="op">$</span>TrainCode</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">TrainCode[, monthstd <span class="op">:</span><span class="er">=</span><span class="st"> </span>month <span class="op">/</span><span class="st"> </span>fu_time]  </a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">TrainCode[, monthstd <span class="op">:</span><span class="er">=</span><span class="st"> </span>month <span class="op">/</span><span class="st"> </span>fu_time]  <span class="co"># standardized time (range: 0-1)</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">TrainCode</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">##            id  fu_time month pred1 pred2 pred3  monthstd</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">##      1:     1 49.41273     0     0     0     0 0.0000000</span></a>
@@ -103,6 +104,7 @@
 <a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">## 810622: 20600 24.70637    22     0     0     0 0.8904588</span></a>
 <a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">## 810623: 20600 24.70637    23     0     0     1 0.9309342</span></a>
 <a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">## 810624: 20600 24.70637    24     0     0     2 0.9714096</span></a></code></pre></div>
+<p>In the demo, the <code>TrainCode</code> data is used in the FPCA step and it contains longitudinal encounter records for 20,600 patients (20,000 unlabeled &amp; 600 labeled).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># non-zero</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">NZ &lt;-<span class="st"> </span>TrainCode[, <span class="dv">4</span><span class="op">:</span><span class="dv">6</span>] <span class="op">!=</span><span class="st"> </span><span class="dv">0</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">nz.pct &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>(NZ) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a>
@@ -112,6 +114,7 @@
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">## pred1 72917     9%</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">## pred2 57210     7%</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">## pred3 13896     2%</span></a></code></pre></div>
+<p>The figure below shows the elapsed time (in seconds) for three event codes under different settings. Even for <code>ngrid</code> = 401, the elapsed time is less than one minute for each setting. The linear scalability allows the PETLER algorithm to be feasible even in studies with very large unlabeled data.</p>
 <p><img src="multicore_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
   </div>
 

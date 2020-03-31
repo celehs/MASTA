@@ -86,16 +86,23 @@
 
     
     
+<p>In step II, we use the <code>petler.fit</code> function to fit penalized proportional odds (PO) models to the labeled time-to-event data with features derived in step I. When fitting the penalized PO models, the non-parametric baseline function is approximated using B-splines.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PETLER)</a></code></pre></div>
 <pre><code>## Loading required package: survival</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">obj &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="st">"step1.rds"</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/petler.fit.html">petler.fit</a></span>(obj))</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">##    user  system elapsed </span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">## 292.297   0.338 292.641</span></a></code></pre></div>
+<p>The output from the <code>petler.fit</code> function is a list with components:</p>
+<ul>
+<li><p>details of the fitted model</p></li>
+<li><p>C-statistics and adjusted Brier scores of the derived algorithm</p></li>
+<li><p>A vector of consecutive integers describing the grouping coefficients</p></li>
+</ul>
 <p><img src="step2_files/figure-html/unnamed-chunk-6-1.png" width="768"></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Details of the fitted model</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">fit<span class="op">$</span>bgbbest_FromChengInit_BFGS</a></code></pre></div>
-<pre><code>##         bgbm.init                       AIC          BIC     AIC.Orig     BIC.Orig
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">fit</a></code></pre></div>
+<pre><code>## $bgbbest_FromChengInit_BFGS
+##         bgbm.init                       AIC          BIC     AIC.Orig     BIC.Orig
 ##  [1,] -9.87969646 -10.79691085 -10.79692434 -10.75794193 -10.79692434 -10.75794193
 ##  [2,]  4.48177317   5.03813484   5.03814476   5.07330249   5.03814476   5.07330249
 ##  [3,]  4.65342077   5.69122756   5.69124364   5.75081603   5.69124364   5.75081603
@@ -119,18 +126,18 @@
 ## [21,]  0.39186037   0.41746933   0.41746467   0.00000000   0.41746467   0.00000000
 ## [22,] -0.04727369   0.04416269   0.04413554   0.00000000   0.04413554   0.00000000
 ## [23,]  1.89311596   2.22704509   2.22702315   2.20661049   2.22702315   2.20661049
-## [24,] -0.53044488  -1.67591615  -1.67587577  -1.69728793  -1.67587577  -1.69728793</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># C-statistics and adjusted Brier scores of the derived algorithm</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">fit<span class="op">$</span>Cstat_BrierSc_ChengInit_BFGS</a></code></pre></div>
-<pre><code>##                  Init       MLE       AIC       BIC  AIC.Orig  BIC.Orig     Cheng     NPMLE
+## [24,] -0.53044488  -1.67591615  -1.67587577  -1.69728793  -1.67587577  -1.69728793
+## 
+## $Cstat_BrierSc_ChengInit_BFGS
+##                  Init       MLE       AIC       BIC  AIC.Orig  BIC.Orig     Cheng     NPMLE
 ## Cstat       0.8579176 0.8546181 0.8546181 0.8454540 0.8546181 0.8454540 0.8579176 0.8742679
 ## BrierSc.Adj 0.2511846 0.4292311 0.4292281 0.4146351 0.4292281 0.4146351 0.2514408 0.4401724
 ##                TreeTN      TreeAll      logi
 ## Cstat       0.8471663  0.844511944 0.8578160
-## BrierSc.Adj 0.1459797 -0.009839582 0.2137836</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># A vector of consecutive integers describing the grouping coefficients</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">fit<span class="op">$</span>group</a></code></pre></div>
-<pre><code>##  [1] 1 2 3 4 4 4 4 5 5 5 5 6 6</code></pre>
+## BrierSc.Adj 0.1459797 -0.009839582 0.2137836
+## 
+## $group
+##  [1] 1 2 3 4 4 4 4 5 5 5 5 6 6</code></pre>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

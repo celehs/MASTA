@@ -11,6 +11,8 @@ vignette: >
 options(width=100)
 ```
 
+In step II, we use the `petler.fit` function to fit penalized proportional odds (PO) models to the labeled time-to-event data with features derived in step I. When fitting the penalized PO models, the non-parametric baseline function is approximated using B-splines.
+
 ```{r lib}
 library(PETLER)
 ```
@@ -40,6 +42,14 @@ DF.wide <- data.frame(i = 1:nrow(bgbbest), bgbbest)
 DF.wide
 ```
 
+The output from the `petler.fit` function is a list with components: 
+
+- details of the fitted model
+
+- C-statistics and adjusted Brier scores of the derived algorithm
+
+- A vector of consecutive integers describing the grouping coefficients
+
 ```{r, fig.width=8, fig.height=6, echo=FALSE}
 library(ggplot2)
 DF.long <- tidyr::gather(DF.wide, key = "type", value = "coef", bgbm.init:BIC.Orig)
@@ -50,16 +60,5 @@ ggplot(DF.long, aes(x = i, y = coef)) +
 ```
 
 ```{r}
-# Details of the fitted model
-fit$bgbbest_FromChengInit_BFGS
-```
-
-```{r}
-# C-statistics and adjusted Brier scores of the derived algorithm
-fit$Cstat_BrierSc_ChengInit_BFGS
-```
-
-```{r}
-# A vector of consecutive integers describing the grouping coefficients
-fit$group
+fit
 ```
