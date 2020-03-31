@@ -18,7 +18,9 @@ options(width=100)
 library(PETLER)
 ```
 
-We can use the `petler.fpca` function to create the base functions required to run the PETLER algorithm. By default, you only need to provide data in the list format mentioned above. However, you can view the help documentation (`?petler.fpca`) or click [HERE](https://celehs.github.io/PETLER/reference/petler.fpca.html) to customize configurable arguments.
+```{r}
+data_org[c("TrainCode", "ValidCode")]
+```
 
 ```{r fpca, eval=FALSE}
 system.time(obj <- petler.fpca(data_org))
@@ -43,6 +45,8 @@ DF.d <- rbind(
   cbind(code = "pred2", obj$FPCA$pred2$mean),
   cbind(code = "pred3", obj$FPCA$pred3$mean))
 ```
+
+Estimated mean density function using longitudinal encounter data.
 
 ```{r, fig.width=9, fig.height=3, echo=FALSE}
 library(ggplot2)
@@ -84,7 +88,7 @@ f <- function(k) {
 }
 ```
 
-Subject-specific densities
+Estimated subject-specific densities for 3 patients from the validation set.
 
 ```{r, fig.width=9, fig.height=3, echo=FALSE}
 f(1)

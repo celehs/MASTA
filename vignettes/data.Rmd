@@ -33,14 +33,14 @@ digraph flowchart {
 ")
 ```
 
-The first two data tables consists of labeled training and validation data with survival outcome (`event_ind`, `event_time`, `fu_time`) and baseline covariates (`cov_1`-`cov_3`).
-
 ```{r}
-PETLER::data_org[1:2]
+library(PETLER)
 ```
 
-The first two data tables consists of training and validation longitudinal encounters. `fu_time` is the length of follow-up time and `pred1`-`pred3` are the numbers of medical occurrences in each month (from baseline). Before running the PETLER algorithm, the variable `month` will be standarzied (internally) by the follow-up time to ensure the standarzied time is between 0 and 1 for all patients. 
+```{r}
+data_org[c("TrainCode", "ValidCode")]
+```
 
 ```{r}
-PETLER::data_org[3:4]
+data_org[c("TrainSurv", "ValidSurv")]
 ```
