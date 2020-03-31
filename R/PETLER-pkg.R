@@ -56,8 +56,8 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
   #--TRAINING---
   K <- NULL
   ft.e <- ft.e.S <- PKTS <- NULL
-  fpca <- vector("list", length(codes))
-  names(fpca) <- codes
+  FPCA <- vector("list", length(codes))
+  names(FPCA) <- codes
   for(i in seq_along(codes)) {
     # cat(i,"\n")
     tmp2 <- TrainN[, i + 1] > 0
@@ -97,7 +97,7 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     ft.e.S.tmp[tmp2, 2:5] <- as.matrix(tmp$scores[, 2:5])
     ft.e.S <- cbind(ft.e.S, ft.e.S.tmp)
     K <- c(K, tmp$K)    
-    fpca[[i]] <- list(K = tmp$K,
+    FPCA[[i]] <- list(K = tmp$K,
                       scores = tmp$scores, 
                       dens = tmp$densities, 
                       deriv = tmp$derivatives,
@@ -135,8 +135,7 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     t1 <- tapply(tmp[, 2], factor(tmp[, 1], levels = ValidPatNum), FUN = min)
     t1 <- t1[!is.na(t1)]
     tmp <- PP.FPCA.Pred(t, ValidNP, mean.fun[[i]], basis.fun[[i]], K[i])
-    fpca[[i]]$ValidPred <- tmp
-    rownames(fpca[[i]]$ValidPred$scores) <- unique(ValidCode[[1]][ValidCode[[codes[i]]] > 0])
+    FPCA[[i]]$ValidPred <- tmp
     ft.e.tmp <- cbind(matrix(ValidFU, nrow = length(ValidFU), ncol = 3), -tmp$baseline[1], log(1 + ValidN[, i + 1]))
     nns <- sum(tmp2)
     ft.e.tmp[tmp2, 1] <- t1
@@ -177,7 +176,7 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
        ValidPK = ValidPK,
        TrainSc = TrainSc,
        ValidSc = ValidSc,
-       fpca = fpca)
+       FPCA = FPCA)
 }
 
 #' @title Main function implementing the PETLER algorithm
