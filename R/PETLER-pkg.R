@@ -174,6 +174,7 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
        ValidPK = ValidPK,
        TrainSc = TrainSc,
        ValidSc = ValidSc,
+       K = K,
        base = base)
 }
 
