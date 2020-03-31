@@ -34,8 +34,8 @@ digraph flowchart {
 [1]: 'Input Data'
 [2]: 'Labeled (n = 1,100)'
 [3]: 'Unlabeled (N = 20,000)'
-[4]: 'Training (n1 = 600)'
-[5]: 'Validation (n2 = 500)'
+[4]: 'Training (600)'
+[5]: 'Validation (500)'
 ")
 ```
 
