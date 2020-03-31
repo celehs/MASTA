@@ -12,9 +12,9 @@
 #' coef cor density dnorm glm knots median optim optimize prcomp predict quantile runif sd stepfun uniroot var
 NULL
 
-#' @title Functional PCA for PETLER
-#' @description Function used to create base functions for the PETLER algorithm.
-#' @param data input data used to create base. See \code{data(data_org)} for example.
+#' @title Functional Principal Component Analysis (FPCA)
+#' @description Performs FPCA to extract features from longitudinal encounter data.
+#' @param data input data. See \code{data(data_org)} for example.
 #' @param PPIC_K a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose 
 #' the number of principal components K (K.select="PPIC") \code{TRUE} or another criterion to choose 
 #' K (K.select="PropVar") \code{FALSE} in the PP_FPCA_Parallel function (hidden). Default is \code{FALSE}.
@@ -56,8 +56,8 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
   #--TRAINING---
   K <- NULL
   ft.e <- ft.e.S <- PKTS <- NULL
-  base <- vector("list", length(codes))
-  names(base) <- codes
+  fpca <- vector("list", length(codes))
+  names(fpca) <- codes
   for(i in seq_along(codes)) {
     # cat(i,"\n")
     tmp2 <- TrainN[, i + 1] > 0
@@ -97,7 +97,8 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     ft.e.S.tmp[tmp2, 2:5] <- as.matrix(tmp$scores[, 2:5])
     ft.e.S <- cbind(ft.e.S, ft.e.S.tmp)
     K <- c(K, tmp$K)    
-    base[[i]] <- list(scores = tmp$scores, 
+    fpca[[i]] <- list(K = tmp$K,
+                      scores = tmp$scores, 
                       dens = tmp$densities, 
                       deriv = tmp$derivatives,
                       mean = tmp$mean, 
@@ -134,6 +135,7 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
     t1 <- tapply(tmp[, 2], factor(tmp[, 1], levels = ValidPatNum), FUN = min)
     t1 <- t1[!is.na(t1)]
     tmp <- PP.FPCA.Pred(t, ValidNP, mean.fun[[i]], basis.fun[[i]], K[i])
+    fpca[[i]]$ValidPred <- tmp
     ft.e.tmp <- cbind(matrix(ValidFU, nrow = length(ValidFU), ncol = 3), -tmp$baseline[1], log(1 + ValidN[, i + 1]))
     nns <- sum(tmp2)
     ft.e.tmp[tmp2, 1] <- t1
@@ -174,13 +176,12 @@ petler.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_co
        ValidPK = ValidPK,
        TrainSc = TrainSc,
        ValidSc = ValidSc,
-       K = K,
-       base = base)
+       fpca = fpca)
 }
 
 #' @title Main function implementing the PETLER algorithm
 #' @description This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
-#' @param object results returned by the \code{petler.base} function
+#' @param object results returned by the \code{petler.fpca} function
 #' @param cov_group a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.
 #' @param thresh a default is \code{0.7}, which means if there are codes with >70\% patients no codes, only use first code time.
 #' @param PCAthresh a threshold value for PCA. Default is \code{0.9}.
