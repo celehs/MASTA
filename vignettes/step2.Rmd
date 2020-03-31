@@ -1,5 +1,5 @@
 ---
-title: "Step II: Model Estimation"
+title: "Step II. Model Estimation"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{example}
@@ -8,10 +8,6 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  eval = TRUE,
-  collapse = TRUE
-)
 options(width=100)
 ```
 
@@ -19,16 +15,12 @@ options(width=100)
 library(PETLER)
 ```
 
-First, we load the FPCA results from step I. 
-
 ```{r}
 obj <- readRDS("step1.rds")
 ```
 
-We can now run the PETLER algorithm by calling the `petler` function and providing the base object obtained from the previous step. Use `?petler` or click [HERE](https://celehs.github.io/PETLER/reference/petler.html) to view help documentation and configurable arguments.
-
 ```{r, eval=FALSE}
-system.time(fit <- petler(obj))
+system.time(fit <- petler.fit(obj))
 ##    user  system elapsed 
 ## 292.297   0.338 292.641
 ```
@@ -71,4 +63,6 @@ fit$Cstat_BrierSc_ChengInit_BFGS
 # A vector of consecutive integers describing the grouping coefficients
 fit$group
 ```
+
+...
 
