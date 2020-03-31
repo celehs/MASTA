@@ -63,6 +63,3 @@ fit$Cstat_BrierSc_ChengInit_BFGS
 # A vector of consecutive integers describing the grouping coefficients
 fit$group
 ```
-
-...
-
