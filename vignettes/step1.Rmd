@@ -20,7 +20,7 @@ library(PETLER)
 
 We can use the `petler.fpca` function to create the base functions required to run the PETLER algorithm. By default, you only need to provide data in the list format mentioned above. However, you can view the help documentation (`?petler.fpca`) or click [HERE](https://celehs.github.io/PETLER/reference/petler.fpca.html) to customize configurable arguments.
 
-```{r fpca, eval=FALSE}
+```{r fpca, eval=TRUE}
 system.time(obj <- petler.fpca(data_org))
 ##    user  system elapsed 
 ## 142.076  18.887  75.564
@@ -33,9 +33,9 @@ obj <- readRDS("step1.rds")
 
 ```{r}
 DF.long <- rbind(
-  cbind(code = "pred1", obj$base[[1]]$mean),
-  cbind(code = "pred2", obj$base[[2]]$mean),
-  cbind(code = "pred3", obj$base[[3]]$mean))
+  cbind(code = "pred1", obj$FPCA$pred1$mean),
+  cbind(code = "pred2", obj$FPCA$pred2$mean),
+  cbind(code = "pred3", obj$FPCA$pred3$mean))
 data.table::data.table(DF.long)
 ```
 
@@ -48,12 +48,12 @@ DF.t <- rbind(
   data.frame(code = "pred3", t = with(TrainCode, rep(monthstd, pred3))))
 ```
 
-```{r, fig.width=7, fig.height=7}
+```{r, fig.width=9, fig.height=3}
 library(ggplot2)
 ggplot(DF.t, aes(x = t)) + 
-  geom_histogram(aes(y = ..density..), color="black", fill="white", binwidth = 0.01) + 
+  geom_histogram(aes(y = ..density..), color="gray", fill="white", binwidth = 0.01) + 
   geom_line(aes(x = x, y = f_mu), data = DF.long, colour = "blue") + 
-  facet_wrap(~ code, ncol = 1, scales = "free_y") + 
+  facet_wrap(~ code, ncol = 3, scales = "free_y") + 
   xlab("x") + theme_bw()
 ```
 

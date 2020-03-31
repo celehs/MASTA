@@ -1,100 +1,6 @@
-########################################################################
-############        Predict Scores for New Subjects         ############     
-########################################################################
-### make prediction for patients with or without codes
-PP.FPCA.Pred <- function(t, N, mean.fun, eigen.fun, K) {
-  NZ <- N == 0
-  delta <- mean.fun[2, 1] - mean.fun[1, 1]
-  baseline <- as.numeric(t(eigen.fun[, -1]) %*% mean.fun[, -1] * delta) # second term in xi
-  tmp2 <- apply(eigen.fun[, -1], 2, function(s) approx(x = mean.fun$x, y = s, xout = t)$y) ### check whether we need parallel this
-  indx <- rep(1:length(N[!NZ]), N[!NZ])
-  xi <- -baseline + t(apply(tmp2, 2, FUN = function(x) tapply(x, indx, mean))) # FPC scores, ith column for ith patient
-  if (K == 1) {
-    tmp <- mean.fun[, -1] + outer(eigen.fun[, 2], xi[1, ]) # density functions
-  } else {
-    tmp <- as.numeric(mean.fun[, -1]) + as.matrix(eigen.fun[, 1:K + 1]) %*% xi[1:K, ] # density functions
-  }
-  tmp <- apply(tmp, 2, function(x) {
-    x[x < 0] <- 0 # non-negative
-    x <- x / sum(x) # integrate to delta^2
-    return(x)
-  })
-  tmp <- tmp / delta
-  tmp2 <- {tmp[-c(1:2), ] -tmp[-c(1:2 + length(mean.fun[, 1]) - 2), ]} / diff(mean.fun[, 1], lag = 2)
-  derivatives <- cbind({mean.fun[-c(1:2), 1] + mean.fun[-c(1:2 + length(mean.fun[, 1]) - 2), 1]} / 2, tmp2)
-  scores <- t(xi)
-  densities <- cbind(mean.fun[, 1], tmp)  
-  rownames(scores) <- colnames(densities)[-1] <- colnames(derivatives)[-1] <- names(N)
-  list(scores = scores,
-       densities = densities,
-       derivatives = derivatives,
-       baseline = baseline)
-}
-
-VTM <- function(vc, dm) matrix(vc, ncol = length(vc), nrow = dm, byrow = TRUE)
-
-FPC_Kern_S <- function(x, t, N, h1, h2) {
-  grp <- rep(seq(N), N)
-  M <- outer(t, x, "-")
-  D1 <- dnorm(M, 0, h1)
-  D2 <- if (h1 == h2) D1 else dnorm(M, 0, h2) 
-  v <- rowsum(D2, grp)
-  list(f_mu = colSums(D1), 
-       Cov_G = crossprod(v) - crossprod(D2))
-}
-
-#' @title Mean Density and Covariance Functions for FPCA
-#' @description Compute mean density function and covariance function for functional principal components analysis (FPCA)
-#' @param x time grid between 0 and 1 
-#' @param t observed event times of all the individuals, can have duplicates
-#' @param N vector, contains num of observed event of each patient
-#' @param h1 bandwidth for mean density function
-#' @param h2 bandwidth for covariance function
-#' @param bw bandwidth selection method
-#' @param nsubs number of subsets for parallel computing
-#' @param n_core number of cores for parallel computing
-#' @export
-FPC.Kern.S <- function(x, t, N, h1 = NULL, h2 = NULL, bw = "ucv", nsubs = NULL, n_core = NULL) {
-  if (is.null(n_core)) n_core <- parallel::detectCores()
-  if (is.null(nsubs)) nsubs <- n_core * 5
-  if (is.null(h1) | is.null(h2)) {
-    h <- switch(bw, 
-                "nrd0" = bw.nrd0(t),
-                "nrd" = bw.nrd(t),
-                "ucv" = bw.ucv(t), # leave one out cross validation
-                "bcv" = bw.bcv(t), # biased cross validation            
-                "SJ-ste" = bw.SJ(t, method = "ste"), 
-                "SJ-dpi" = bw.SJ(t, method = "dpi"))    
-  }
-  if (is.null(h1)) h1 <- h
-  if (is.null(h2)) h2 <- h
-  n <- length(N)
-  a <- n %% nsubs
-  b <- floor(n / nsubs)
-  subsize <- rep((b + 1):b, c(a, nsubs - a))
-  cumsumsub <- cumsum(c(0, subsize))
-  grp <- rep(seq(subsize), subsize)
-  cumsumN <- c(0, cumsum(rowsum(N, grp))) 
-  registerDoParallel(cores = n_core)  
-  tmplist <- foreach(i = 1:nsubs) %dopar% {
-    tsub <- t[(cumsumN[i] + 1):cumsumN[i + 1]]
-    Nsub <- N[(cumsumsub[i] + 1):cumsumsub[i + 1]]
-    FPC_Kern_S(x, tsub, Nsub, h1, h2)
-  }
-  L1 <- lapply(tmplist, `[[`, 1)
-  L2 <- lapply(tmplist, `[[`, 2)
-  f_mu <- Reduce("+", L1) / sum(N)
-  G <- Reduce("+", L2) / sum(N * (N - 1)) - tcrossprod(f_mu)
-  list(f_mu = f_mu, G = G)
-}
-
 ######################################################################
-### Second version of the functional principal component analysis 
-### on rare events (Wu et al.,	2013). 
-
-########################################################################
-
-########################################################################
+### Second version of the functional principal component analysis on rare events (Wu et al.,	2013). 
+######################################################################
 ## FPCA approach by Wu et al (2013)
 ## n = num of patients
 ## t: observed event times of all the individuals, can have duplicates
@@ -198,9 +104,9 @@ PP_FPCA_Parallel <- function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1, #
     }
     K <- foreach(i = 1:nsubs, .combine = rbind) %dopar% {
       sapply(c(1:K), function(k) PPIC(K = k, f_locpoly = f_locpoly[(cumsumsub[i] + 1):cumsumsub[i + 1]],
-                                     t = t[(cumsumN[i] + 1):cumsumN[i + 1]], N = N[(cumsumsub[i] + 1):cumsumsub[i + 1]],
-                                     f_mu = f_mu, G.eigen_v = G.eigen$u, xi = xi[, (cumsumsub[i]+1):cumsumsub[i + 1]],
-                                     xgrid = x, delta = delta))
+                                      t = t[(cumsumN[i] + 1):cumsumN[i + 1]], N = N[(cumsumsub[i] + 1):cumsumsub[i + 1]],
+                                      f_mu = f_mu, G.eigen_v = G.eigen$u, xi = xi[, (cumsumsub[i]+1):cumsumsub[i + 1]],
+                                      xgrid = x, delta = delta))
     } ## parallel different from non-parallel results
     K <- apply(K, 2, sum)
     K <- which.min(K)
@@ -270,77 +176,4 @@ PP_FPCA_Parallel <- function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1, #
                 baseline = baseline,
                 K = K))
   }
-}
-
-### local linear regression
-den_locpoly<-function(partition,t,N){
-  n           = length(N)
-  l           = length(partition)
-  partition_x = {partition[-1]+partition[-l]}/2
-  cumsumN     = c(0,cumsum(N))
-  f_locpoly   = lapply(seq(1,n),function(i){
-    a         = {cumsumN[i]+1}:cumsumN[i+1]
-    ### the histogram density estimate for the ith subject
-    f_H       = hist(t[a],breaks=partition,plot=FALSE)$counts/N[i]/diff(partition)
-    ### leave one out cross validation, local linear regression
-    GCV_loclinear = function(hh){
-      D   = sapply(partition_x,function(x) partition_x-x)
-      W   = dnorm(D/hh)
-      S0  = apply(W,1,sum)
-      S1  = apply(W*D,1,sum)
-      S2  = apply(W*{D^2},1,sum)
-      L   = W*{t(VTM(S2,l-1))-D*t(VTM(S1,l-1))}/t(VTM(S0*S2-S1^2,l-1))
-      f_oneout = L%*%f_H
-      return(sum({{f_H-f_oneout}/{1-mean(diag(L))}}^2))
-    }
-    ### find bandwidth that minimize generalized cross validation
-    # here set lower limit to be the min(diff(partition_x)) to avoid error
-    hh   = optimize(GCV_loclinear,lower=min(diff(partition_x)),upper=IQR(t)*2)$minimum
-    ### use the obtained GCV bandwidth to get local linear regression estimates
-    D   = t(sapply(t[a],function(x) partition_x-x))
-    W   = dnorm(D/hh)
-    S0  = apply(W,1,sum)
-    S1  = apply(W*D,1,sum)
-    S2  = apply(W*{D^2},1,sum)
-    L   = W*{t(VTM(S2,l-1))-D*t(VTM(S1,l-1))}/t(VTM(S0*S2-S1^2,l-1))
-    return(L%*%f_H)
-  })
-}
-
-### local linear regression
-den_locpoly2<-function(t,N){
-  n           = length(N)
-  nbreak      = numeric(n)
-  cumsumN     = c(0,cumsum(N))
-  f_locpoly   = lapply(seq(1,n),function(i){
-    a         = {cumsumN[i]+1}:cumsumN[i+1]
-    ### the histogram density estimate for the ith subject
-    f_H       = hist(t[a],plot=FALSE)
-    partition = f_H$breaks
-    nbreak[i] = length(partition)
-    f_H       = f_H$counts/N[i]/diff(partition)
-    partition_x = {partition[-1]+partition[-length(partition)]}/2
-    ### leave one out cross validation, local linear regression
-    GCV_loclinear = function(hh){
-      D   = sapply(partition_x,function(x) partition_x-x)
-      W   = dnorm(D/hh)
-      S0  = apply(W,1,sum)
-      S1  = apply(W*D,1,sum)
-      S2  = apply(W*{D^2},1,sum)
-      L   = W*{t(VTM(S2,nbreak[i]-1))-D*t(VTM(S1,nbreak[i]-1))}/t(VTM(S0*S2-S1^2,nbreak[i]-1))
-      f_oneout = L%*%f_H
-      return(sum({{f_H-f_oneout}/{1-mean(diag(L))}}^2))
-    }
-    ### find bandwidth that minimize generalized cross validation
-    # here set lower limit to be the min(diff(partition_x)) to avoid error
-    hh   = optimize(GCV_loclinear,lower=min(diff(partition_x)),upper=IQR(t[a])*2)$minimum
-    ### use the obtained GCV bandwidth to get local linear regression estimates
-    D   = t(sapply(t[a],function(x) partition_x-x))
-    W   = dnorm(D/hh)
-    S0  = apply(W,1,sum)
-    S1  = apply(W*D,1,sum)
-    S2  = apply(W*{D^2},1,sum)
-    L   = W*{t(VTM(S2,nbreak[i]-1))-D*t(VTM(S1,nbreak[i]-1))}/t(VTM(S0*S2-S1^2,nbreak[i]-1))
-    return(L%*%f_H)
-  })
 }
