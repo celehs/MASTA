@@ -77,7 +77,7 @@ f <- function(k) {
     data.frame(code = "pred2", x = dens2[, 1], y = dens2[, all[k]]),
     data.frame(code = "pred3", x = dens3[, 1], y = dens3[, all[k]]))  
   ggplot(DF.t, aes(x = t)) + 
-    geom_histogram(aes(y = ..density..), color="gray", fill="white", binwidth = 0.01) + 
+    geom_histogram(aes(y = ..density..), color="gray", fill="white", binwidth = 0.1) + 
     geom_line(aes(x = x, y = y), data = DF.d, colour = "blue") + 
     facet_wrap(~ code, ncol = 3, scales = "free_y") + 
     xlab("x") + ggtitle(paste("ID:", all[k])) + theme_bw()
