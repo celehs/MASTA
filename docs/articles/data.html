@@ -87,69 +87,131 @@
 
     
     
-<div id="htmlwidget-761e181fab2521287057" style="width:672px;height:432.632880098888px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-761e181fab2521287057">{"x":{"diagram":"\ndigraph flowchart {\n  node [fontname = Helvetica, shape = rectangle]        \n  tab1 [label = \"Input Data\"]\n  tab2 [label = \"Labeled (N = 1,100)\"]\n  tab3 [label = \"Unlabeled (N = 20,000)\"]\n  tab4 [label = \"Training (N = 600)\"]\n  tab5 [label = \"Validation (N = 500)\"]\n  tab1 -> tab2;\n  tab1 -> tab3;\n  tab2 -> tab4;\n  tab2 -> tab5;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PETLER)</a>
+<p>The PETLER algorithm is a semi-supervised learning method and it requires two sources of input data.</p>
+<ul>
+<li><p>A labeled data with time-to-event outcomes and baseline covariates.</p></li>
+<li><p>A unlabeled data with longitudinal encounter records.</p></li>
+</ul>
+<div id="htmlwidget-6204f4232f23d23905bf" style="width:480px;height:288px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6204f4232f23d23905bf">{"x":{"diagram":"\ndigraph flowchart {\n  node [fontname = Helvetica, shape = rectangle]        \n  tab1 [label = \"Input Data\"]\n  tab2 [label = \"Labeled (n = 1,100)\"]\n  tab3 [label = \"Unlabeled (N = 20,000)\"]\n  tab4 [label = \"Training (n1 = 600)\"]\n  tab5 [label = \"Validation (n2 = 500)\"]\n  tab1 -> tab2;\n  tab1 -> tab3;\n  tab2 -> tab4;\n  tab2 -> tab5;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><p>The <code>PETLER</code> package contains a sample data called <code>data_org</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PETLER)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">data_org[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TrainCode"</span>, <span class="st">"ValidCode"</span>)]</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">## $TrainCode</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">##            id  fu_time month pred1 pred2 pred3</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">##      1:     1 49.41273     0     0     0     0</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">##      2:     1 49.41273     1     0     0     0</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">##      3:     1 49.41273     2     0     0     0</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">##      4:     1 49.41273     3     0     0     0</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">##      5:     1 49.41273     4     0     0     0</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">##     ---                                       </span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">## 810620: 20600 24.70637    20     0     0     0</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">## 810621: 20600 24.70637    21     0     0     0</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">## 810622: 20600 24.70637    22     0     0     0</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">## 810623: 20600 24.70637    23     0     0     1</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">## 810624: 20600 24.70637    24     0     0     2</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">## </span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">## $ValidCode</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">##           id  fu_time month pred1 pred2 pred3</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">##     1: 90001 71.72074     0     0     0     0</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">##     2: 90001 71.72074     1     0     0     0</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">##     3: 90001 71.72074     2     0     0     0</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">##     4: 90001 71.72074     3     0     0     0</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">##     5: 90001 71.72074     4     0     0     0</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">##    ---                                       </span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">## 20764: 90500 29.30595    25     0     0     0</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">## 20765: 90500 29.30595    26     0     0     0</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">## 20766: 90500 29.30595    27     0     0     0</span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">## 20767: 90500 29.30595    28     0     0     0</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">## 20768: 90500 29.30595    29     0     0     0</span></a></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">data_org[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TrainSurv"</span>, <span class="st">"ValidSurv"</span>)]</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">## $TrainSurv</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">##       id event_ind event_time   fu_time cov_1 cov_2 cov_3</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">##   1:   1         1   9.363450 49.412731    79     1     0</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">##   2:   2         0  13.930185 13.930185    81     0     0</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">##   3:   3         0  12.550308 12.550308    55     1     1</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">##   4:   4         0  14.850103 14.850103    72     1     0</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">##   5:   5         0  80.657084 80.657084    83     1     1</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">##  ---                                                     </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">## 596: 596         0   8.443532  8.443532    66     1     0</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">## 597: 597         0  38.833676 38.833676    79     1     1</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">## 598: 598         0  42.743326 42.743326    74     1     0</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">## 599: 599         0  31.474333 31.474333    84     0     1</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">## 600: 600         0   7.523614  7.523614    80     0     1</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">## </span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">## $ValidSurv</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">##         id event_ind event_time  fu_time cov_1 cov_2 cov_3</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">##   1: 90001         0  71.720739 71.72074    39     1     0</span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">##   2: 90002         0  70.373717 70.37372    36     0     1</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">##   3: 90003         1   9.494867 14.94867    68     1     1</span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">##   4: 90004         1  17.774127 33.80698    59     0     0</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">##   5: 90005         0  98.628337 98.62834    38     1     0</span></a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">##  ---                                                      </span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">## 496: 90496         0  35.581109 35.58111    47     0     0</span></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">## 497: 90497         0  27.367556 27.36756    59     1     0</span></a>
-<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">## 498: 90498         0  24.607803 24.60780    56     0     0</span></a>
-<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">## 499: 90499         0  27.170431 27.17043    82     0     1</span></a>
-<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">## 500: 90500         0  29.305955 29.30595    82     1     1</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">?data_org <span class="co"># view data documentation</span></a></code></pre></div>
+<p><code>data_org</code> is a list with four data tables.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(data_org)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">## List of 4</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">##  $ TrainSurv:Classes 'data.table' and 'data.frame':  600 obs. of  7 variables:</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">##   ..$ id        : int [1:600] 1 2 3 4 5 6 7 8 9 10 ...</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">##   ..$ event_ind : int [1:600] 1 0 0 0 0 1 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">##   ..$ event_time: num [1:600] 9.36 13.93 12.55 14.85 80.66 ...</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">##   ..$ fu_time   : num [1:600] 49.4 13.9 12.6 14.9 80.7 ...</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">##   ..$ cov_1     : int [1:600] 79 81 55 72 83 47 86 40 85 58 ...</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">##   ..$ cov_2     : int [1:600] 1 0 1 1 1 1 0 0 1 0 ...</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">##   ..$ cov_3     : int [1:600] 0 0 1 0 1 0 1 0 0 1 ...</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">##   ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; </span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">##  $ ValidSurv:Classes 'data.table' and 'data.frame':  500 obs. of  7 variables:</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">##   ..$ id        : int [1:500] 90001 90002 90003 90004 90005 90006 90007 90008 90009 90010 ...</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">##   ..$ event_ind : int [1:500] 0 0 1 1 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">##   ..$ event_time: num [1:500] 71.72 70.37 9.49 17.77 98.63 ...</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">##   ..$ fu_time   : num [1:500] 71.7 70.4 14.9 33.8 98.6 ...</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">##   ..$ cov_1     : int [1:500] 39 36 68 59 38 53 88 60 40 33 ...</span></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">##   ..$ cov_2     : int [1:500] 1 0 1 0 1 0 0 1 0 0 ...</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">##   ..$ cov_3     : int [1:500] 0 1 1 0 0 0 1 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">##   ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; </span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">##  $ TrainCode:Classes 'data.table' and 'data.frame':  810624 obs. of  6 variables:</span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">##   ..$ id     : int [1:810624] 1 1 1 1 1 1 1 1 1 1 ...</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">##   ..$ fu_time: num [1:810624] 49.4 49.4 49.4 49.4 49.4 ...</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">##   ..$ month  : int [1:810624] 0 1 2 3 4 5 6 7 8 9 ...</span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">##   ..$ pred1  : int [1:810624] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">##   ..$ pred2  : int [1:810624] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">##   ..$ pred3  : int [1:810624] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">##   ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; </span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">##  $ ValidCode:Classes 'data.table' and 'data.frame':  20768 obs. of  6 variables:</span></a>
+<a class="sourceLine" id="cb3-30" data-line-number="30"><span class="co">##   ..$ id     : int [1:20768] 90001 90001 90001 90001 90001 90001 90001 90001 90001 90001 ...</span></a>
+<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">##   ..$ fu_time: num [1:20768] 71.7 71.7 71.7 71.7 71.7 ...</span></a>
+<a class="sourceLine" id="cb3-32" data-line-number="32"><span class="co">##   ..$ month  : int [1:20768] 0 1 2 3 4 5 6 7 8 9 ...</span></a>
+<a class="sourceLine" id="cb3-33" data-line-number="33"><span class="co">##   ..$ pred1  : int [1:20768] 0 0 0 0 0 0 0 0 0 1 ...</span></a>
+<a class="sourceLine" id="cb3-34" data-line-number="34"><span class="co">##   ..$ pred2  : int [1:20768] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb3-35" data-line-number="35"><span class="co">##   ..$ pred3  : int [1:20768] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb3-36" data-line-number="36"><span class="co">##   ..- attr(*, ".internal.selfref")=&lt;externalptr&gt;</span></a></code></pre></div>
+<div id="longitudinal-encounter-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#longitudinal-encounter-data" class="anchor"></a>Longitudinal Encounter Data</h2>
+<p><code>TrainCode</code> and <code>ValidCode</code> will be used in Step I of the PETLER algorithm to extract features from estimated subject-specific intensity functions of individual encounters.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">data_org[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TrainCode"</span>, <span class="st">"ValidCode"</span>)]</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">## $TrainCode</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">##            id  fu_time month pred1 pred2 pred3</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">##      1:     1 49.41273     0     0     0     0</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">##      2:     1 49.41273     1     0     0     0</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">##      3:     1 49.41273     2     0     0     0</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">##      4:     1 49.41273     3     0     0     0</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">##      5:     1 49.41273     4     0     0     0</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">##     ---                                       </span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">## 810620: 20600 24.70637    20     0     0     0</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">## 810621: 20600 24.70637    21     0     0     0</span></a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">## 810622: 20600 24.70637    22     0     0     0</span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">## 810623: 20600 24.70637    23     0     0     1</span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">## 810624: 20600 24.70637    24     0     0     2</span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">## </span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">## $ValidCode</span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">##           id  fu_time month pred1 pred2 pred3</span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">##     1: 90001 71.72074     0     0     0     0</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">##     2: 90001 71.72074     1     0     0     0</span></a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">##     3: 90001 71.72074     2     0     0     0</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">##     4: 90001 71.72074     3     0     0     0</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">##     5: 90001 71.72074     4     0     0     0</span></a>
+<a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">##    ---                                       </span></a>
+<a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">## 20764: 90500 29.30595    25     0     0     0</span></a>
+<a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">## 20765: 90500 29.30595    26     0     0     0</span></a>
+<a class="sourceLine" id="cb4-26" data-line-number="26"><span class="co">## 20766: 90500 29.30595    27     0     0     0</span></a>
+<a class="sourceLine" id="cb4-27" data-line-number="27"><span class="co">## 20767: 90500 29.30595    28     0     0     0</span></a>
+<a class="sourceLine" id="cb4-28" data-line-number="28"><span class="co">## 20768: 90500 29.30595    29     0     0     0</span></a></code></pre></div>
+</div>
+<div id="time-to-event-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#time-to-event-data" class="anchor"></a>Time-to-Event Data</h2>
+<p>Together with the features derived from longitudinal encounter data, <code>TrainCode</code> and <code>ValidCode</code> will be used in Step II of the PETLER algorithm to train and evaluate risk prediction models with survival outcomes.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">data_org[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TrainSurv"</span>, <span class="st">"ValidSurv"</span>)]</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">## $TrainSurv</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">##       id event_ind event_time   fu_time cov_1 cov_2 cov_3</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">##   1:   1         1   9.363450 49.412731    79     1     0</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">##   2:   2         0  13.930185 13.930185    81     0     0</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">##   3:   3         0  12.550308 12.550308    55     1     1</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">##   4:   4         0  14.850103 14.850103    72     1     0</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">##   5:   5         0  80.657084 80.657084    83     1     1</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">##  ---                                                     </span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">## 596: 596         0   8.443532  8.443532    66     1     0</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">## 597: 597         0  38.833676 38.833676    79     1     1</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">## 598: 598         0  42.743326 42.743326    74     1     0</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">## 599: 599         0  31.474333 31.474333    84     0     1</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">## 600: 600         0   7.523614  7.523614    80     0     1</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">## </span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">## $ValidSurv</span></a>
+<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">##         id event_ind event_time  fu_time cov_1 cov_2 cov_3</span></a>
+<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">##   1: 90001         0  71.720739 71.72074    39     1     0</span></a>
+<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">##   2: 90002         0  70.373717 70.37372    36     0     1</span></a>
+<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">##   3: 90003         1   9.494867 14.94867    68     1     1</span></a>
+<a class="sourceLine" id="cb5-21" data-line-number="21"><span class="co">##   4: 90004         1  17.774127 33.80698    59     0     0</span></a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"><span class="co">##   5: 90005         0  98.628337 98.62834    38     1     0</span></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">##  ---                                                      </span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="co">## 496: 90496         0  35.581109 35.58111    47     0     0</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25"><span class="co">## 497: 90497         0  27.367556 27.36756    59     1     0</span></a>
+<a class="sourceLine" id="cb5-26" data-line-number="26"><span class="co">## 498: 90498         0  24.607803 24.60780    56     0     0</span></a>
+<a class="sourceLine" id="cb5-27" data-line-number="27"><span class="co">## 499: 90499         0  27.170431 27.17043    82     0     1</span></a>
+<a class="sourceLine" id="cb5-28" data-line-number="28"><span class="co">## 500: 90500         0  29.305955 29.30595    82     1     1</span></a></code></pre></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#longitudinal-encounter-data">Longitudinal Encounter Data</a></li>
+      <li><a href="#time-to-event-data">Time-to-Event Data</a></li>
+      </ul>
+</div>
       </div>
 
 </div>
