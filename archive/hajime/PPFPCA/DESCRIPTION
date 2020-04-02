@@ -1,0 +1,18 @@
+Package: PPFPCA
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Who wrote it
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+LinkingTo: Rcpp, RcppArmadillo
+Imports: Rcpp, RcppArmadillo, foreign, plyr, corrplot, RColorBrewer,
+        rpart, rpart.utils, doParallel, foreach, survival, rootSolve,
+        splines, survC1, gglasso, glmnet, parallel
+NeedsCompilation: yes
+Packaged: 2020-01-23 21:09:30 UTC; miki
