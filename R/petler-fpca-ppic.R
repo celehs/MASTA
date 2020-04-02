@@ -1,3 +1,30 @@
+### Pseudo-poisson informtion criterion (PPIC) for selecting the
+### number of FPCs
+PPIC<-function(K,f_locpoly,t,N,f_mu,G.eigen_v,xi,xgrid,delta){
+  if(K==1){
+    tmp     = f_mu + outer(G.eigen_v[,1],xi[1,])/delta # density functions
+    # tmp2    = f_mu_d + outer(tmp2[,1],xi[1,])/delta # derivatives of density functions
+  } else{
+    tmp     = f_mu + {G.eigen_v[,1:K]/delta}%*%xi[1:K,] # density functions
+    # tmp2    = f_mu_d + {tmp2[,1:K]/delta}%*%xi[1:K,] # derivatives of density functions
+  }
+  ## make adjustments to get valid density functions (nonnegative+integrate to 1)
+  tmp     = apply(tmp,2,function(x){
+    x[x<0] = 0     # non-negative
+    x      = x/sum(x) # integrate to delta^2
+    return(x)
+  })
+  tmp     = tmp/delta^2
+  n       = length(N)
+  tmp     = lapply(seq(1,n),function(i) approx(xgrid,tmp[,i],t[(sum(N[1:i])-N[i]+1):sum(N[1:i])])$y)
+  f_locpoly = unlist(f_locpoly)
+  if(sum(f_locpoly<=0)>0) f_locpoly[f_locpoly<1e-8] = 1e-8
+  tmp       = unlist(tmp)
+  tmp[tmp<1e-8] = 1e-8
+  D_K       = 2*sum(f_locpoly*log(f_locpoly/tmp)-(f_locpoly-tmp))+2*K
+  return(D_K)
+}
+
 ### local linear regression
 den_locpoly<-function(partition,t,N){
   n           = length(N)
