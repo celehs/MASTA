@@ -42,7 +42,7 @@ library(PETLER)
 
 - [Step I. Feature Extraction with Functional PCA](https://celehs.github.io/PETLER/articles/step1.html)
 
-- [Step II. PO Model Estimation with B-Splines](https://celehs.github.io/PETLER/articles/step2.html)
+- [Step II. Model Estimation with B-Splines](https://celehs.github.io/PETLER/articles/step2.html)
 
 - [Acceleration with Multicore Parallel Computing](https://celehs.github.io/PETLER/articles/multicore.html)
 

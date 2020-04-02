@@ -96,7 +96,7 @@ petler.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, 
   names(TrainZC) <- codes
   ####### number of patients with no codes in the labeled set (validation)
   ValidZC <- sapply(seq_along(codes), function(i) sum(ValidN[, i + 1] == 0))
-  names(ValidZC) = codes
+  names(ValidZC) <- codes
   # for codes with > 70% patients no codes, only use first code time
   codes0 <- which((TrainZC + ValidZC) / (nrow(TrainN) + nrow(ValidN)) > thresh)
   codes0 <- c(sapply(codes0, function(x) (x - 1) * 5 + 2:4))
@@ -289,7 +289,7 @@ petler.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, 
     SX, SX, SC, Delta, Z, tseq, t.grid, knots, Boundary.knots,
     G_SX, G_tseq, endF, Tend, tree.fit, FirstCode,
     logi.fit, vars, wei$wei, wei$adj, as.matrix(ValidPK))
-  colnames(tmp) = c("Init", "MLE", "AIC", "BIC",
+  colnames(tmp) <- c("Init", "MLE", "AIC", "BIC",
                     "AIC.Orig", "BIC.Orig", "Cheng",
                     "NPMLE", "TreeTN", "TreeAll", "logi")
   tmp2 <- mean(BrierScore.KM2(tseq[tseq <= endF], SX, SX, SC, Delta, tseq, G_SX, G_tseq)[, 2])
