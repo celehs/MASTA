@@ -36,7 +36,7 @@ Load the package into R.
 library(PETLER)
 ```
 
-## Getting Started
+## Documentation
 
 - [Input Data for the PETLER Algorithm](https://celehs.github.io/PETLER/articles/data.html)
 

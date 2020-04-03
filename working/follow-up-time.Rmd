@@ -1,0 +1,33 @@
+---
+title: "Follow-up Time"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# options(width = 100)
+```
+
+```{r}
+library(PETLER)
+```
+
+```{r}
+# data_org[c("TrainSurv", "TrainCode")]
+names(data_org$TrainSurv)[4] <- "TrainSurv.fu_time"
+names(data_org$TrainCode)[2] <- "TrainCode.fu_time"
+Train <- merge(data_org$TrainSurv[, 1:4], data_org$TrainCode[, 1:2])
+TrainSub <- subset(Train, TrainSurv.fu_time != TrainCode.fu_time)
+unique.data.frame(TrainSub)
+```
+
+```{r}
+# data_org[c("ValidSurv", "ValidCode")]
+names(data_org$ValidSurv)[4] <- "ValidSurv.fu_time"
+names(data_org$ValidCode)[2] <- "ValidCode.fu_time"
+Valid <- merge(data_org$ValidSurv[, 1:4], data_org$ValidCode[, 1:2])
+ValidSub <- subset(Valid, ValidSurv.fu_time != ValidCode.fu_time)
+unique.data.frame(ValidSub)
+```
