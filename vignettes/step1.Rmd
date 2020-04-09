@@ -8,9 +8,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE
-)
+knitr::opts_chunk$set(collapse = TRUE)
 options(width=100)
 ```
 
@@ -42,6 +40,11 @@ DF.d <- rbind(
   cbind(code = "pred1", obj$FPCA$pred1$mean),
   cbind(code = "pred2", obj$FPCA$pred2$mean),
   cbind(code = "pred3", obj$FPCA$pred3$mean))
+tbl <- table(DF.t$code)
+labels <- paste0(names(tbl), " (freq:", as.vector(tbl), ")")
+DF.t$code <- factor(DF.t$code, labels = labels)
+DF.d$code <- factor(DF.d$code, labels = labels)
+# DF.d$freq <- as.vector(tbl[as.character(DF.d$code)])
 ```
 
 ## Estimated Mean Density
@@ -49,10 +52,10 @@ DF.d <- rbind(
 ```{r, fig.width=9, fig.height=3, echo=FALSE}
 library(ggplot2)
 ggplot(DF.t, aes(x = t)) + 
-  geom_histogram(aes(y = ..density..), color="gray", fill="lightblue", binwidth = 0.01) + 
+  geom_histogram(aes(y = ..density..), color="gray", fill="lightblue", bins = 100) + 
   geom_line(aes(x = x, y = f_mu), data = DF.d, colour = "blue") + 
   facet_wrap(~ code, ncol = 3, scales = "free_y") + 
-  xlab("x") + theme_bw()
+  xlab("x") + theme_bw(base_size = 14)
 ```
 
 ```{r, echo=FALSE}
@@ -78,11 +81,16 @@ f <- function(k) {
     data.frame(code = "pred1", x = dens1[, 1], y = dens1[, all[k]]),
     data.frame(code = "pred2", x = dens2[, 1], y = dens2[, all[k]]),
     data.frame(code = "pred3", x = dens3[, 1], y = dens3[, all[k]]))  
+  tbl <- table(DF.t$code)
+  labels <- paste0(names(tbl), " (freq:", as.vector(tbl), ")")
+  DF.t$code <- factor(DF.t$code, labels = labels)
+  DF.d$code <- factor(DF.d$code, labels = labels)  
+  # DF.d$freq <- as.vector(tbl[as.character(DF.d$code)])  
   ggplot(DF.t, aes(x = t)) + 
-    geom_histogram(aes(y = ..density..), color="gray", fill="lightblue", binwidth = 0.1) + 
+    geom_histogram(aes(y = ..density..), color="gray", fill="lightblue", bins = 20) + 
     geom_line(aes(x = x, y = y), data = DF.d, colour = "blue") + 
     facet_wrap(~ code, ncol = 3, scales = "free_y") + 
-    xlab("x") + ggtitle(paste("ID:", all[k])) + theme_bw()
+    xlab("x") + ggtitle(paste("ID:", all[k])) + theme_bw(base_size = 14)
 }
 ```
 
