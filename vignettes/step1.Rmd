@@ -118,4 +118,10 @@ Important features from subject-specific densities and FPCA may include:
 
 - log of total number of codes (logN) 
 
+```{r}
+head(obj$ValidFt[, 1:5])
+head(obj$ValidFt[, 6:10])
+head(obj$ValidFt[, 11:15])
+```
+
 The extracted features are saved in `step1.rds` and will be used in step II of the PETLER algorithm.

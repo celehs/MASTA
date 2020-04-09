@@ -115,6 +115,30 @@
 <li><p>first functional PC score (1stScore)</p></li>
 <li><p>log of total number of codes (logN)</p></li>
 </ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(obj<span class="op">$</span>ValidFt[, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">##       1stCode1       Pk1       ChP1  1stScore1    logN1</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">## 90001  9.00000 50.383819  5.7376591 -0.3877255 1.386294</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">## 90002 70.37372 70.373717 70.3737166 -0.1452653 0.000000</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">## 90003  5.00000  7.100616  4.2229979  0.6688311 2.708050</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">## 90004 33.80698 33.806982 33.8069815 -0.1452653 0.000000</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">## 90005 98.62834 98.628337 98.6283368 -0.1452653 0.000000</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">## 90006  1.00000  1.144641  0.2641478 -0.2494385 1.386294</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(obj<span class="op">$</span>ValidFt[, <span class="dv">6</span><span class="op">:</span><span class="dv">10</span>])</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">##       1stCode2       Pk2      ChP2  1stScore2     logN2</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">## 90001 44.00000 42.853142 34.605257 -1.2659047 0.6931472</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">## 90002 21.00000 15.482218  5.805832 -0.4044147 1.0986123</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">## 90003  1.00000  9.043943  7.250103 -0.4905999 1.3862944</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">## 90004 33.80698 33.806982 33.806982 -0.8923211 0.0000000</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">## 90005 10.00000 17.259959  1.232854 -0.2297048 1.6094379</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">## 90006 17.60986 17.609856 17.609856 -0.8923211 0.0000000</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(obj<span class="op">$</span>ValidFt[, <span class="dv">11</span><span class="op">:</span><span class="dv">15</span>])</a>
+<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">##       1stCode3      Pk3     ChP3 1stScore3     logN3</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">## 90001 71.72074 71.72074 71.72074  1.894450 0.0000000</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">## 90002 70.37372 70.37372 70.37372  1.894450 0.0000000</span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">## 90003 14.00000 13.75277 12.93060  1.125382 0.6931472</span></a>
+<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">## 90004 33.80698 33.80698 33.80698  1.894450 0.0000000</span></a>
+<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">## 90005 98.62834 98.62834 98.62834  1.894450 0.0000000</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">## 90006 17.60986 17.60986 17.60986  1.894450 0.0000000</span></a></code></pre></div>
 <p>The extracted features are saved in <code>step1.rds</code> and will be used in step II of the PETLER algorithm.</p>
 </div>
   </div>
