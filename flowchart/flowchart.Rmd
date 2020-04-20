@@ -1,0 +1,33 @@
+---
+title: "flowchart"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, fig.width=6, fig.height=4}
+DiagrammeR::grViz("
+digraph flowchart {
+  node [fontname = Helvetica, shape = rectangle]        
+  tab1 [label = '@@1']
+  tab2 [label = '@@2']
+  tab3 [label = '@@3']
+  tab4 [label = '@@4']
+  tab5 [label = '@@5']
+  tab6 [label = '@@6']  
+  tab1 -> tab2;
+  tab2 -> tab3;
+  tab3 -> tab5;
+  tab4 -> tab5;
+  tab5 -> tab6;  
+}
+[1]: 'Longitudinal Encounter Records (Unlabeled)'
+[2]: 'Functional PCA (FPCA)'
+[3]: 'Extracted Features from FPCA'
+[4]: 'Time-to-Event Data (Labeled)'
+[5]: 'Penalized Proportional Odds Model'
+[5]: 'Event Time Prediction'
+")
+```

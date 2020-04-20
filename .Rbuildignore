@@ -3,5 +3,6 @@
 ^docs$
 ^data-raw$
 archive/
+flowchart/
 pkgdown/
 working/
