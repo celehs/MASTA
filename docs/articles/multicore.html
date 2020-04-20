@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Multicore Computing • PETLER</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Multicore Computing">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="PETLER">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -58,7 +58,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/celehs/PETLER">
+  <a href="https://github.com/celehs/PETLER/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -76,7 +76,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Multicore Computing</h1>
+      <h1 data-toc-skip>Multicore Computing</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/celehs/PETLER/blob/master/vignettes/multicore.Rmd"><code>vignettes/multicore.Rmd</code></a></small>
@@ -87,38 +87,38 @@
     
     
 <p>The step I of the PETLER algorithm involves calculating the mean density function and covariance functions from large unlabeled data. To accelerate this calculation, we have implemented a fast and memory-efficient approach via multicore parallel computing.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PETLER)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">TrainCode &lt;-<span class="st"> </span>data_org<span class="op">$</span>TrainCode</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">TrainCode[, monthstd <span class="op">:</span><span class="er">=</span><span class="st"> </span>month <span class="op">/</span><span class="st"> </span>fu_time]  <span class="co"># standardized time (range: 0-1)</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">TrainCode</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">##            id  fu_time month pred1 pred2 pred3  monthstd</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">##      1:     1 49.41273     0     0     0     0 0.0000000</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">##      2:     1 49.41273     1     0     0     0 0.0202377</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">##      3:     1 49.41273     2     0     0     0 0.0404754</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">##      4:     1 49.41273     3     0     0     0 0.0607131</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">##      5:     1 49.41273     4     0     0     0 0.0809508</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">##     ---                                                 </span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">## 810620: 20600 24.70637    20     0     0     0 0.8095080</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">## 810621: 20600 24.70637    21     0     0     0 0.8499834</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">## 810622: 20600 24.70637    22     0     0     0 0.8904588</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">## 810623: 20600 24.70637    23     0     0     1 0.9309342</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">## 810624: 20600 24.70637    24     0     0     2 0.9714096</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PETLER</span>)
+<span class="co">## Loading required package: survival</span></pre></body></html></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="no">TrainCode</span> <span class="kw">&lt;-</span> <span class="no">data_org</span>$<span class="no">TrainCode</span>
+<span class="no">TrainCode</span>[, <span class="no">monthstd</span> <span class="kw">:=</span> <span class="no">month</span> / <span class="no">fu_time</span>]  <span class="co"># standardized time (range: 0-1)</span>
+<span class="no">TrainCode</span>
+<span class="co">##            id  fu_time month pred1 pred2 pred3  monthstd</span>
+<span class="co">##      1:     1 49.41273     0     0     0     0 0.0000000</span>
+<span class="co">##      2:     1 49.41273     1     0     0     0 0.0202377</span>
+<span class="co">##      3:     1 49.41273     2     0     0     0 0.0404754</span>
+<span class="co">##      4:     1 49.41273     3     0     0     0 0.0607131</span>
+<span class="co">##      5:     1 49.41273     4     0     0     0 0.0809508</span>
+<span class="co">##     ---                                                 </span>
+<span class="co">## 810620: 20600 24.70637    20     0     0     0 0.8095080</span>
+<span class="co">## 810621: 20600 24.70637    21     0     0     0 0.8499834</span>
+<span class="co">## 810622: 20600 24.70637    22     0     0     0 0.8904588</span>
+<span class="co">## 810623: 20600 24.70637    23     0     0     1 0.9309342</span>
+<span class="co">## 810624: 20600 24.70637    24     0     0     2 0.9714096</span></pre></body></html></div>
 <p>In the demo, the <code>TrainCode</code> data is used in the FPCA step and it contains longitudinal encounter records for 20,600 patients (20,000 unlabeled &amp; 600 labeled).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># non-zero</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">NZ &lt;-<span class="st"> </span>TrainCode[, <span class="dv">4</span><span class="op">:</span><span class="dv">6</span>] <span class="op">!=</span><span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">nz.pct &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>(NZ) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">nz =</span> <span class="kw"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span>(NZ), </a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">           <span class="dt">nz.pct =</span> <span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(nz.pct, <span class="st">"%"</span>))</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">##          nz nz.pct</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">## pred1 72917     9%</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">## pred2 57210     7%</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">## pred3 13896     2%</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># non-zero</span>
+<span class="no">NZ</span> <span class="kw">&lt;-</span> <span class="no">TrainCode</span>[, <span class="fl">4</span>:<span class="fl">6</span>] <span class="kw">!=</span> <span class="fl">0</span>
+<span class="no">nz.pct</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>(<span class="no">NZ</span>) * <span class="fl">100</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">nz</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colSums</a></span>(<span class="no">NZ</span>),
+           <span class="kw">nz.pct</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="no">nz.pct</span>, <span class="st">"%"</span>))
+<span class="co">##          nz nz.pct</span>
+<span class="co">## pred1 72917     9%</span>
+<span class="co">## pred2 57210     7%</span>
+<span class="co">## pred3 13896     2%</span></pre></body></html></div>
 <p>The figure below shows the elapsed time (in seconds) for three event codes under different settings. Even for <code>ngrid</code> = 401, the elapsed time is less than one minute for each setting. The linear scalability allows the PETLER algorithm to be feasible even in studies with very large unlabeled data.</p>
 <p><img src="multicore_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
       </div>
 
@@ -131,7 +131,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

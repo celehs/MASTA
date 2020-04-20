@@ -21,7 +21,7 @@ library(PETLER)
 ```{r fpca, eval=FALSE}
 system.time(obj <- petler.fpca(data_org))
 ##    user  system elapsed 
-## 142.076  18.887  75.564
+##  79.358  19.671  54.616
 saveRDS(obj, "step1.rds") # save results for step II
 ```
 

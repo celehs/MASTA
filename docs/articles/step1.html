@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Step I. Feature Extraction • PETLER</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Step I. Feature Extraction">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="PETLER">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -58,7 +58,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/celehs/PETLER">
+  <a href="https://github.com/celehs/PETLER/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -76,7 +76,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Step I. Feature Extraction</h1>
+      <h1 data-toc-skip>Step I. Feature Extraction</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/celehs/PETLER/blob/master/vignettes/step1.Rmd"><code>vignettes/step1.Rmd</code></a></small>
@@ -87,12 +87,12 @@
     
     
 <p>In step I, we use the <code>petler.fpca</code> function to perform a functional PCA (<a href="https://doi.org/10.5705/ss.2010.162">Wu et al. 2013</a>), which is used to estimate the mean density functions (and covariance functions) using longitudinal encounter data.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(PETLER)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/petler.fpca.html">petler.fpca</a></span>(data_org))</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">##    user  system elapsed </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## 142.076  18.887  75.564</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span>(obj, <span class="st">"step1.rds"</span>) <span class="co"># save results for step II</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PETLER</span>)
+<span class="co">## Loading required package: survival</span></pre></body></html></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="no">obj</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/petler.fpca.html">petler.fpca</a></span>(<span class="no">data_org</span>))
+<span class="co">##    user  system elapsed </span>
+<span class="co">##  79.358  19.671  54.616</span>
+<span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span>(<span class="no">obj</span>, <span class="st">"step1.rds"</span>) <span class="co"># save results for step II</span></pre></body></html></div>
 <div id="estimated-mean-density" class="section level2">
 <h2 class="hasAnchor">
 <a href="#estimated-mean-density" class="anchor"></a>Estimated Mean Density</h2>
@@ -115,46 +115,39 @@
 <li><p>first functional PC score (1stScore)</p></li>
 <li><p>log of total number of codes (logN)</p></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(obj<span class="op">$</span>ValidFt[, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">##       1stCode1       Pk1       ChP1  1stScore1    logN1</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">## 90001  9.00000 50.383819  5.7376591 -0.3877255 1.386294</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">## 90002 70.37372 70.373717 70.3737166 -0.1452653 0.000000</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">## 90003  5.00000  7.100616  4.2229979  0.6688311 2.708050</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">## 90004 33.80698 33.806982 33.8069815 -0.1452653 0.000000</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">## 90005 98.62834 98.628337 98.6283368 -0.1452653 0.000000</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">## 90006  1.00000  1.144641  0.2641478 -0.2494385 1.386294</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(obj<span class="op">$</span>ValidFt[, <span class="dv">6</span><span class="op">:</span><span class="dv">10</span>])</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">##       1stCode2       Pk2      ChP2  1stScore2     logN2</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">## 90001 44.00000 42.853142 34.605257 -1.2659047 0.6931472</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">## 90002 21.00000 15.482218  5.805832 -0.4044147 1.0986123</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">## 90003  1.00000  9.043943  7.250103 -0.4905999 1.3862944</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">## 90004 33.80698 33.806982 33.806982 -0.8923211 0.0000000</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">## 90005 10.00000 17.259959  1.232854 -0.2297048 1.6094379</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">## 90006 17.60986 17.609856 17.609856 -0.8923211 0.0000000</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(obj<span class="op">$</span>ValidFt[, <span class="dv">11</span><span class="op">:</span><span class="dv">15</span>])</a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">##       1stCode3      Pk3     ChP3 1stScore3     logN3</span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">## 90001 71.72074 71.72074 71.72074  1.894450 0.0000000</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">## 90002 70.37372 70.37372 70.37372  1.894450 0.0000000</span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">## 90003 14.00000 13.75277 12.93060  1.125382 0.6931472</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">## 90004 33.80698 33.80698 33.80698  1.894450 0.0000000</span></a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">## 90005 98.62834 98.62834 98.62834  1.894450 0.0000000</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">## 90006 17.60986 17.60986 17.60986  1.894450 0.0000000</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">obj</span>$<span class="no">ValidFt</span>[, <span class="fl">1</span>:<span class="fl">5</span>])
+<span class="co">##       1stCode1       Pk1       ChP1  1stScore1    logN1</span>
+<span class="co">## 90001  9.00000 50.383819  5.7376591 -0.3877255 1.386294</span>
+<span class="co">## 90002 70.37372 70.373717 70.3737166 -0.1452653 0.000000</span>
+<span class="co">## 90003  5.00000  7.100616  4.2229979  0.6688311 2.708050</span>
+<span class="co">## 90004 33.80698 33.806982 33.8069815 -0.1452653 0.000000</span>
+<span class="co">## 90005 98.62834 98.628337 98.6283368 -0.1452653 0.000000</span>
+<span class="co">## 90006  1.00000  1.144641  0.2641478 -0.2494385 1.386294</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">obj</span>$<span class="no">ValidFt</span>[, <span class="fl">6</span>:<span class="fl">10</span>])
+<span class="co">##       1stCode2       Pk2      ChP2  1stScore2     logN2</span>
+<span class="co">## 90001 44.00000 42.853142 34.605257 -1.2659047 0.6931472</span>
+<span class="co">## 90002 21.00000 15.482218  5.805832 -0.4044147 1.0986123</span>
+<span class="co">## 90003  1.00000  9.043943  7.250103 -0.4905999 1.3862944</span>
+<span class="co">## 90004 33.80698 33.806982 33.806982 -0.8923211 0.0000000</span>
+<span class="co">## 90005 10.00000 17.259959  1.232854 -0.2297048 1.6094379</span>
+<span class="co">## 90006 17.60986 17.609856 17.609856 -0.8923211 0.0000000</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">obj</span>$<span class="no">ValidFt</span>[, <span class="fl">11</span>:<span class="fl">15</span>])
+<span class="co">##       1stCode3      Pk3     ChP3 1stScore3     logN3</span>
+<span class="co">## 90001 71.72074 71.72074 71.72074  1.894450 0.0000000</span>
+<span class="co">## 90002 70.37372 70.37372 70.37372  1.894450 0.0000000</span>
+<span class="co">## 90003 14.00000 13.75277 12.93060  1.125382 0.6931472</span>
+<span class="co">## 90004 33.80698 33.80698 33.80698  1.894450 0.0000000</span>
+<span class="co">## 90005 98.62834 98.62834 98.62834  1.894450 0.0000000</span>
+<span class="co">## 90006 17.60986 17.60986 17.60986  1.894450 0.0000000</span></pre></body></html></div>
 <p>The extracted features are saved in <code>step1.rds</code> and will be used in step II of the PETLER algorithm.</p>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#estimated-mean-density">Estimated Mean Density</a></li>
-      <li><a href="#subject-specific-densities">Subject-Specific Densities</a></li>
-      <li><a href="#feature-extraction">Feature Extraction</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -165,7 +158,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
