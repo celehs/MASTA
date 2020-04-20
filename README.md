@@ -21,6 +21,8 @@ fit a penalized proportional odds model to the event time outcomes with
 features derived in step I in the labeled data where the non-parametric
 baseline function is approximated using B-splines.
 
+![Flowchart](https://github.com/celehs/PETLER/blob/master/flowchart/flowchart.png)
+
 ## Installation
 
 Install development version from GitHub.
