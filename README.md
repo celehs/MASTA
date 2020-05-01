@@ -1,4 +1,4 @@
-__Predicting Event Time with Longitudinal Encounter Records__
+__Multi-modal Automated Time Annotation (MATA) Algorithm with Longitudinal Electronic Health Records__
 
 ## Overview
 
@@ -13,7 +13,7 @@ the event time based on billing or procedure codes may poorly
 approximate the true event time.
 
 This package implements a two-step semi-supervised learning method on
-predicting event time with longitudinal encounter records (PETLER). In
+predicting event time with longitudinal encounter records. In
 step I, we employ a functional principal component analysis approach to
 efficiently approximate the intensity functions of individual encounters
 using the observed point processes in the unlabeled set. In step II, we
@@ -21,7 +21,7 @@ fit a penalized proportional odds model to the event time outcomes with
 features derived in step I in the labeled data where the non-parametric
 baseline function is approximated using B-splines.
 
-![](https://github.com/celehs/PETLER/raw/master/flowchart/flowchart.png)
+![](https://github.com/celehs/MATA/raw/master/flowchart/flowchart.png)
 
 ## Installation
 
@@ -29,24 +29,24 @@ Install development version from GitHub.
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("celehs/PETLER")
+remotes::install_github("celehs/MATA")
 ```
 
 Load the package into R.
 
 ``` r
-library(PETLER)
+library(MATA)
 ```
 
 ## Documentation
 
-- [Input Data for the PETLER Algorithm](https://celehs.github.io/PETLER/articles/data.html)
+- [Input Data for the MATA Algorithm](https://celehs.github.io/MATA/articles/data.html)
 
-- [Step I. Feature Extraction with Functional PCA](https://celehs.github.io/PETLER/articles/step1.html)
+- [Step I. Feature Extraction with Functional PCA](https://celehs.github.io/MATA/articles/step1.html)
 
-- [Step II. Model Estimation with B-Splines](https://celehs.github.io/PETLER/articles/step2.html)
+- [Step II. Model Estimation with B-Splines](https://celehs.github.io/MATA/articles/step2.html)
 
-- [Acceleration with Multicore Parallel Computing](https://celehs.github.io/PETLER/articles/multicore.html)
+- [Acceleration with Multicore Parallel Computing](https://celehs.github.io/MATA/articles/multicore.html)
 
 ## References
 
