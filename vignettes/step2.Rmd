@@ -2,7 +2,7 @@
 title: "Step II. Model Estimation"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{example}
+  %\VignetteIndexEntry{step2}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -11,28 +11,20 @@ vignette: >
 options(width=100)
 ```
 
-In step II, we use the `petler.fit` function to fit penalized proportional odds (PO) models to the labeled time-to-event data with features derived in step I. When fitting the penalized PO models, the non-parametric baseline function is approximated using B-splines.
+In step II, we use the `mata.fit` function to fit penalized proportional odds (PO) models to the labeled time-to-event data with features derived in step I. When fitting the penalized PO models, the non-parametric baseline function is approximated using B-splines.
 
 ```{r lib}
-library(PETLER)
+library(MATA)
+```
+
+```{r fpca}
+# step I
+system.time(obj <- mata.fpca(data_org))
 ```
 
 ```{r}
-obj <- readRDS("step1.rds")
-```
-
-```{r, eval=FALSE}
-system.time(fit <- petler.fit(obj))
-##    user  system elapsed 
-## 292.297   0.338 292.641
-```
-
-```{r, eval=FALSE, echo=FALSE}
-saveRDS(fit, "step2.rds")
-```
-
-```{r, echo=FALSE}
-fit <- readRDS("step2.rds")
+# step II
+system.time(fit <- mata.fit(obj))
 ```
 
 ```{r, include=FALSE}
@@ -42,7 +34,7 @@ DF.wide <- data.frame(i = 1:nrow(bgbbest), bgbbest)
 DF.wide
 ```
 
-The output from the `petler.fit` function is a list with components: 
+The output from the `mata.fit` function is a list with components: 
 
 - details of the fitted model
 

@@ -15,10 +15,10 @@ knitr::opts_chunk$set(
 options(width=100)
 ```
 
-The step I of the PETLER algorithm involves calculating the mean density function and covariance functions from large unlabeled data. To accelerate this calculation, we have implemented a fast and memory-efficient approach via multicore parallel computing. 
+The step I of the MATA algorithm involves calculating the mean density function and covariance functions from large unlabeled data. To accelerate this calculation, we have implemented a fast and memory-efficient approach via multicore parallel computing. 
 
 ```{r}
-library(PETLER)
+library(MATA)
 ```
 
 ```{r}
@@ -51,7 +51,7 @@ timing <- function(code, ngrid, n_core) {
 # timing(code = "pred1", ngrid = 101, n_core = 4)
 ```
 
-```{r, eval=FALSE, echo=FALSE}
+```{r, echo=FALSE}
 DF <- expand.grid(
   codes = paste0("pred", 1:3), 
   ngrid =  c(100, 200, 400) + 1, 
@@ -61,14 +61,9 @@ for (i in 1:nrow(DF))  {
   code <- as.character(DF$code[i])
   DF$time[i] <- timing(code, DF$ngrid[i], DF$n_core[i])
 }
-saveRDS(DF, "multicore.rds")
 ```
 
-```{r, echo=FALSE}
-DF <- readRDS("multicore.rds")
-```
-
-The figure below shows the elapsed time (in seconds) for three event codes under different settings. Even for `ngrid` = 401, the elapsed time is less than one minute for each setting. The linear scalability allows the PETLER algorithm to be feasible even in studies with very large unlabeled data.
+The figure below shows the elapsed time (in seconds) for three event codes under different settings. Even for `ngrid` = 401, the elapsed time is less than one minute for each setting. The linear scalability allows the MATA algorithm to be feasible even in studies with very large unlabeled data.
 
 ```{r, fig.width=7, fig.height=7, echo=FALSE}
 library(ggplot2)
@@ -77,5 +72,3 @@ ggplot(DF, aes(x = factor(n_core), y = time)) +
   geom_bar(stat = "identity") + theme_bw() +
   xlab("Number of CPU Cores") + ylab("Elapsed Time (seconds)")
 ```
-
-

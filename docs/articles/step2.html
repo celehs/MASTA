@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Step II. Model Estimation • PETLER</title>
+<title>Step II. Model Estimation • MATA</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Step II. Model Estimation">
-<meta property="og:description" content="PETLER">
+<meta property="og:description" content="MATA">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">PETLER</a>
+        <a class="navbar-link" href="../index.html">MATA</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
@@ -58,7 +58,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/celehs/PETLER/">
+  <a href="https://github.com/celehs/MATA/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -79,62 +79,66 @@
       <h1 data-toc-skip>Step II. Model Estimation</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/celehs/PETLER/blob/master/vignettes/step2.Rmd"><code>vignettes/step2.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/celehs/MATA/blob/master/vignettes/step2.Rmd"><code>vignettes/step2.Rmd</code></a></small>
       <div class="hidden name"><code>step2.Rmd</code></div>
 
     </div>
 
     
     
-<p>In step II, we use the <code>petler.fit</code> function to fit penalized proportional odds (PO) models to the labeled time-to-event data with features derived in step I. When fitting the penalized PO models, the non-parametric baseline function is approximated using B-splines.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">PETLER</span>)</pre></body></html></div>
+<p>In step II, we use the <code>mata.fit</code> function to fit penalized proportional odds (PO) models to the labeled time-to-event data with features derived in step I. When fitting the penalized PO models, the non-parametric baseline function is approximated using B-splines.</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">MATA</span>)</pre></body></html></div>
 <pre><code>## Loading required package: survival</code></pre>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">obj</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="st">"step1.rds"</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/petler.fit.html">petler.fit</a></span>(<span class="no">obj</span>))
-<span class="co">##    user  system elapsed </span>
-<span class="co">## 292.297   0.338 292.641</span></pre></body></html></div>
-<p>The output from the <code>petler.fit</code> function is a list with components:</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># step I</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="no">obj</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mata.fpca.html">mata.fpca</a></span>(<span class="no">data_org</span>))</pre></body></html></div>
+<pre><code>##    user  system elapsed 
+##  74.746  18.423  50.540</code></pre>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># step II</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mata.fit.html">mata.fit</a></span>(<span class="no">obj</span>))</pre></body></html></div>
+<pre><code>##    user  system elapsed 
+## 322.683   0.043 322.916</code></pre>
+<p>The output from the <code>mata.fit</code> function is a list with components:</p>
 <ul>
 <li><p>details of the fitted model</p></li>
 <li><p>C-statistics and adjusted Brier scores of the derived algorithm</p></li>
 <li><p>A vector of consecutive integers describing the grouping coefficients</p></li>
 </ul>
-<p><img src="step2_files/figure-html/unnamed-chunk-6-1.png" width="768"></p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">fit</span></pre></body></html></div>
+<p><img src="step2_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">fit</span></pre></body></html></div>
 <pre><code>## $bgbbest_FromChengInit_BFGS
-##          bgbm.init                       AIC         BIC     AIC.Orig    BIC.Orig
-##  [1,] -10.11292125 -11.29421616 -11.29424511 -11.1465929 -11.29424511 -11.1465929
-##  [2,]   4.40187940   4.74380297   4.74381071   4.7169819   4.74381071   4.7169819
-##  [3,]   5.06221549   5.69189808   5.69190962   5.6546557   5.69190962   5.6546557
-##  [4,]   4.94319464   5.62210153   5.62209852   5.5584114   5.62209852   5.5584114
-##  [5,]   5.57160934   6.64214133   6.64215098   6.5833762   6.64215098   6.5833762
-##  [6,]   5.64333256   6.97343410   6.97343503   6.9105376   6.97343503   6.9105376
-##  [7,]   6.02185859   7.63875891   7.63873810   7.6230332   7.63873810   7.6230332
-##  [8,]   5.88147860   7.87473657   7.87474870   7.8309643   7.87474870   7.8309643
-##  [9,]   5.76978005   8.37413932   8.37413289   8.2730655   8.37413289   8.2730655
-## [10,]   5.62534094   8.52269490   8.52270229   8.4057302   8.52270229   8.4057302
-## [11,]   4.72880677   9.34363403   9.34364279   9.0717619   9.34364279   9.0717619
-## [12,]   0.11081080   0.12599476   0.12600962   0.1341242   0.12600962   0.1341242
-## [13,]  -0.55613083  -0.65376379  -0.65376914  -0.6467310  -0.65376914  -0.6467310
-## [14,]   0.02739589   0.33837376   0.33836215   0.3106244   0.33836215   0.3106244
-## [15,]   0.04608918   0.26586583   0.26586970   0.2410206   0.26586970   0.2410206
-## [16,]  -1.10655467  -0.98364965  -0.98360813  -1.0329246  -0.98360813  -1.0329246
-## [17,]  -0.90230236  -0.19576701  -0.19578055  -0.2579808  -0.19578055  -0.2579808
-## [18,]  -0.13030298   0.38146691   0.38147196   0.2473039   0.38147196   0.2473039
-## [19,]  -0.18317666  -0.15377130  -0.15377995   0.0000000  -0.15377995   0.0000000
-## [20,]  -0.39886398  -0.20976962  -0.20976731   0.0000000  -0.20976731   0.0000000
-## [21,]  -0.46081303  -0.31984955  -0.31985741   0.0000000  -0.31985741   0.0000000
-## [22,]  -0.09936041   0.07723746   0.07722058   0.0000000   0.07722058   0.0000000
-## [23,]   1.78698309   2.50314778   2.50314559   2.3493907   2.50314559   2.3493907
-## [24,]  -0.55040020  -1.95699624  -1.95701173  -1.8245941  -1.95701173  -1.8245941
+##         bgbm.init                       AIC          BIC     AIC.Orig     BIC.Orig
+##  [1,] -9.87969646 -10.79691085 -10.79692434 -10.75794193 -10.79692434 -10.75794193
+##  [2,]  4.48177317   5.03813484   5.03814476   5.07330249   5.03814476   5.07330249
+##  [3,]  4.65342077   5.69122756   5.69124364   5.75081603   5.69124364   5.75081603
+##  [4,]  5.45940846   6.29237743   6.29239165   6.32969570   6.29239165   6.32969570
+##  [5,]  4.89248831   6.06793207   6.06793835   6.07924861   6.06793835   6.07924861
+##  [6,]  6.10053515   7.38817747   7.38819109   7.41100265   7.38819109   7.41100265
+##  [7,]  5.73140065   7.20464369   7.20466760   7.22170381   7.20466760   7.22170381
+##  [8,]  5.47434854   7.32434662   7.32436190   7.34953643   7.32436190   7.34953643
+##  [9,]  6.05286792   8.35175213   8.35175566   8.31452535   8.35175566   8.31452535
+## [10,]  5.47763857   8.12143556   8.12143377   8.11948380   8.12143377   8.11948380
+## [11,]  4.07928318   8.81918182   8.81919596   8.68587096   8.81919596   8.68587096
+## [12,]  0.13849839   0.04897978   0.04896546   0.07206851   0.04896546   0.07206851
+## [13,] -0.30551686  -0.44938353  -0.44937561  -0.44192087  -0.44937561  -0.44192087
+## [14,] -0.29728633  -0.49206422  -0.49204947  -0.48881877  -0.49204947  -0.48881877
+## [15,]  0.01647202   0.23308729   0.23308184   0.22415821   0.23308184   0.22415821
+## [16,]  1.01617391   0.92380885   0.92384270   0.92406782   0.92384270   0.92406782
+## [17,]  0.95483326  -0.02422431  -0.02420684   0.03083804  -0.02420684   0.03083804
+## [18,]  0.40950961  -0.43904008  -0.43906037  -0.31979386  -0.43906037  -0.31979386
+## [19,]  0.08740150   0.02767696   0.02766693   0.00000000   0.02766693   0.00000000
+## [20,]  0.26818065   0.11630796   0.11630971   0.00000000   0.11630971   0.00000000
+## [21,]  0.39186037   0.41746933   0.41746467   0.00000000   0.41746467   0.00000000
+## [22,] -0.04727369   0.04416269   0.04413554   0.00000000   0.04413554   0.00000000
+## [23,]  1.89311596   2.22704509   2.22702315   2.20661049   2.22702315   2.20661049
+## [24,] -0.53044488  -1.67591615  -1.67587577  -1.69728793  -1.67587577  -1.69728793
 ## 
 ## $Cstat_BrierSc_ChengInit_BFGS
 ##                  Init       MLE       AIC       BIC  AIC.Orig  BIC.Orig     Cheng     NPMLE
-## Cstat       0.8387743 0.8675390 0.8674464 0.8703733 0.8674464 0.8703733 0.8387743 0.8689018
-## BrierSc.Adj 0.2075551 0.4343489 0.4343445 0.4352410 0.4343445 0.4352410 0.2067849 0.4103446
-##                 TreeTN     TreeAll      logi
-## Cstat       0.83767932  0.82742894 0.8467357
-## BrierSc.Adj 0.07349286 -0.07098773 0.1675775
+## Cstat       0.8579176 0.8546181 0.8546181 0.8454540 0.8546181 0.8454540 0.8579176 0.8742679
+## BrierSc.Adj 0.2511846 0.4292311 0.4292281 0.4146351 0.4292281 0.4146351 0.2514408 0.4401724
+##                TreeTN      TreeAll      logi
+## Cstat       0.8471663  0.844511944 0.8578160
+## BrierSc.Adj 0.1459797 -0.009839582 0.2137836
 ## 
 ## $group
 ##  [1] 1 2 3 4 4 4 4 5 5 5 5 6 6</code></pre>

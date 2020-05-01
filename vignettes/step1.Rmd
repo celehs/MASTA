@@ -2,7 +2,7 @@
 title: "Step I. Feature Extraction"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{example}
+  %\VignetteIndexEntry{step1}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,21 +12,14 @@ knitr::opts_chunk$set(collapse = TRUE)
 options(width=100)
 ```
 
-In step I, we use the `petler.fpca` function to perform a functional PCA ([Wu et al. 2013](https://doi.org/10.5705/ss.2010.162)), which is used to estimate the mean density functions (and covariance functions) using longitudinal encounter data. 
+In step I, we use the `mata.fpca` function to perform a functional PCA ([Wu et al. 2013](https://doi.org/10.5705/ss.2010.162)), which is used to estimate the mean density functions (and covariance functions) using longitudinal encounter data. 
 
 ```{r lib}
-library(PETLER)
+library(MATA)
 ```
 
-```{r fpca, eval=FALSE}
-system.time(obj <- petler.fpca(data_org))
-##    user  system elapsed 
-##  79.358  19.671  54.616
-saveRDS(obj, "step1.rds") # save results for step II
-```
-
-```{r, echo=FALSE}
-obj <- readRDS("step1.rds")
+```{r fpca}
+system.time(obj <- mata.fpca(data_org))
 ```
 
 ```{r, echo=FALSE}
@@ -123,5 +116,3 @@ head(obj$ValidFt[, 1:5])
 head(obj$ValidFt[, 6:10])
 head(obj$ValidFt[, 11:15])
 ```
-
-The extracted features are saved in `step1.rds` and will be used in step II of the PETLER algorithm.
