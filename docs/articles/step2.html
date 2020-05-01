@@ -6,19 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Step II. Model Estimation • MATA</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Step II. Model Estimation">
-<meta property="og:description" content="MATA">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
     <div class="container template-article">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -58,7 +58,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/celehs/MATA/">
+  <a href="https://github.com/celehs/MATA">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -76,7 +76,7 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Step II. Model Estimation</h1>
+      <h1>Step II. Model Estimation</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/celehs/MATA/blob/master/vignettes/step2.Rmd"><code>vignettes/step2.Rmd</code></a></small>
@@ -87,16 +87,16 @@
     
     
 <p>In step II, we use the <code>mata.fit</code> function to fit penalized proportional odds (PO) models to the labeled time-to-event data with features derived in step I. When fitting the penalized PO models, the non-parametric baseline function is approximated using B-splines.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">MATA</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MATA)</a></code></pre></div>
 <pre><code>## Loading required package: survival</code></pre>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># step I</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="no">obj</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mata.fpca.html">mata.fpca</a></span>(<span class="no">data_org</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># step I</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="https://celehs.github.io/MATA//reference/mata.fpca.html">mata.fpca</a></span>(data_org))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  74.746  18.423  50.540</code></pre>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># step II</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(<span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mata.fit.html">mata.fit</a></span>(<span class="no">obj</span>))</pre></body></html></div>
+## 103.403  12.159  56.453</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># step II</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(fit &lt;-<span class="st"> </span><span class="kw"><a href="https://celehs.github.io/MATA//reference/mata.fit.html">mata.fit</a></span>(obj))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-## 322.683   0.043 322.916</code></pre>
+## 288.437   0.021 288.469</code></pre>
 <p>The output from the <code>mata.fit</code> function is a list with components:</p>
 <ul>
 <li><p>details of the fitted model</p></li>
@@ -104,21 +104,21 @@
 <li><p>A vector of consecutive integers describing the grouping coefficients</p></li>
 </ul>
 <p><img src="step2_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">fit</span></pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">fit</a></code></pre></div>
 <pre><code>## $bgbbest_FromChengInit_BFGS
 ##         bgbm.init                       AIC          BIC     AIC.Orig     BIC.Orig
 ##  [1,] -9.87969646 -10.79691085 -10.79692434 -10.75794193 -10.79692434 -10.75794193
 ##  [2,]  4.48177317   5.03813484   5.03814476   5.07330249   5.03814476   5.07330249
 ##  [3,]  4.65342077   5.69122756   5.69124364   5.75081603   5.69124364   5.75081603
 ##  [4,]  5.45940846   6.29237743   6.29239165   6.32969570   6.29239165   6.32969570
-##  [5,]  4.89248831   6.06793207   6.06793835   6.07924861   6.06793835   6.07924861
+##  [5,]  4.89248832   6.06793207   6.06793835   6.07924861   6.06793835   6.07924861
 ##  [6,]  6.10053515   7.38817747   7.38819109   7.41100265   7.38819109   7.41100265
-##  [7,]  5.73140065   7.20464369   7.20466760   7.22170381   7.20466760   7.22170381
-##  [8,]  5.47434854   7.32434662   7.32436190   7.34953643   7.32436190   7.34953643
+##  [7,]  5.73140066   7.20464369   7.20466760   7.22170381   7.20466760   7.22170381
+##  [8,]  5.47434853   7.32434662   7.32436190   7.34953643   7.32436190   7.34953643
 ##  [9,]  6.05286792   8.35175213   8.35175566   8.31452535   8.35175566   8.31452535
-## [10,]  5.47763857   8.12143556   8.12143377   8.11948380   8.12143377   8.11948380
-## [11,]  4.07928318   8.81918182   8.81919596   8.68587096   8.81919596   8.68587096
-## [12,]  0.13849839   0.04897978   0.04896546   0.07206851   0.04896546   0.07206851
+## [10,]  5.47763858   8.12143556   8.12143377   8.11948380   8.12143377   8.11948380
+## [11,]  4.07928317   8.81918182   8.81919596   8.68587096   8.81919596   8.68587096
+## [12,]  0.13849840   0.04897978   0.04896546   0.07206851   0.04896546   0.07206851
 ## [13,] -0.30551686  -0.44938353  -0.44937561  -0.44192087  -0.44937561  -0.44192087
 ## [14,] -0.29728633  -0.49206422  -0.49204947  -0.48881877  -0.49204947  -0.48881877
 ## [15,]  0.01647202   0.23308729   0.23308184   0.22415821   0.23308184   0.22415821
@@ -144,7 +144,7 @@
 ##  [1] 1 2 3 4 4 4 4 5 5 5 5 6 6</code></pre>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 
       </div>
 
@@ -157,7 +157,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

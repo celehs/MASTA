@@ -1,8 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+
 ^docs$
 ^data-raw$
-archive/
-flowchart/
-pkgdown/
-working/
+^archive$
+^flowchart$
+^pkgdown$
+^working$
