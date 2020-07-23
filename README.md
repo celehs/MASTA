@@ -1,4 +1,4 @@
-__Multi-modal Automated Time Annotation (MATA) Algorithm with Longitudinal Electronic Health Records__
+__Multi-modal Automated Survival Time Annotation (MASTA) Algorithm with Longitudinal Electronic Health Records__
 
 ## Overview
 
@@ -21,7 +21,7 @@ fit a penalized proportional odds model to the event time outcomes with
 features derived in step I in the labeled data where the non-parametric
 baseline function is approximated using B-splines.
 
-![](https://github.com/celehs/MATA/raw/master/flowchart/flowchart.png)
+![](https://github.com/celehs/MASTA/raw/master/flowchart/flowchart.png)
 
 ## Installation
 
@@ -29,7 +29,7 @@ Install development version from GitHub.
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("celehs/MATA")
+remotes::install_github("celehs/MASTA")
 ```
 
 Load the package into R.
@@ -40,13 +40,13 @@ library(MATA)
 
 ## Documentation
 
-- [Input Data for the MATA Algorithm](https://celehs.github.io/MATA/articles/data.html)
+- [Input Data for the MASTA Algorithm](https://celehs.github.io/MASTA/articles/data.html)
 
-- [Step I. Feature Extraction with Functional PCA](https://celehs.github.io/MATA/articles/step1.html)
+- [Step I. Feature Extraction with Functional PCA](https://celehs.github.io/MASTA/articles/step1.html)
 
-- [Step II. Model Estimation with B-Splines](https://celehs.github.io/MATA/articles/step2.html)
+- [Step II. Model Estimation with B-Splines](https://celehs.github.io/MASTA/articles/step2.html)
 
-- [Acceleration with Multicore Parallel Computing](https://celehs.github.io/MATA/articles/multicore.html)
+- [Acceleration with Multicore Parallel Computing](https://celehs.github.io/MASTA/articles/multicore.html)
 
 ## References
 
