@@ -35,7 +35,7 @@ remotes::install_github("celehs/MASTA")
 Load the package into R.
 
 ``` r
-library(MATA)
+library(MASTA)
 ```
 
 ## Documentation

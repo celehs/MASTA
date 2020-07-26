@@ -89,9 +89,9 @@
 <p>In step I, we use the <code>mata.fpca</code> function to perform a functional PCA (<a href="https://doi.org/10.5705/ss.2010.162">Wu et al. 2013</a>), which is used to estimate the mean density functions (and covariance functions) using longitudinal encounter data.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MATA)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="https://celehs.github.io/MATA//reference/mata.fpca.html">mata.fpca</a></span>(data_org))</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mata.fpca.html">mata.fpca</a></span>(data_org))</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">##    user  system elapsed </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## 103.344  11.899  56.962</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## 107.035   9.874  75.621</span></a></code></pre></div>
 <div id="estimated-mean-density" class="section level2">
 <h2 class="hasAnchor">
 <a href="#estimated-mean-density" class="anchor"></a>Estimated Mean Density</h2>

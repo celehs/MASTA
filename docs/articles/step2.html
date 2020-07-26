@@ -90,13 +90,13 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MATA)</a></code></pre></div>
 <pre><code>## Loading required package: survival</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># step I</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="https://celehs.github.io/MATA//reference/mata.fpca.html">mata.fpca</a></span>(data_org))</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mata.fpca.html">mata.fpca</a></span>(data_org))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-## 103.403  12.159  56.453</code></pre>
+## 109.802  10.112  77.962</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># step II</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(fit &lt;-<span class="st"> </span><span class="kw"><a href="https://celehs.github.io/MATA//reference/mata.fit.html">mata.fit</a></span>(obj))</a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mata.fit.html">mata.fit</a></span>(obj))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-## 288.437   0.021 288.469</code></pre>
+## 283.491   0.037 283.719</code></pre>
 <p>The output from the <code>mata.fit</code> function is a list with components:</p>
 <ul>
 <li><p>details of the fitted model</p></li>

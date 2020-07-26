@@ -76,31 +76,31 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p><strong>Multi-modal Automated Time Annotation (MATA) Algorithm with Longitudinal Electronic Health Records</strong></p>
+<p><strong>Multi-modal Automated Survival Time Annotation (MASTA) Algorithm with Longitudinal Electronic Health Records</strong></p>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
 <p>Large clinical datasets derived from insurance claims and electronic health record (EHR) systems are valuable sources for precision medicine research. These datasets can be used to develop models for personalized prediction of risk or treatment response. Efficiently deriving prediction models using real world data, however, faces practical and methodological challenges. For example, event time information such as time to cancer progression is not readily available. Simple estimates of the event time based on billing or procedure codes may poorly approximate the true event time.</p>
 <p>This package implements a two-step semi-supervised learning method on predicting event time with longitudinal encounter records. In step I, we employ a functional principal component analysis approach to efficiently approximate the intensity functions of individual encounters using the observed point processes in the unlabeled set. In step II, we fit a penalized proportional odds model to the event time outcomes with features derived in step I in the labeled data where the non-parametric baseline function is approximated using B-splines.</p>
-<p><img src="https://github.com/celehs/MATA/raw/master/flowchart/flowchart.png"></p>
+<p><img src="https://github.com/celehs/MASTA/raw/master/flowchart/flowchart.png"></p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install development version from GitHub.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("remotes")</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"celehs/MATA"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"celehs/MASTA"</span>)</a></code></pre></div>
 <p>Load the package into R.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MATA)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MASTA)</a></code></pre></div>
 </div>
 <div id="documentation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#documentation" class="anchor"></a>Documentation</h2>
 <ul>
-<li><p><a href="https://celehs.github.io/MATA/articles/data.html">Input Data for the MATA Algorithm</a></p></li>
-<li><p><a href="https://celehs.github.io/MATA/articles/step1.html">Step I. Feature Extraction with Functional PCA</a></p></li>
-<li><p><a href="https://celehs.github.io/MATA/articles/step2.html">Step II. Model Estimation with B-Splines</a></p></li>
-<li><p><a href="https://celehs.github.io/MATA/articles/multicore.html">Acceleration with Multicore Parallel Computing</a></p></li>
+<li><p><a href="https://celehs.github.io/MASTA/articles/data.html">Input Data for the MASTA Algorithm</a></p></li>
+<li><p><a href="https://celehs.github.io/MASTA/articles/step1.html">Step I. Feature Extraction with Functional PCA</a></p></li>
+<li><p><a href="https://celehs.github.io/MASTA/articles/step2.html">Step II. Model Estimation with B-Splines</a></p></li>
+<li><p><a href="https://celehs.github.io/MASTA/articles/multicore.html">Acceleration with Multicore Parallel Computing</a></p></li>
 </ul>
 </div>
 <div id="references" class="section level2">
