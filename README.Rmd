@@ -3,10 +3,6 @@ title: "Multi-modal Automated Survival Time Annotation"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-```
-
 ## Overview
 
 Large clinical datasets derived from insurance claims and electronic health record (EHR) systems are valuable sources for precision medicine research. These datasets can be used to develop models for personalized prediction of risk or treatment response. Efficiently deriving prediction models using real world data, however, faces practical and methodological challenges. For example, event time information such as time to cancer progression is not readily available. Simple estimates of the event time based on billing or procedure codes may poorly approximate the true event time.
@@ -19,7 +15,7 @@ This package implements a two-step semi-supervised learning method on predicting
 
 Install development version from GitHub.
 
-```{r}
+```{r, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("celehs/MASTA")
 ```
@@ -45,3 +41,10 @@ library(MASTA)
 - Liang, L., Uno, H., Ma, Y., Cai, T. __Robust Approach to Event Time Annotation Using Longitudinal Medical Encounters__. _Working Paper_.
 
 - Wu, S., Müller, H., Zhang, Z. (2013). __Functional Data Analysis for Point Processes with Rare Events__. _Statistica Sinica_, 23:1-23. <https://doi.org/10.5705/ss.2010.162>
+
+## Work in Progress
+
+```{r}
+data_org2
+```
+
