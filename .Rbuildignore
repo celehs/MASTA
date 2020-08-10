@@ -7,3 +7,5 @@
 ^flowchart$
 ^pkgdown$
 ^working$
+README.Rmd
+_vignettes

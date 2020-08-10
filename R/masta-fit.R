@@ -1,6 +1,6 @@
-#' @title Main function implementing the MATA algorithm
+#' @title Main function implementing the MASTA algorithm
 #' @description This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
-#' @param object results returned by the \code{mata.fpca} function
+#' @param object results returned by the \code{masta.fpca} function
 #' @param cov_group a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.
 #' @param thresh a default is \code{0.7}, which means if there are codes with >70\% patients no codes, only use first code time.
 #' @param PCAthresh a threshold value for PCA. Default is \code{0.9}.
@@ -11,7 +11,7 @@
 #' @return \item{Cstat_BrierSc_ChengInit_BFGS}{Performance of the derived algorithm. C-statistics, etc.}
 #' @return \item{group}{A vector of consecutive integers describing the grouping coefficients}
 #' @export
-mata.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) {  
+masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) {  
   nn <- object$nn 
   codes <- object$codes
   Tend <- object$Tend  

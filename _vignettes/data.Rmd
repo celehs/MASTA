@@ -2,7 +2,7 @@
 title: "Input Data"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Input Data}
+  %\VignetteIndexEntry{data}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

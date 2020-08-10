@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Main function implementing the MATA algorithm — mata.fit • MATA</title>
+<title>MASTA Package — MASTA-package • MASTA</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Main function implementing the MATA algorithm — mata.fit" />
-<meta property="og:description" content="This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors." />
+<meta property="og:title" content="MASTA Package — MASTA-package" />
+<meta property="og:description" content="Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -68,7 +68,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">MATA</a>
+        <a class="navbar-link" href="../index.html">MASTA</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
@@ -95,12 +95,7 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/celehs/MATA">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -114,69 +109,26 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Main function implementing the MATA algorithm</h1>
-    <small class="dont-index">Source: <a href='https://github.com/celehs/MATA/blob/master/R/mata-fit.R'><code>R/mata-fit.R</code></a></small>
-    <div class="hidden name"><code>mata.fit.Rd</code></div>
+    <h1>MASTA Package</h1>
+    
+    <div class="hidden name"><code>MASTA-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors.</p>
+    <p>Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mata.fit</span>(
-  <span class='no'>object</span>,
-  <span class='kw'>cov_group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>thresh</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
-  <span class='kw'>PCAthresh</span> <span class='kw'>=</span> <span class='fl'>0.9</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1234</span>,
-  <span class='kw'>seed2</span> <span class='kw'>=</span> <span class='fl'>100</span>
-)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>object</th>
-      <td><p>results returned by the <code>mata.fpca</code> function</p></td>
-    </tr>
-    <tr>
-      <th>cov_group</th>
-      <td><p>a vector of consecutive integers describing the grouping only for covariates. When <code>NULL</code> is specified (default), each covariate will be in different group.</p></td>
-    </tr>
-    <tr>
-      <th>thresh</th>
-      <td><p>a default is <code>0.7</code>, which means if there are codes with &gt;70% patients no codes, only use first code time.</p></td>
-    </tr>
-    <tr>
-      <th>PCAthresh</th>
-      <td><p>a threshold value for PCA. Default is <code>0.9</code>.</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>random seed used for the sampling. Default is <code>1234</code>.</p></td>
-    </tr>
-    <tr>
-      <th>seed2</th>
-      <td><p>random seed used for the sampling. Default is <code>100</code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A list with components:</p>
-<dt>bgbbest_FromChengInit_BFGS</dt><dd><p>Details of the fitted model</p></dd>
-
-<dt>Cstat_BrierSc_ChengInit_BFGS</dt><dd><p>Performance of the derived algorithm. C-statistics, etc.</p></dd>
-
-<dt>group</dt><dd><p>A vector of consecutive integers describing the grouping coefficients</p></dd>
-
+    <p>Visit the documentation website for more details. https://celehs.github.io/MASTA/</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

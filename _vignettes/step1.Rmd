@@ -2,7 +2,7 @@
 title: "Step I. Feature Extraction"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Step I. Feature Extraction}
+  %\VignetteIndexEntry{step1}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,7 @@ library(MASTA)
 ```
 
 ```{r fpca}
-system.time(obj <- masta.fpca(data_org))
+system.time(obj <- mata.fpca(data_org))
 ```
 
 ```{r, echo=FALSE}

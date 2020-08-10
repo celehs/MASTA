@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Step I. Feature Extraction • MATA</title>
+<title>Step I. Feature Extraction • MASTA</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">MATA</a>
+        <a class="navbar-link" href="../index.html">MASTA</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
@@ -56,14 +56,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/celehs/MATA">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -79,19 +72,19 @@
       <h1>Step I. Feature Extraction</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/celehs/MATA/blob/master/vignettes/step1.Rmd"><code>vignettes/step1.Rmd</code></a></small>
+      
       <div class="hidden name"><code>step1.Rmd</code></div>
 
     </div>
 
     
     
-<p>In step I, we use the <code>mata.fpca</code> function to perform a functional PCA (<a href="https://doi.org/10.5705/ss.2010.162">Wu et al. 2013</a>), which is used to estimate the mean density functions (and covariance functions) using longitudinal encounter data.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MATA)</a>
+<p>In step I, we use the <code>masta.fpca</code> function to perform a functional PCA (<a href="https://doi.org/10.5705/ss.2010.162">Wu et al. 2013</a>), which is used to estimate the mean density functions (and covariance functions) using longitudinal encounter data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MASTA)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mata.fpca.html">mata.fpca</a></span>(data_org))</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/masta.fpca.html">masta.fpca</a></span>(data_org))</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">##    user  system elapsed </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## 107.035   9.874  75.621</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## 106.543   9.802  74.980</span></a></code></pre></div>
 <div id="estimated-mean-density" class="section level2">
 <h2 class="hasAnchor">
 <a href="#estimated-mean-density" class="anchor"></a>Estimated Mean Density</h2>

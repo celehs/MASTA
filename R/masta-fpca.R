@@ -8,7 +8,7 @@
 #' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
 #' @param n_core an integer to specify the number of core using for parallel computing. 
 #' @export
-mata.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = NULL) {
+masta.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_core = NULL) {
   if (is.null(n_core)) n_core <- parallel::detectCores()
   registerDoParallel(cores = n_core)  
   TrainSurv <- data.frame(data$TrainSurv)

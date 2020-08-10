@@ -1,4 +1,5 @@
-__Multi-modal Automated Survival Time Annotation (MASTA) Algorithm with Longitudinal Electronic Health Records__
+Multi-modal Automated Survival Time Annotation
+================
 
 ## Overview
 
@@ -13,11 +14,11 @@ the event time based on billing or procedure codes may poorly
 approximate the true event time.
 
 This package implements a two-step semi-supervised learning method on
-predicting event time with longitudinal encounter records. In
-step I, we employ a functional principal component analysis approach to
-efficiently approximate the intensity functions of individual encounters
-using the observed point processes in the unlabeled set. In step II, we
-fit a penalized proportional odds model to the event time outcomes with
+predicting event time with longitudinal encounter records. In step I, we
+employ a functional principal component analysis approach to efficiently
+approximate the intensity functions of individual encounters using the
+observed point processes in the unlabeled set. In step II, we fit a
+penalized proportional odds model to the event time outcomes with
 features derived in step I in the labeled data where the non-parametric
 baseline function is approximated using B-splines.
 
@@ -40,16 +41,23 @@ library(MASTA)
 
 ## Documentation
 
-- [Input Data for the MASTA Algorithm](https://celehs.github.io/MASTA/articles/data.html)
+  - [Input Data for the MASTA
+    Algorithm](https://celehs.github.io/MASTA/articles/data.html)
 
-- [Step I. Feature Extraction with Functional PCA](https://celehs.github.io/MASTA/articles/step1.html)
+  - [Step I. Feature Extraction with Functional
+    PCA](https://celehs.github.io/MASTA/articles/step1.html)
 
-- [Step II. Model Estimation with B-Splines](https://celehs.github.io/MASTA/articles/step2.html)
+  - [Step II. Model Estimation with
+    B-Splines](https://celehs.github.io/MASTA/articles/step2.html)
 
-- [Acceleration with Multicore Parallel Computing](https://celehs.github.io/MASTA/articles/multicore.html)
+  - [Acceleration with Multicore Parallel
+    Computing](https://celehs.github.io/MASTA/articles/multicore.html)
 
 ## References
 
-- Liang, L., Uno, H., Ma, Y., Cai, T. __Robust Approach to Event Time Annotation Using Longitudinal Medical Encounters__. _Working Paper_.
+  - Liang, L., Uno, H., Ma, Y., Cai, T. **Robust Approach to Event Time
+    Annotation Using Longitudinal Medical Encounters**. *Working Paper*.
 
-- Wu, S., Müller, H., Zhang, Z. (2013). __Functional Data Analysis for Point Processes with Rare Events__. _Statistica Sinica_, 23:1-23. <https://doi.org/10.5705/ss.2010.162>
+  - Wu, S., Müller, H., Zhang, Z. (2013). **Functional Data Analysis for
+    Point Processes with Rare Events**. *Statistica Sinica*, 23:1-23.
+    <https://doi.org/10.5705/ss.2010.162>

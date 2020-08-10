@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multicore Computing • MATA</title>
+<title>Multicore Computing • MASTA</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">MATA</a>
+        <a class="navbar-link" href="../index.html">MASTA</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
@@ -56,14 +56,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/celehs/MATA">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -79,15 +72,15 @@
       <h1>Multicore Computing</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/celehs/MATA/blob/master/vignettes/multicore.Rmd"><code>vignettes/multicore.Rmd</code></a></small>
+      
       <div class="hidden name"><code>multicore.Rmd</code></div>
 
     </div>
 
     
     
-<p>The step I of the MATA algorithm involves calculating the mean density function and covariance functions from large unlabeled data. To accelerate this calculation, we have implemented a fast and memory-efficient approach via multicore parallel computing.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MATA)</a>
+<p>The step I of the MASTA algorithm involves calculating the mean density function and covariance functions from large unlabeled data. To accelerate this calculation, we have implemented a fast and memory-efficient approach via multicore parallel computing.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MASTA)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">TrainCode &lt;-<span class="st"> </span>data_org<span class="op">$</span>TrainCode</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">TrainCode[, monthstd <span class="op">:</span><span class="er">=</span><span class="st"> </span>month <span class="op">/</span><span class="st"> </span>fu_time]  <span class="co"># standardized time (range: 0-1)</span></a>
@@ -114,7 +107,7 @@
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">## pred1 72917     9%</span></a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">## pred2 57210     7%</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">## pred3 13896     2%</span></a></code></pre></div>
-<p>The figure below shows the elapsed time (in seconds) for three event codes under different settings. Even for <code>ngrid</code> = 401, the elapsed time is less than one minute for each setting. The linear scalability allows the MATA algorithm to be feasible even in studies with very large unlabeled data.</p>
+<p>The figure below shows the elapsed time (in seconds) for three event codes under different settings. Even for <code>ngrid</code> = 401, the elapsed time is less than one minute for each setting. The linear scalability allows the MASTA algorithm to be feasible even in studies with very large unlabeled data.</p>
 <p><img src="multicore_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
   </div>
 

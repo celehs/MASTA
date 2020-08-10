@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://celehs.github.io/MATA//index.html</loc>
+    <loc>https://celehs.github.io/MASTA//index.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MATA//reference/FPC.Kern.S.html</loc>
+    <loc>https://celehs.github.io/MASTA//reference/FPC.Kern.S.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MATA//reference/MATA-package.html</loc>
+    <loc>https://celehs.github.io/MASTA//reference/MASTA-package.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MATA//reference/data_org.html</loc>
+    <loc>https://celehs.github.io/MASTA//reference/data_org.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MATA//reference/mata.fit.html</loc>
+    <loc>https://celehs.github.io/MASTA//reference/masta.fit.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MATA//reference/mata.fpca.html</loc>
+    <loc>https://celehs.github.io/MASTA//reference/masta.fpca.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MATA//articles/data.html</loc>
+    <loc>https://celehs.github.io/MASTA//articles/data.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MATA//articles/multicore.html</loc>
+    <loc>https://celehs.github.io/MASTA//articles/multicore.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MATA//articles/step1.html</loc>
+    <loc>https://celehs.github.io/MASTA//articles/step1.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MATA//articles/step2.html</loc>
+    <loc>https://celehs.github.io/MASTA//articles/step2.html</loc>
   </url>
 </urlset>

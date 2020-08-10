@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Input Data • MATA</title>
+<title>Input Data • MASTA</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">MATA</a>
+        <a class="navbar-link" href="../index.html">MASTA</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
@@ -56,14 +56,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/celehs/MATA">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -80,21 +73,21 @@
       <h1>Input Data</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/celehs/MATA/blob/master/vignettes/data.Rmd"><code>vignettes/data.Rmd</code></a></small>
+      
       <div class="hidden name"><code>data.Rmd</code></div>
 
     </div>
 
     
     
-<p>The MATA algorithm is a semi-supervised learning method and it requires two sources of input data.</p>
+<p>The MASTA algorithm is a semi-supervised learning method and it requires two sources of input data.</p>
 <ul>
 <li><p>A labeled data with time-to-event outcomes and baseline covariates.</p></li>
 <li><p>A unlabeled data with longitudinal encounter records.</p></li>
 </ul>
-<div id="htmlwidget-467b723cc73dd5d8f908" style="width:480px;height:288px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-467b723cc73dd5d8f908">{"x":{"diagram":"\ndigraph flowchart {\n  node [fontname = Helvetica, shape = rectangle]        \n  tab1 [label = \"Input Data\"]\n  tab2 [label = \"Labeled (n = 1,100)\"]\n  tab3 [label = \"Unlabeled (N = 20,000)\"]\n  tab4 [label = \"Training (600)\"]\n  tab5 [label = \"Validation (500)\"]\n  tab1 -> tab2;\n  tab1 -> tab3;\n  tab2 -> tab4;\n  tab2 -> tab5;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><p>The <code>MATA</code> package contains a sample data called <code>data_org</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MATA)</a>
+<div id="htmlwidget-de625034f6d99a88fd0e" style="width:480px;height:288px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-de625034f6d99a88fd0e">{"x":{"diagram":"\ndigraph flowchart {\n  node [fontname = Helvetica, shape = rectangle]        \n  tab1 [label = \"Input Data\"]\n  tab2 [label = \"Labeled (n = 1,100)\"]\n  tab3 [label = \"Unlabeled (N = 20,000)\"]\n  tab4 [label = \"Training (600)\"]\n  tab5 [label = \"Validation (500)\"]\n  tab1 -> tab2;\n  tab1 -> tab3;\n  tab2 -> tab4;\n  tab2 -> tab5;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><p>The <code>MASTA</code> package contains a sample data called <code>data_org</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MASTA)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">?data_org <span class="co"># view data documentation</span></a></code></pre></div>
 <p><code>data_org</code> is a list with four components (<code>TrainSurv</code>, <code>ValidSurv</code>, <code>TrainCode</code>, <code>ValidCode</code>).</p>
@@ -137,7 +130,7 @@
 <div id="longitudinal-encounter-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#longitudinal-encounter-data" class="anchor"></a>Longitudinal Encounter Data</h2>
-<p><code>TrainCode</code> and <code>ValidCode</code> will be used in Step I of the MATA algorithm to extract features from estimated subject-specific intensity functions of individual encounters.</p>
+<p><code>TrainCode</code> and <code>ValidCode</code> will be used in Step I of the MASTA algorithm to extract features from estimated subject-specific intensity functions of individual encounters.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">data_org[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TrainCode"</span>, <span class="st">"ValidCode"</span>)]</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">## $TrainCode</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">##            id  fu_time month pred1 pred2 pred3</span></a>
@@ -170,7 +163,7 @@
 <div id="time-to-event-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#time-to-event-data" class="anchor"></a>Time-to-Event Data</h2>
-<p>Together with the features derived from longitudinal encounter data, <code>TrainCode</code> and <code>ValidCode</code> will be used in Step II of the MATA algorithm to train and evaluate risk prediction models with survival outcomes.</p>
+<p>Together with the features derived from longitudinal encounter data, <code>TrainCode</code> and <code>ValidCode</code> will be used in Step II of the MASTA algorithm to train and evaluate risk prediction models with survival outcomes.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">data_org[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TrainSurv"</span>, <span class="st">"ValidSurv"</span>)]</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">## $TrainSurv</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">##       id event_ind event_time   fu_time cov_1 cov_2 cov_3</span></a>

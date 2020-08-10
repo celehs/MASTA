@@ -2,7 +2,7 @@
 title: "Multicore Computing"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Multicore Computing}
+  %\VignetteIndexEntry{scalability}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,6 @@ The step I of the MASTA algorithm involves calculating the mean density function
 
 ```{r}
 library(MASTA)
-parallel::detectCores()
 ```
 
 ```{r}
@@ -64,7 +63,7 @@ for (i in 1:nrow(DF))  {
 }
 ```
 
-The figure below shows the elapsed time (in seconds) for three event codes under different settings. Even for `ngrid` = 401, the elapsed time is less than one minute for each setting. The linear scalability allows the MASTA algorithm to be feasible even in studies with very large unlabeled data.
+The figure below shows the elapsed time (in seconds) for three event codes under different settings. Even for `ngrid` = 401, the elapsed time is less than one minute for each setting. The linear scalability allows the MATA algorithm to be feasible even in studies with very large unlabeled data.
 
 ```{r, fig.width=7, fig.height=7, echo=FALSE}
 library(ggplot2)

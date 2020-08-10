@@ -2,7 +2,7 @@
 title: "Step II. Model Estimation"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Step II. Model Estimation}
+  %\VignetteIndexEntry{step2}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
