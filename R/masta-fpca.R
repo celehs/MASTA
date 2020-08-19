@@ -46,6 +46,7 @@ masta.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_cor
   names(FPCA) <- codes
   for(i in seq_along(codes)) {
     # cat(i,"\n")
+    print(paste("training:", codes[i]))
     tmp2 <- TrainN[, i + 1] > 0
     TrainNP <- TrainN[tmp2, i + 1]
     ### PKs from Two-step procedure
@@ -106,6 +107,7 @@ masta.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_cor
   ft.e2 <- ft.e.S2 <- PKTS2 <- NULL
   for (i in seq_along(codes)) {
     # cat(i, "\n")
+    print(paste("validation:", codes[i]))
     tmp2 <- ValidN[, i + 1] > 0
     ValidNP <- ValidN[tmp2, i + 1]
     names(ValidNP) <- rownames(ValidN[tmp2, ])

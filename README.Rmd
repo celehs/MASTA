@@ -41,10 +41,3 @@ library(MASTA)
 - Liang, L., Uno, H., Ma, Y., Cai, T. __Robust Approach to Event Time Annotation Using Longitudinal Medical Encounters__. _Working Paper_.
 
 - Wu, S., Müller, H., Zhang, Z. (2013). __Functional Data Analysis for Point Processes with Rare Events__. _Statistica Sinica_, 23:1-23. <https://doi.org/10.5705/ss.2010.162>
-
-## Work in Progress
-
-```{r}
-data_org2
-```
-

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MASTA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -83,8 +83,14 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(MASTA)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">## Loading required package: survival</span></a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/masta.fpca.html">masta.fpca</a></span>(data_org))</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">##    user  system elapsed </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## 106.543   9.802  74.980</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">## [1] "training: pred1"</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">## [1] "training: pred2"</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">## [1] "training: pred3"</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">## [1] "validation: pred1"</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">## [1] "validation: pred2"</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">## [1] "validation: pred3"</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">##    user  system elapsed </span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">## 108.875  10.221  76.826</span></a></code></pre></div>
 <div id="estimated-mean-density" class="section level2">
 <h2 class="hasAnchor">
 <a href="#estimated-mean-density" class="anchor"></a>Estimated Mean Density</h2>

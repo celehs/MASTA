@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MASTA</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -84,12 +84,18 @@
 <pre><code>## Loading required package: survival</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># step I</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(obj &lt;-<span class="st"> </span><span class="kw"><a href="../reference/masta.fpca.html">masta.fpca</a></span>(data_org))</a></code></pre></div>
+<pre><code>## [1] "training: pred1"
+## [1] "training: pred2"
+## [1] "training: pred3"
+## [1] "validation: pred1"
+## [1] "validation: pred2"
+## [1] "validation: pred3"</code></pre>
 <pre><code>##    user  system elapsed 
-## 108.899   9.864  76.846</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># step II</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/masta.fit.html">masta.fit</a></span>(obj))</a></code></pre></div>
+## 109.378  10.354  77.548</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># step II</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span>(fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/masta.fit.html">masta.fit</a></span>(obj))</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-## 281.284   0.021 281.383</code></pre>
+## 278.394   0.049 278.537</code></pre>
 <p>The output from the <code>masta.fit</code> function is a list with components:</p>
 <ul>
 <li><p>details of the fitted model</p></li>
@@ -97,7 +103,7 @@
 <li><p>A vector of consecutive integers describing the grouping coefficients</p></li>
 </ul>
 <p><img src="step2_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">fit</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">fit</a></code></pre></div>
 <pre><code>## $bgbbest_FromChengInit_BFGS
 ##         bgbm.init                       AIC          BIC     AIC.Orig     BIC.Orig
 ##  [1,] -9.87969646 -10.79691085 -10.79692434 -10.75794193 -10.79692434 -10.75794193

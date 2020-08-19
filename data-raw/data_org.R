@@ -18,8 +18,10 @@ ValidLong[[3]] <- subset(ValidCode[, c(1:3, 6)], pred3 != 0)
 data_org <- list(
   TrainSurv = TrainSurv,
   ValidSurv = ValidSurv,
-  TrainCode = TrainCode,
-  ValidCode = ValidCode)
+  TrainCode = TrainCode, # [rowSums(TrainCode[, -(1:3)]) > 0, ],
+  ValidCode = ValidCode) # [rowSums(ValidCode[, -(1:3)]) > 0, ])
+
+data_org$TrainCode[rowSums(data_org$TrainCode[, -(1:3)]) > 0, ]
 
 data_org2 <- list(
   TrainLong = TrainLong,
