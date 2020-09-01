@@ -74,6 +74,7 @@ masta.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_cor
     nns <- sum(tmp2)
     ft.e.tmp[tmp2, 1] <- t1
     locm <- apply(tmp$densities[, 1:nns + 1], 2, which.max)
+    locm <-unlist(locm)
     ft.e.tmp[tmp2, 2] <- ft.e.tmp[tmp2, 2] * tmp$densities[locm, 1]
     ft.e.tmp[tmp2, 3] <- ft.e.tmp[tmp2, 3] * tmp$derivatives[sapply(1:nns, function(i) {
       which.max(tmp$derivatives[1:locm[i], i + 1])
@@ -129,6 +130,7 @@ masta.fpca <- function(data, PPIC_K = FALSE, n.grid = 401, propvar = 0.85, n_cor
     nns <- sum(tmp2)
     ft.e.tmp[tmp2, 1] <- t1
     locm <- apply(tmp$densities[, 1:nns + 1], 2, which.max)
+    locm <-unlist(locm)
     ft.e.tmp[tmp2, 2] <- ft.e.tmp[tmp2, 2] * tmp$densities[locm, 1]
     ft.e.tmp[tmp2, 3] <- ft.e.tmp[tmp2, 3] * tmp$derivatives[sapply(1:nns, function(i) {
       which.max(tmp$derivatives[1:locm[i], i + 1])
