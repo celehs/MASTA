@@ -12,6 +12,8 @@
 #' @return \item{group}{A vector of consecutive integers describing the grouping coefficients}
 #' @export
 masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) {  
+  # cov_group = NULL; thresh = 0.7; PCAthresh = 0.9; seed = 1234; seed2 = 100 ;
+  # object=Z
   nn <- object$nn 
   codes <- object$codes
   Tend <- object$Tend  
