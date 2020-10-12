@@ -104,7 +104,8 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
     tmp <- (x - 1) * 5 + 1:5
     tmp <- tmp[!tmp %in% codes0]
   })
-  Z <- as.matrix(cbind(TrainSurv[, paste0("base_pred", 1:length(TrainSurv_pred_org))], TrainFt))
+  #Z <- as.matrix(cbind(TrainSurv[, paste0("base_pred", 1:length(TrainSurv_pred_org))], TrainFt))
+   Z <- as.matrix(cbind(TrainSurv[, grep("base_pred", names(TrainSurv)], TrainFt))
   ### standardize Z
   meanZ <- apply(Z, 2, mean)
   sdZ <- apply(Z, 2, sd)
