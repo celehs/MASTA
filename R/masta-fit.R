@@ -12,8 +12,10 @@
 #' @return \item{group}{A vector of consecutive integers describing the grouping coefficients}
 #' @export
 masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) {  
+
   # cov_group = NULL; thresh = 0.7; PCAthresh = 0.9; seed = 1234; seed2 = 100 ;
   # object=Z
+
   nn <- object$nn 
   codes <- object$codes
   Tend <- object$Tend  
@@ -27,6 +29,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   ValidFt <- object$ValidFt
   TrainPK <- object$TrainPK
   ValidPK <- object$ValidPK
+  
   for (i in seq_along(codes)) {
     idx0 <- 5 * (i - 1)
     #--switch peak & change point if later one is bigger---    
@@ -59,6 +62,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   TrainFt[, aa] <- log(TrainFt[, aa])
   ValidFt[, aa] <- log(ValidFt[, aa])
   FirstCode <- exp(ValidFt[, seq(1, 5 * ncodes, 5)])
+  
   ### Regress out baseline
   tmp <- paste(paste0("base_pred", 1:length(TrainSurv_pred_org)), collapse = " + ")
   txt <- paste0("lm(x ~ ", tmp, ", data = TrainSurv)")
@@ -70,10 +74,13 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   TrainFt <- lapply(TrainFt, func_1)
   RegCoef <- do.call(cbind, lapply(TrainFt, `[[`, 2))
   TrainFt <- do.call(cbind, lapply(TrainFt, `[[`, 1))
+
   tmp <- paste(paste0("base_pred", 1:length(ValidSurv_pred_org)), collapse = "', '")
   txt <- paste0("ValidFt[, l] - as.matrix(cbind(1, ValidSurv[, c('", tmp, "')])) %*% RegCoef[, l]")
   ValidFt <- sapply(1:ncol(ValidFt), function(l) eval(parse(text = txt)))
   colnames(ValidFt) <- colnames(TrainFt)
+  
+  
   ### get estimating equation for beta!!!!!!!!!!!!!!
   SX <- TrainSurv$sx
   SC <- TrainSurv$sc
@@ -92,6 +99,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   G_SX[sort(SX, index.return = TRUE)$ix] <- G_SX
   G_SX[G_SX == 0] <- min(G_SX[G_SX > 0])
   G_tseq[G_tseq == 0] <- min(G_tseq[G_tseq > 0])
+
   #### get initial values using Cheng et al (1995,1997)
   ####### number of patients with no codes in the labeled set (training)+SEER
   TrainZC <- sapply(seq_along(codes), function(i) sum(TrainN[, i + 1] == 0))
@@ -120,6 +128,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
     }
   }
   Z <- (Z - VTM(meanZ, nrow(Z))) / VTM(sdZ,nrow(Z))
+
   # PCA within each code to pre-select features
   TrainFt_PCA <- lapply(1:length(codes), function(i) {
     if (length(codesK[[i]]) > 0) {
@@ -151,7 +160,13 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   Boundary.knots <- c(0, max(SX))
   allknots <- c(Boundary.knots[1], knots, Boundary.knots[2])
   q <- length(knots) + degree + 1
+
+
+  
+  #===================
   #### Initial values
+  #===================
+
   ####--Option I: Cheng et al (1995,1997) Not as good as NPMLE initial
   set.seed(seed)
   func1 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est
@@ -164,6 +179,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   })
   ht <- sort(ht)
   bbt_Cheng <- cbind(tseq, ht)
+
   ### add more weights to origin to get better estimation there
   ### on original scale
   ht[1] <- -30
@@ -182,7 +198,9 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
                          method = "BFGS", 
                          control = list(maxit = 30000))
   bg.init.Cheng <- bg.init.Cheng$par
-  ####--Option II: NPMLE (use Cheng as initial)
+
+  
+  ####--Option II: NPMLE (use Cheng as initial) #--- this is not used for now ---
   bbt.init <- log(diff(c(0, exp(ht))))
   tmp <- NPMLE.est(bb.init, bbt.init, SX, Z, Delta) ## either use the bb.init from Chen1995 or an arbitrary initial
   bb_NPMLE <- tmp$bb
@@ -204,6 +222,9 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
                         method = "BFGS",
                         control = list(maxit = 30000))
   bg.init.NPMLE <- bg.init.NPMLE$par
+  
+  
+  
   # ####--Option III: arbitary initial but with some ridge
   ## optim with initial bg_bm
   bgbm.init <- c(bg.init.Cheng, bb_Cheng)
@@ -216,16 +237,28 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
                         likelihood = FALSE, gradient = TRUE)$gradient,
                       method = "BFGS",
                       control = list(maxit = 100000))
+
+  
+  inital.values = cbind(bgbm.init, c(bb_NPMLE, bg.init.NPMLE),bgbm.optim$par)
+  colnames(inital.values)=c("Cheng (Option 1)","NPMLE (Option 2)","Ridge (Option 3)")
+  print(inital.values)
+  
+  #===================
+  # Group Lasso
+  #===================
   ## optim with initial bg_bm
   lam.glasso <- sort(seq(0,0.003, 1e-6), decreasing = TRUE)
+  
   bgbm.optim.glasso <- gglasso.Approx.BSNP(
     bgbm.optim$par[1:q], bgbm.optim$par[-c(1:q)], knots, Boundary.knots, Delta, SX, Z, 0, lam.glasso, group)
+
   mo21 <- which.min(bgbm.optim.glasso$AIC.LSA) # AIC
   mo22 <- which.min(bgbm.optim.glasso$BIC.LSA) # BIC
   mo23 <- which.min(bgbm.optim.glasso$AIC.Orig) # AIC on original model
   mo24 <- which.min(bgbm.optim.glasso$BIC.Orig) # BIC on original model
   nzpar <- cbind(bgbm.optim.glasso$beta[, c(mo21, mo22, mo23, mo24)]) != 0 # non-zero parameters
   nzpar <- rbind(matrix(TRUE, nrow = q + 4, ncol = 4), nzpar[-(1:4), ])
+  
   bgbm.optim.glasso <- sapply(1:4, function(i) {
     tmp <- rep(0, q + ncol(Z))
     tmp[nzpar[, i]] <- optim(
@@ -242,9 +275,12 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   bgbm.optim.glasso <- list(
     bgbb = bgbm.optim.glasso,
     lam.glasso = lam.glasso[c(mo21, mo22, mo23, mo24)])
+  
   colnames(bgbm.optim.glasso$bgbb) <- names(bgbm.optim.glasso$lam.glasso) <- c("AIC", "BIC", "AIC.Orig", "BIC.Orig")
   bgbbest <- cbind(bgbm.init, bgbm.optim$par, bgbm.optim.glasso$bgbb)
   tree.fit <- treefit(Delta, Z[, -(1:length(TrainSurv_pred_org))]) #??????
+  
+  
   set.seed(seed2)
   train <- sample(1:nn, nn * 0.75)
   logi.fit <- logifit(Delta, Z, train, colnames(Z)[1:length(TrainSurv_pred_org)])
@@ -252,10 +288,14 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   vars <- sapply(vars, function(x) substr(x, 1, nchar(x) - 3), USE.NAMES = FALSE)
   vars <- unique(vars)
   wei <- GetWei(TrainPK,vars,Delta,SX)
+  
+  #================
   ### validation
+  #================
   SX <- ValidSurv$sx
   SC <- ValidSurv$sc
   Delta <- ValidSurv$delta
+  
   ## same PCA basis as training set
   tmp <- paste0("base_pred", 1:length(ValidSurv_pred_org))
   Z <- as.matrix(cbind(ValidSurv[, tmp], ValidFt))
@@ -298,7 +338,10 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   tmp2 <- mean(BrierScore.KM2(tseq[tseq <= endF], SX, SX, SC, Delta, tseq, G_SX, G_tseq)[, 2])
   tmp[2, ] <- 1 - tmp[2, ] / tmp2
   cstats <- tmp
+
+  #================
   # Output
+  #================
   list(bgbbest_FromChengInit_BFGS = bgbbest,
        Cstat_BrierSc_ChengInit_BFGS = cstats,
        group = group)
