@@ -25,9 +25,9 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   ValidSurv_pred_org <- object$ValidSurv_pred_org  
   TrainN <- object$TrainN
   ValidN <- object$ValidN  
-  TrainFt <- object$TrainFt
+  TrainFt <- object$TrainFt[row.names(object$TrainFt) %in% as.character(TrainSurv$case),]
   ValidFt <- object$ValidFt
-  TrainPK <- object$TrainPK
+  TrainPK <- object$TrainPK[row.names(object$TrainPK) %in% as.character(TrainSurv$case),]
   ValidPK <- object$ValidPK
   
   for (i in seq_along(codes)) {
@@ -63,7 +63,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   ValidFt[, aa] <- log(ValidFt[, aa])
   FirstCode <- exp(ValidFt[, seq(1, 5 * ncodes, 5)])
   
-  ### Regress out baseline
+  ### Regress out baseline ##
   tmp <- paste(paste0("base_pred", 1:length(TrainSurv_pred_org)), collapse = " + ")
   txt <- paste0("lm(x ~ ", tmp, ", data = TrainSurv)")
   func_1 = function(x) {
