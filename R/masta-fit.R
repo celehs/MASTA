@@ -327,14 +327,11 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   G_SX[sort(SX, index.return = TRUE)$ix] <- G_SX
   G_SX[G_SX == 0] <- min(G_SX[G_SX > 0])
   G_tseq[G_tseq == 0] <- min(G_tseq[G_tseq > 0])
-  tmp <- GetPrecAll.Comb(
-    bgbbest, bb_Cheng, bbt_Cheng, bb_NPMLE, bbt_NPMLE[-1, ],
-    SX, SX, SC, Delta, Z, tseq, t.grid, knots, Boundary.knots,
-    G_SX, G_tseq, endF, Tend, tree.fit, FirstCode,
-    logi.fit, vars, wei$wei, wei$adj, as.matrix(ValidPK))
-  colnames(tmp) <- c("Init", "MLE", "AIC", "BIC",
-                    "AIC.Orig", "BIC.Orig", "Cheng",
-                    "NPMLE", "TreeTN", "TreeAll", "logi")
+  
+  # should be good from here
+  tmp <- GetPrecAll(bgbbest,SX,SX,SC,Delta,Z,tseq,t.grid,
+                       knots,Boundary.knots,GX,Gt_tseq,endF,Tend)
+    
   tmp2 <- mean(BrierScore.KM2(tseq[tseq <= endF], SX, SX, SC, Delta, tseq, G_SX, G_tseq)[, 2])
   tmp[2, ] <- 1 - tmp[2, ] / tmp2
   cstats <- tmp
