@@ -166,13 +166,15 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   #===================
   #### Initial values
   #===================
-
-  ####--Option I: Cheng et al (1995,1997) Not as good as NPMLE initial
   set.seed(seed)
+  b_ini = runif(ncol(Z),-0.1, 0.1)
+  
+  ####--Option I: Cheng et al (1995,1997) Not as good as NPMLE initial
   func1 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est
   func2 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$Jacob
-  bb <- multiroot(f = func1, start = runif(ncol(Z), -0.1, 0.1), jacfunc = func2, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)
+  bb <- multiroot(f = func1, start = b_ini, jacfunc = func2, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)
   bb_Cheng <- bb.init <- bb$root
+
   ht <- sapply(seq_along(tseq), function(i) {
     est <- function(a) mean((SX >= tseq[i]) / G_tseq[i] + g_fun(a + Z %*% bb_Cheng)) - 1
     if (est(-1e10) > 0) -1e10 else uniroot(est, lower = -1e10, upper = 1e10)$root
@@ -192,42 +194,22 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
     gr <- apply((dtmp[-1, ] + dtmp[-length(tmp), ]) / 2 * diff(tseq[-1]) * weit[-1], 2, sum)
     return(list(fn = fn,gr = gr))
   }
-  bg.init.Cheng <- optim(par = c(-12, 5, 6, rep(7, 7), -3.5) + runif(q, -0.5, 0.5),
+ 
+  ini = c(-12, 5, 6, rep(7, 7), -3.5) + runif(q, -0.5, 0.5)
+  bg.init.Cheng <- optim(par = ini,
                          fn = function(bg) bgi(bg)$fn,
                          gr = function(bg) bgi(bg)$gr, 
                          method = "BFGS", 
                          control = list(maxit = 30000))
+
   bg.init.Cheng <- bg.init.Cheng$par
 
   
-  ####--Option II: NPMLE (use Cheng as initial) #--- this is not used for now ---
-  bbt.init <- log(diff(c(0, exp(ht))))
-  tmp <- NPMLE.est(bb.init, bbt.init, SX, Z, Delta) ## either use the bb.init from Chen1995 or an arbitrary initial
-  bb_NPMLE <- tmp$bb
-  bbt_NPMLE <- tmp$bbt
-  ht <- bbt_NPMLE[, 2]
-  weit <- (2 / (tseq[-1] + tseq[-length(tseq)]))^(1/4)
-  bgi <- function(bg) {
-    tmpp <- h.fun(tseq[-1], knots, Boundary.knots, bg)
-    tmp <- (ht[-1] - log(tmpp))^2
-    dtmp <- -2 * (ht[-1] - log(tmpp)) * dh.fun(tseq[-1], knots, Boundary.knots, bg) / tmpp
-    fn <- sum((tmp[-1] + tmp[-length(tmp)]) / 2 * diff(tseq[-1]) * weit[-1])
-    gr <- apply((dtmp[-1, ] + dtmp[-length(tmp), ]) / 2 * diff(tseq[-1]) * weit[-1], 2, sum)
-    return(list(fn = fn, gr = gr))
-  }
-  aa <- bg.init.Cheng
-  bg.init.NPMLE = optim(par = aa,
-                        fn = function(bg) bgi(bg)$fn,
-                        gr = function(bg) bgi(bg)$gr,
-                        method = "BFGS",
-                        control = list(maxit = 30000))
-  bg.init.NPMLE <- bg.init.NPMLE$par
-  
-  
-  
   # ####--Option III: arbitary initial but with some ridge
   ## optim with initial bg_bm
+
   bgbm.init <- c(bg.init.Cheng, bb_Cheng)
+  bgbm.init <- c(rep(0,11), bb_Cheng)
   lam <- 0
   bgbm.optim <- optim(par = bgbm.init,
                       fn = function(x) SurvLoglik(
@@ -239,10 +221,13 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
                       control = list(maxit = 100000))
 
   
-  inital.values = cbind(bgbm.init, c(bb_NPMLE, bg.init.NPMLE),bgbm.optim$par)
-  colnames(inital.values)=c("Cheng (Option 1)","NPMLE (Option 2)","Ridge (Option 3)")
-  print(inital.values)
-  
+#  inital.values = cbind(bgbm.init, c(bb_NPMLE, bg.init.NPMLE),bgbm.optim$par)
+#  colnames(inital.values)=c("Cheng (Option 1)","NPMLE (Option 2)","Ridge (Option 3)")
+#  print(inital.values)
+
+  bgbm.optim
+  cbind(bg.init.Cheng, bgbm.optim$par[1:q])
+  cbind(bb_Cheng, bgbm.optim$par[-c(1:q)])
   #===================
   # Group Lasso
   #===================
