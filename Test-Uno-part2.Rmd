@@ -56,8 +56,8 @@ object=Z
 ```{r}
 #-- This is gives an error with N=600 ---- "ht" becomes too small number <-100000
 #-- This works with N=1000
-b=masta.fit(Z, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) 
-b
+#b=masta.fit(Z, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) 
+#b
 ```
 
 

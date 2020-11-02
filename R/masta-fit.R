@@ -168,7 +168,9 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   #===================
   set.seed(seed)
   b_ini = runif(ncol(Z),-0.1, 0.1)
-  
+  # b_ini = rep(10,ncol(Z))
+  b_next = b_ini
+  b_next = estbb.data(bb = b_next, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est ; b_next 
   ####--Option I: Cheng et al (1995,1997) Not as good as NPMLE initial
   func1 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est
   func2 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$Jacob
