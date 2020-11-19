@@ -35,30 +35,41 @@ library(IFPCA)
 # library(MASTA)
 
 #url <- "https://raw.githubusercontent.com/celehs/MASTA/master/R/"
+#source(paste0(url,"MASTA.R"))
 #source(paste0(url,"masta-fit.R"))
 #source(paste0(url,"masta-fit-bs-grplasso.R"))
 #source(paste0(url,"masta-fit-npmle.R"))
 #source(paste0(url,"masta-fit-cheng.R"))
-#source(paste0(url,"MASTA.R"))
 
-source("./R/masta-fit.R")
+source("./R/MASTA.R")
 source("./R/masta-fit-bs-grplasso.R")
 source("./R/masta-fit-npmle.R")
 source("./R/masta-fit-cheng.R")
-source("./R/MASTA.R")
+source("./R/masta-fit.R")
 
 load("./data/data-for-fit.RData")
-str(Z)
-object=Z
+#str(Z)
 ```
 
 
 ```{r}
-#-- This is gives an error with N=600 ---- "ht" becomes too small number <-100000
-#-- This works with N=1000
-#b=masta.fit(Z, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) 
-#b
+object=Z
+cov_group = NULL; thresh = 0.7; PCAthresh = 0.9; seed = 1234; seed2 = 100 ;
 ```
+
+
+```{r}
+#-- test 1
+b=masta.fit(Z, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) 
+b
+```
+
+```{r}
+#-- test 2
+b=masta.fit(Z, cov_group = NULL, thresh = 1.0, PCAthresh = 0.9, seed = 1234, seed2 = 100) 
+b
+```
+
 
 
 

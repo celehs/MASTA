@@ -14,6 +14,7 @@
 masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) {  
 
   # cov_group = NULL; thresh = 0.7; PCAthresh = 0.9; seed = 1234; seed2 = 100 ;
+  # cov_group = NULL; thresh = 1.0; PCAthresh = 0.9; seed = 1234; seed2 = 100 ;
   # object=Z
 
   nn <- object$nn 
@@ -154,29 +155,35 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   group <- c(cov_group, group + cov_group[length(cov_group)])
   corZExtreme(Z, 0.7)
   ### try delete ChP, feel like Pk is estimated better
-  #### B-spline setting
+
+  
+  
+  
+  #### B-spline setting (9 knots plus 2 = 11 --- based on quantiles)
   degree <- 1
   knots <- quantile(SX[Delta == 1], prob = seq(0.1, 0.9, 0.1))
   Boundary.knots <- c(0, max(SX))
   allknots <- c(Boundary.knots[1], knots, Boundary.knots[2])
   q <- length(knots) + degree + 1
 
-
   
   #===================
   #### Initial values
   #===================
   set.seed(seed)
+
+  if(0){
   b_ini = runif(ncol(Z),-0.1, 0.1)
-  # b_ini = rep(10,ncol(Z))
   b_next = b_ini
-  b_next = estbb.data(bb = b_next, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est ; b_next 
+  b_next = estbb.data(bb = b_next, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est ;
   ####--Option I: Cheng et al (1995,1997) Not as good as NPMLE initial
   func1 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est
   func2 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$Jacob
   bb <- multiroot(f = func1, start = b_ini, jacfunc = func2, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)
   bb_Cheng <- bb.init <- bb$root
-
+  }
+  
+  bb_Cheng = rep(0,ncol(Z))  
   ht <- sapply(seq_along(tseq), function(i) {
     est <- function(a) mean((SX >= tseq[i]) / G_tseq[i] + g_fun(a + Z %*% bb_Cheng)) - 1
     if (est(-1e10) > 0) -1e10 else uniroot(est, lower = -1e10, upper = 1e10)$root
@@ -184,7 +191,9 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   ht <- sort(ht)
   bbt_Cheng <- cbind(tseq, ht)
 
-  ### add more weights to origin to get better estimation there
+  
+  
+  ### add more weights to origin to get better estimation there ???
   ### on original scale
   ht[1] <- -30
   weit <- (2 / (tseq[-1] + tseq[-length(tseq)]))^(1/4)
@@ -196,22 +205,18 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
     gr <- apply((dtmp[-1, ] + dtmp[-length(tmp), ]) / 2 * diff(tseq[-1]) * weit[-1], 2, sum)
     return(list(fn = fn,gr = gr))
   }
- 
   ini = c(-12, 5, 6, rep(7, 7), -3.5) + runif(q, -0.5, 0.5)
   bg.init.Cheng <- optim(par = ini,
                          fn = function(bg) bgi(bg)$fn,
                          gr = function(bg) bgi(bg)$gr, 
                          method = "BFGS", 
                          control = list(maxit = 30000))
-
   bg.init.Cheng <- bg.init.Cheng$par
 
   
-  # ####--Option III: arbitary initial but with some ridge
+  ###### Option III: arbitary initial but with some ridge
   ## optim with initial bg_bm
-
   bgbm.init <- c(bg.init.Cheng, bb_Cheng)
-  bgbm.init <- c(rep(0,11), bb_Cheng)
   lam <- 0
   bgbm.optim <- optim(par = bgbm.init,
                       fn = function(x) SurvLoglik(
@@ -228,12 +233,15 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
 #  print(inital.values)
 
   bgbm.optim
+  #--- gamma ---
   cbind(bg.init.Cheng, bgbm.optim$par[1:q])
+  #--- beta ---
   cbind(bb_Cheng, bgbm.optim$par[-c(1:q)])
+
   #===================
   # Group Lasso
   #===================
-  ## optim with initial bg_bm
+  ## optim with initial bgbm
   lam.glasso <- sort(seq(0,0.003, 1e-6), decreasing = TRUE)
   
   bgbm.optim.glasso <- gglasso.Approx.BSNP(
@@ -314,10 +322,9 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   G_SX[sort(SX, index.return = TRUE)$ix] <- G_SX
   G_SX[G_SX == 0] <- min(G_SX[G_SX > 0])
   G_tseq[G_tseq == 0] <- min(G_tseq[G_tseq > 0])
-  
-  # should be good from here
+
   tmp <- GetPrecAll(bgbbest,SX,SX,SC,Delta,Z,tseq,t.grid,
-                       knots,Boundary.knots,GX,Gt_tseq,endF,Tend)
+                       knots,Boundary.knots,G_SX,G_tseq,endF,Tend)
     
   tmp2 <- mean(BrierScore.KM2(tseq[tseq <= endF], SX, SX, SC, Delta, tseq, G_SX, G_tseq)[, 2])
   tmp[2, ] <- 1 - tmp[2, ] / tmp2
