@@ -149,7 +149,9 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   colnames(TrainFt_PCA) <- PCAnames
   Z <- cbind(Z[, 1:length(TrainSurv_pred_org)], TrainFt_PCA)
   #--group: a vector of consecutive integers describing the grouping of the coefficients
-  group <- do.call(c, sapply(1:length(PCA_K), function(i) rep(i, PCA_K[i])))
+  # group <- do.call(c, sapply(1:length(PCA_K), function(i) rep(i, PCA_K[i]))) #<--- this does not work if the elements of PCA_K are identical
+  group <- rep(1:length(PCA_K), PCA_K)
+  
   #--add grouping for covariaates and update the group vevtor--
   if (is.null(cov_group)) cov_group <- 1:length(TrainSurv_pred_org)
   group <- c(cov_group, group + cov_group[length(cov_group)])
