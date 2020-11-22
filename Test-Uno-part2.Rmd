@@ -5,7 +5,7 @@ output: github_document
 
 ## Overview
 
-This package re-implements the first step of the {[MASTA](https://celehs.github.io/MASTA/)} package to extract features from longitudinal encounter records. Compared to {MASTA}, the input data of {IFPCA} is more compact and memory efficent. Click [HERE](https://github.com/celehs/IFPCA/tree/master/data-raw) to view input data structure.
+This package re-implements the first step of the {[MASTA](https://celehs.github.io/MASTA/)} package to extract features from longitudinal encounter records. Compared to {MASTA}, the input data of {IFPCA} is more compact and memory efficient Click [HERE](https://github.com/celehs/IFPCA/tree/master/data-raw) to view input data structure.
 
 ## Installation
 
@@ -33,7 +33,10 @@ library(rpart.utils)
 library(data.table)
 library(IFPCA)
 # library(MASTA)
+```
 
+
+```{r}
 #url <- "https://raw.githubusercontent.com/celehs/MASTA/master/R/"
 #source(paste0(url,"MASTA.R"))
 #source(paste0(url,"masta-fit.R"))

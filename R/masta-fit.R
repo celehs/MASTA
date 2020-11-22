@@ -211,8 +211,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   bg.init.Cheng <- optim(par = ini,
                          fn = function(bg) bgi(bg)$fn,
                          gr = function(bg) bgi(bg)$gr, 
-                         method = "BFGS", 
-                         control = list(maxit = 30000))
+                         method = "BFGS", control = list(maxit = 30000))
   bg.init.Cheng <- bg.init.Cheng$par
 
   
@@ -224,10 +223,10 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
                       fn = function(x) SurvLoglik(
                         bg = x[1:q], bb = x[-(1:q)], knots, Boundary.knots, Delta, SX, Z)$likelihood,
                       gr = function(x) SurvLoglik(
-                        bg = x[1:q], bb = x[-(1:q)], knots, Boundary.knots, Delta, SX, Z, 
-                        likelihood = FALSE, gradient = TRUE)$gradient,
-                      method = "BFGS",
-                      control = list(maxit = 100000))
+                        bg = x[1:q], bb = x[-(1:q)], knots, Boundary.knots, Delta, SX, Z, likelihood = FALSE, gradient = TRUE)$gradient,
+                      method = "BFGS", 
+                      control = list(maxit = 100000)
+                      )
 
   
 #  inital.values = cbind(bgbm.init, c(bb_NPMLE, bg.init.NPMLE),bgbm.optim$par)
@@ -256,6 +255,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   nzpar <- cbind(bgbm.optim.glasso$beta[, c(mo21, mo22, mo23, mo24)]) != 0 # non-zero parameters
   nzpar <- rbind(matrix(TRUE, nrow = q + 4, ncol = 4), nzpar[-(1:4), ])
   
+
   bgbm.optim.glasso <- sapply(1:4, function(i) {
     tmp <- rep(0, q + ncol(Z))
     tmp[nzpar[, i]] <- optim(
@@ -269,7 +269,8 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
       control = list(maxit = 10000))$par
     tmp
   })
-  bgbm.optim.glasso <- list(
+
+    bgbm.optim.glasso <- list(
     bgbb = bgbm.optim.glasso,
     lam.glasso = lam.glasso[c(mo21, mo22, mo23, mo24)])
   
