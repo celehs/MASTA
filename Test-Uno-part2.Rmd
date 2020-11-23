@@ -1,0 +1,79 @@
+---
+title: "MASTA (part2: Fitting)"
+output: github_document
+---
+
+## Overview
+
+This package re-implements the first step of the {[MASTA](https://celehs.github.io/MASTA/)} package to extract features from longitudinal encounter records. Compared to {MASTA}, the input data of {IFPCA} is more compact and memory efficient Click [HERE](https://github.com/celehs/IFPCA/tree/master/data-raw) to view input data structure.
+
+## Installation
+
+Install development version from GitHub.
+
+```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+## install.packages("remotes")
+remotes::install_github("celehs/MASTA", force=TRUE)
+```
+
+Load the package into R.
+
+```{r}
+library(survival)
+library(doParallel)
+library(foreach)
+library(data.table)
+library(survC1)
+library(rootSolve)
+library(splines)
+library(gglasso)
+library(glmnet)
+library(rpart)
+library(rpart.utils)
+library(data.table)
+library(IFPCA)
+# library(MASTA)
+```
+
+
+```{r}
+#url <- "https://raw.githubusercontent.com/celehs/MASTA/master/R/"
+#source(paste0(url,"MASTA.R"))
+#source(paste0(url,"masta-fit.R"))
+#source(paste0(url,"masta-fit-bs-grplasso.R"))
+#source(paste0(url,"masta-fit-npmle.R"))
+#source(paste0(url,"masta-fit-cheng.R"))
+
+source("./R/MASTA.R")
+source("./R/masta-fit-bs-grplasso.R")
+source("./R/masta-fit-npmle.R")
+source("./R/masta-fit-cheng.R")
+source("./R/masta-fit.R")
+
+load("./data/data-for-fit.RData")
+#str(Z)
+```
+
+
+```{r}
+object=Z
+cov_group = NULL; thresh = 0.7; PCAthresh = 0.9; seed = 1234; seed2 = 100 ;
+```
+
+
+```{r}
+#-- test 1
+b=masta.fit(Z, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) 
+b
+```
+
+```{r}
+#-- test 2
+b=masta.fit(Z, cov_group = NULL, thresh = 1.0, PCAthresh = 0.9, seed = 1234, seed2 = 100) 
+b
+```
+
+
+
+
+
