@@ -282,9 +282,13 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   set.seed(seed2)
   train <- sample(1:nn, nn * 0.75)
   logi.fit <- logifit(Delta, Z, train, colnames(Z)[1:length(TrainSurv_pred_org)])
-  vars <- logi.fit$vars
-  vars <- sapply(vars, function(x) substr(x, 1, nchar(x) - 3), USE.NAMES = FALSE)
-  vars <- unique(vars)
+#  vars <- logi.fit$vars
+#  vars <- sapply(vars, function(x) substr(x, 1, nchar(x) - 3), USE.NAMES = FALSE)
+#  vars <- unique(vars)
+  vars_wk1 = logi.fit$vars
+  vars_wk2 = substring(vars_wk1, regexpr("_", vars_wk1)+1)
+  vars_wk3 = paste0("pred", vars_wk2)
+  vars <- unique(vars_wk3)
   wei <- GetWei(TrainPK,vars,Delta,SX)
   
   #================
