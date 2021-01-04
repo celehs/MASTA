@@ -101,6 +101,10 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   G_SX[G_SX == 0] <- min(G_SX[G_SX > 0])
   G_tseq[G_tseq == 0] <- min(G_tseq[G_tseq > 0])
 
+  #--- for output ---
+  G_SX_train = G_SX
+  G_tseq_train = G_tseq
+
   #### get initial values using Cheng et al (1995,1997)
   ####### number of patients with no codes in the labeled set (training)+SEER
   TrainZC <- sapply(seq_along(codes), function(i) sum(TrainN[, i + 1] == 0))
@@ -168,6 +172,8 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   allknots <- c(Boundary.knots[1], knots, Boundary.knots[2])
   q <- length(knots) + degree + 1
 
+  #-- for output 
+  nparm4Bspline = q
   
   #===================
   #### Initial values
@@ -197,7 +203,8 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   
   ### add more weights to origin to get better estimation there ???
   ### on original scale
-  ht[1] <- -30
+  # ht[1] <- -30  --- will give an error if ht[2] is less than 30
+    ht[1] <- min(ht[1], ht[2]-10)
   weit <- (2 / (tseq[-1] + tseq[-length(tseq)]))^(1/4)
   bgi <- function(bg) {
     tmpp <- h.fun(tseq[-1], knots, Boundary.knots, bg)
@@ -298,7 +305,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   SC <- ValidSurv$sc
   Delta <- ValidSurv$delta
   
-  ## same PCA basis as training set
+  ## the same PCA basis as training set (use PCAobjs from the training)
   tmp <- paste0("base_pred", 1:length(ValidSurv_pred_org))
   Z <- as.matrix(cbind(ValidSurv[, tmp], ValidFt))
   Z <- (Z - VTM(meanZ, nrow(Z))) / VTM(sdZ, nrow(Z))
@@ -316,6 +323,8 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   Z <- cbind(Z[, 1:length(ValidSurv_pred_org)], ValidFt_PCA)
   endF <- quantile(SX, 0.9)
   t.grid <- tseq[seq(9, length(tseq), 10)]
+
+  #---- this uses the validation data to get G_fit
   G_fit <- survfit(Surv(SX, 1 - Delta) ~ 1)
   G_tseq <- sapply(tseq, function(s) {
     tmp2 <- G_fit$time <= s
@@ -330,9 +339,9 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   G_SX[G_SX == 0] <- min(G_SX[G_SX > 0])
   G_tseq[G_tseq == 0] <- min(G_tseq[G_tseq > 0])
 
-  tmp <- GetPrecAll(bgbbest,SX,SX,SC,Delta,Z,tseq,t.grid,
-                       knots,Boundary.knots,G_SX,G_tseq,endF,Tend)
-    
+  eval <- GetPrecAll(bgbbest,SX,SX,SC,Delta,Z,tseq,t.grid,
+                       knots,Boundary.knots,G_SX,G_tseq,endF,Tend) 
+  tmp = eval$CB
   tmp2 <- mean(BrierScore.KM2(tseq[tseq <= endF], SX, SX, SC, Delta, tseq, G_SX, G_tseq)[, 2])
   tmp[2, ] <- 1 - tmp[2, ] / tmp2
   cstats <- tmp
@@ -340,7 +349,30 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   #================
   # Output
   #================
-  list(bgbbest_FromChengInit_BFGS = bgbbest,
-       Cstat_BrierSc_ChengInit_BFGS = cstats,
-       group = group)
+  out=list()
+  #--- knots used for B-spline
+  out$nparm4Bspline = nparm4Bspline
+  #--- regression parameter estimate (from Training) --
+  out$bgbbest = bgbbest
+  out$gamma_est = bgbbest[1:nparm4Bspline]
+  out$beta_est = bgbbest[-c(1:nparm4Bspline)]
+  #--- PCA  (from Training) --
+  out$PCAobjs = PCAobjs
+  #--- G_SX and G_tseq  (from Training) --
+  out$GX_trian = G_SX_train
+  out$Gt_train = G_tseq_train
+  #--- group used for group lasso
+  out$group = group
+  
+  #--- result with the validation data 
+  out$result_valid = cstats
+  #---- predicted score (validation data)
+  out$risk_score_valid = eval$risk_score
+  #out$pred_surv_valid = eval$pred_surv
+
+  #-- add class to the return object --
+  class(out)="masta"
+
+  return(out)  
+
 }
