@@ -242,7 +242,12 @@ g_fun  <- function(x) 1/(1+exp(-x))
 ###########################################################################
 ### prediction accuracy: Brier Score
 BrierScore2<-function(tt=NULL,bg,bb,ST,SX,SC,Delta,Z,knots,Boundary.knots,tseq,GX=NULL,Gt=NULL){
-  if(is.null(GX)&is.null(Gt)){
+  # x=bgbbest[,3]
+  #  tt=tseq[tseq<=endF]; bg=x[1:q]; bb=x[-c(1:q)] ; ST=SX; 
+  #== ST SX SC Delta Z knots Boundary.knots tseq ;
+  #  GX=G_SX; Gt=G_tseq ;
+  
+    if(is.null(GX)&is.null(Gt)){
     G_fit  = survfit(Surv(SX,1-Delta)~1,type="kaplan-meier")
     GX = sapply(SX,function(s){
       tmp2 = G_fit$time<=s
@@ -261,6 +266,7 @@ BrierScore2<-function(tt=NULL,bg,bb,ST,SX,SC,Delta,Z,knots,Boundary.knots,tseq,G
       }
     })
   }
+
   if(is.null(tt)) tt  = tseq[Gt!=0]
   tmp = sapply(tt,function(t) {SX<=t}*Delta/GX)
   tmp[is.na(tmp)] = 0
@@ -269,32 +275,69 @@ BrierScore2<-function(tt=NULL,bg,bb,ST,SX,SC,Delta,Z,knots,Boundary.knots,tseq,G
   tmp   = h.fun(tseq,knots,Boundary.knots,bg)
   tmp   = log(tmp)
   # tmp   = log(cumsum(exp(B%*%bg)))+log(diff(tseq)[1])
+
+  #--- peak time point?
   tmpp  = apply(outer(SC,tseq,FUN=function(x,y) abs(x-y)),1,which.min)
   tmpp  = tmp[tmpp]
   tmpp  = outer(tmpp,tmp,FUN="pmin")
   tmp2  = outer(ST,tseq,FUN="<=")*Delta # 1(T<= min(t,C))
   aa    = apply({tmp2[,tseq%in%tt]-g_fun(as.numeric(Z%*%bb)+tmpp[,tseq%in%tt])}^2*wt,2,mean)
-  return(cbind(tt,aa))
+  #--- returning ave[I(T>t) - S(t)]^2 for all t.
+  #--- predicted survival function: 
+  pred_surv = g_fun(as.numeric(Z%*%bb)+tmpp[,tseq%in%tt])
+  
+# return(cbind(tt,aa))
+  out=list()
+  out$BrierSore_tt = cbind(tt,aa)
+  out$pred_surv = pred_surv
+  return(out)
 }
 
 
 
 GetPrecAll<-function(bgbbest,ST,SX,SC,Delta,Z,tseq,t.grid,
                       knots,Boundary.knots,GX,Gt,endF,Tend){
+  # bgbbest,SX,SX,SC,Delta,Z,tseq,t.grid,knots,Boundary.knots,G_SX,G_tseq,endF,Tend
+  # ST=SX; GX=G_SX; Gt=G_tseq ;
+  
   q = length(knots)+2
+
+  #--- this does not use the b-spline part. Using only predictors (does not use intercept) 
   Cstat.CV = apply(bgbbest,2,function(x){
     Est.Cval(cbind(SX,Delta,Z%*%x[-c(1:q)]), tau = endF,nofit = TRUE)$Dhat
   })
 
-  ### Brier Score
+  #--- risk score -- 
+  risk_score = apply(bgbbest,2,function(x){Z%*%x[-c(1:q)]})
+    
+  ### Brier Score ###
+  #-- for each parameter, get the brier score from 0 to endF ;
   BrierS.CV = apply(bgbbest,2,function(x) BrierScore2(tseq[tseq<=endF],x[1:q],x[-c(1:q)],
-                                                       ST,SX,SC,Delta,Z,knots,Boundary.knots,tseq,GX,Gt)[,2])
+                    ST,SX,SC,Delta,Z,knots,Boundary.knots,tseq,GX,Gt)$BrierSore_tt[,2])
+  #-- average over the time from 0 to endF ??
   BrierS.CV = apply(BrierS.CV,2,mean)
 
   CB = rbind(Cstat.CV,BrierS.CV)
   row.names(CB) = c("Cstat","BrierSc.Adj")
 
-  return(CB)
+  #--- retrun predicted survival function ---
+  # chk=BrierScore2(tseq[tseq<=endF],bgbbest[1:q,3],bgbbest[-c(1:q),3],ST,SX,SC,Delta,Z,knots,Boundary.knots,tseq,GX,Gt)$pred_surv
+  pred_surv = list()
+   for (kk in 1:ncol(bgbbest)){
+     tmp=BrierScore2(tseq[tseq<=endF],bgbbest[1:q,kk],bgbbest[-c(1:q),kk],
+                                ST,SX,SC,Delta,Z,knots,Boundary.knots,tseq,GX,Gt)
+     pred_surv[[i]]=tmp$pred_surv
+     rownames(pred_surv[[i]])=paste0("case",1:nrow(Z))
+     colnames(pred_surv[[i]])=tmp$BrierSore_tt[,1]
+   }
+  
+  
+# return(CB)
+  out=list()
+  out$CB = CB
+  out$risk_score = risk_score
+  out$pred_surv = pred_surv
+  return(out)
 }
 
 
