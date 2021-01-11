@@ -79,7 +79,7 @@ dh.fun<-function(t,knots,Boundary.knots,bg,a=NULL,b=NULL,k=NULL){
 
 
 ## get initial value for bg
-bgbm<-function(tseq){
+bgbm<-function(tseq, beta0c){
   bb0t   = 3*log(tseq)+beta0c
   ht     = (tseq)^3*exp(beta0c)
   dht    = log(3*tseq^2)+beta0c

@@ -8,3 +8,7 @@
 ^pkgdown$
 ^working$
 README.Rmd
+Test-Uno-fit.Rmd
+Test-Uno-part1.Rmd
+Test-Uno-part2.Rmd
+_vignettes
