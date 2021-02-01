@@ -206,3 +206,4 @@ fpca <- function(time, fu_train, fu_valid,
     ValidPK = PKTS2
   )
 }
+
