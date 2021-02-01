@@ -4,11 +4,11 @@
 #' @title MASTA Package
 #' @description
 #' Implements an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
-#' @details Visit the documentation website for more details. https://celehs.github.io/MASTA/ 
-#' @import survival doParallel foreach data.table survC1 rootSolve splines glmnet gglasso rpart rpart.utils  
-#' @importFrom graphics hist 
+#' @details Visit the documentation website for more details. https://celehs.github.io/MASTA/
+#' @import survival doParallel foreach data.table survC1 rootSolve splines glmnet gglasso rpart rpart.utils
+#' @importFrom graphics hist
 #' @importFrom utils head
-#' @importFrom stats IQR aggregate approx as.formula binomial bw.SJ bw.bcv bw.nrd bw.nrd0 bw.ucv 
+#' @importFrom stats IQR aggregate approx as.formula binomial bw.SJ bw.bcv bw.nrd bw.nrd0 bw.ucv
 #' coef cor density dnorm glm knots median optim optimize prcomp predict quantile runif sd stepfun uniroot var
 NULL
 

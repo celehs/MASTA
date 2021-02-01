@@ -1,6 +1,10 @@
 ---
 title: "MASTA (part2: Fitting)"
-output: github_document
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MASTA (part2: Fitting)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ## Overview
@@ -9,16 +13,11 @@ This package re-implements the first step of the {[MASTA](https://celehs.github.
 
 ## Installation
 
-Install development version from GitHub.
-
-```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
-## install.packages("remotes")
-remotes::install_github("celehs/MASTA", force=TRUE)
-```
 
 Load the package into R.
 
 ```{r}
+library(MASTA)
 library(survival)
 library(doParallel)
 library(foreach)
@@ -31,10 +30,7 @@ library(glmnet)
 library(rpart)
 library(rpart.utils)
 library(data.table)
-library(IFPCA)
-# library(MASTA)
 ```
-
 
 ```{r}
 #url <- "https://raw.githubusercontent.com/celehs/MASTA/master/R/"
@@ -44,11 +40,11 @@ library(IFPCA)
 #source(paste0(url,"masta-fit-npmle.R"))
 #source(paste0(url,"masta-fit-cheng.R"))
 
-source("./R/MASTA.R")
-source("./R/masta-fit-bs-grplasso.R")
-source("./R/masta-fit-npmle.R")
-source("./R/masta-fit-cheng.R")
-source("./R/masta-fit.R")
+# source("./R/MASTA.R")
+# source("./R/masta-fit-bs-grplasso.R")
+# source("./R/masta-fit-npmle.R")
+# source("./R/masta-fit-cheng.R")
+# source("./R/masta-fit.R")
 
 load("./data/data-for-fit.RData")
 #str(Z)

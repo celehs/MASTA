@@ -10,24 +10,24 @@
     <loc>https://celehs.github.io/MASTA//reference/MASTA-package.html</loc>
   </url>
   <url>
+    <loc>https://celehs.github.io/MASTA//reference/Z.html</loc>
+  </url>
+  <url>
     <loc>https://celehs.github.io/MASTA//reference/data_org.html</loc>
+  </url>
+  <url>
+    <loc>https://celehs.github.io/MASTA//reference/data_org2.html</loc>
+  </url>
+  <url>
+    <loc>https://celehs.github.io/MASTA//reference/fpca.html</loc>
   </url>
   <url>
     <loc>https://celehs.github.io/MASTA//reference/masta.fit.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MASTA//reference/masta.fpca.html</loc>
-  </url>
-  <url>
     <loc>https://celehs.github.io/MASTA//articles/data.html</loc>
   </url>
   <url>
-    <loc>https://celehs.github.io/MASTA//articles/multicore.html</loc>
-  </url>
-  <url>
-    <loc>https://celehs.github.io/MASTA//articles/step1.html</loc>
-  </url>
-  <url>
-    <loc>https://celehs.github.io/MASTA//articles/step2.html</loc>
+    <loc>https://celehs.github.io/MASTA//articles/masta.html</loc>
   </url>
 </urlset>
