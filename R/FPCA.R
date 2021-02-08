@@ -194,7 +194,7 @@ fpca <- function(time, fu_train, fu_valid,
   colnames(ft.e2) <- c("1stCode", "Pk", "ChP", "1stScore", "logN")
   colnames(ft.e.S2) <- c("1stCode", "1stScore", "2ndScore", "3rdScore", "4thScore", "logN")
   rownames(ft.e.S2) <- rownames(ft.e2) <- names(PKTS2) <- valid
-  list(
+  out <- list(
     #   FPCA = FPCA
     TrainN = TrainN,
     ValidN = ValidN,
@@ -205,5 +205,6 @@ fpca <- function(time, fu_train, fu_valid,
     TrainPK = PKTS,
     ValidPK = PKTS2
   )
+  class(out) <- "fpca"
+  return(out)
 }
-
