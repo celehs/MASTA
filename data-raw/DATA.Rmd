@@ -1,0 +1,75 @@
+---
+title: "Sample Data"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+TrainCode <- read_csv("data_org/TrainCode.csv")
+ValidCode <- read_csv("data_org/ValidCode.csv")
+TrainSurv <- read_csv("data_org/TrainSurv.csv")
+ValidSurv <- read_csv("data_org/ValidSurv.csv")
+```
+
+```{r}
+f <- function(data, var) {
+  data2 <- data %>% 
+    mutate(code = substr(var, 5, 5)) %>%
+    filter(.data[[var]] > 0) %>%
+    select(code, id, time = month, .data[[var]]) %>%  
+    slice(rep(1:n(), times = .data[[var]])) %>% 
+    select(-.data[[var]])
+  return(data2)
+}
+```
+
+```{r}
+follow_up_time <- bind_rows(
+  bind_cols(TrainCode[, 1:2], train_valid = 1), 
+  bind_cols(ValidCode[, 1:2], train_valid = 2)) %>%
+  distinct() 
+follow_up_time
+```
+
+```{r}
+longitudinal <- bind_rows(
+  f(TrainCode, "pred1"),
+  f(TrainCode, "pred2"),
+  f(TrainCode, "pred3"),  
+  f(ValidCode, "pred1"),
+  f(ValidCode, "pred2"),
+  f(ValidCode, "pred3")) %>%
+  arrange(code, id, time)
+longitudinal
+```
+
+```{r}
+survival <- bind_rows(
+  bind_cols(TrainSurv, train_valid = 1), 
+  bind_cols(ValidSurv, train_valid = 2)) %>%
+  distinct() 
+survival
+```
+
+```{r}
+write_csv(follow_up_time, "follow_up_time.csv")
+write_csv(longitudinal, "longitudinal.csv")
+write_csv(survival, "survival.csv")
+```
+
+```{r}
+usethis::use_data(follow_up_time, overwrite = TRUE)
+usethis::use_data(longitudinal, overwrite = TRUE)
+usethis::use_data(survival, overwrite = TRUE)
+```
+
+```{r}
+proc.time()
+```
