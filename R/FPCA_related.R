@@ -124,8 +124,15 @@ fpca.summary <- function(data, tmp, fu_train, fu_valid){
 
 
 
-
-
+#' @title Functional Principal Component Analysis (FPCA)
+#' @description Performs FPCA to extract features from longitudinal encounter data.
+#' @param time_code longitudinal encounter times. They should be greater than or equal to 1.
+#' @param follow_up_time follow-up time (training)
+#' @param K.select characters indicating which method to choose the number of principal components K.
+#'  Default is K.select="PropVar", and K.select="PPIC" is also available.
+#' @param n.grid an integer value for grid points used in estimating covariance function g. Default is \code{401}.
+#' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
+#' @export
 fpca.combine <- function(time_code, follow_up_time, 
                          K.select = "PropVar", n.grid = 401, propvar = 0.85){
   longitudinal$code = as.numeric(longitudinal$code)

@@ -17,7 +17,7 @@ Load the package into R.
 
 ```{r}
 library(MASTA)
-library(data.table)
+#library(data.table)
 ```
 
 ## Data Example

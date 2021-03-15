@@ -2,6 +2,8 @@
 
 export(FPC.Kern.S)
 export(fpca)
+export(fpca.combine)
+export(fpca.new)
 export(masta.fit)
 import(data.table)
 import(doParallel)
