@@ -2,7 +2,7 @@
 % Please edit documentation in R/FPCA_related.R
 \name{fpca.combine}
 \alias{fpca.combine}
-\title{Functional Principal Component Analysis (FPCA)}
+\title{Extract Features by Functional Principal Component Analysis (FPCA)}
 \usage{
 fpca.combine(
   time_code,
@@ -13,9 +13,9 @@ fpca.combine(
 )
 }
 \arguments{
-\item{time_code}{longitudinal encounter times. They should be greater than or equal to 1.}
+\item{time_code}{longitudinal encounter times. See an example as \code{longitudinal} data.}
 
-\item{follow_up_time}{follow-up time (training)}
+\item{follow_up_time}{follow-up time information. See an example as \code{follow_up_time}.}
 
 \item{K.select}{characters indicating which method to choose the number of principal components K.
 Default is K.select="PropVar", and K.select="PPIC" is also available.}
