@@ -7,15 +7,23 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+## Overview
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
 ```
 
-The MASTA algorithm is a semi-supervised learning method and it requires two sources of input data.
+The MASTA algorithm is a semi-supervised learning method and it requires three input data files.
 
-- A labeled data with time-to-event outcomes and baseline covariates.
+- A long form longitudinal data for predicting the time-to-event outcomes [`longitudinal`]
 
-- A unlabeled data with longitudinal encounter records.
+- A follow up time data to inform the length of follow-up time for each patient [`follow_up_time`]
+
+- A labeled data with time-to-event outcomes and baseline predictors [`survival`]
+
+In Step I of the MASTA algorithm, `longitudinal` and `follow_up_time` will be used  to extract features from estimated subject-specific intensity functions of individual encounters. In Step II of the MASTA algorithm, `survival` and `follow_up_time` will be used to train and evaluate risk prediction models with survival outcomes.
+The `MASTA` package contains these three data files as a sample.
+
 
 ```{r, echo=FALSE, fig.width=5, fig.height=3}
 DiagrammeR::grViz("
@@ -39,34 +47,39 @@ digraph flowchart {
 ")
 ```
 
-The `MASTA` package contains a sample data called `data_org`.
 
-```{r}
+```{r, eval=FALSE}
 library(MASTA)
 ```
 
-```{r, eval=FALSE}
-?data_org # view data documentation
-```
-
-`data_org` is a list with four components (`TrainSurv`, `ValidSurv`, `TrainCode`, `ValidCode`).
-
-```{r}
-str(data_org)
-```
-
 ## Longitudinal Encounter Data
-
-`TrainCode` and `ValidCode` will be used in Step I of the MASTA algorithm to extract features from estimated subject-specific intensity functions of individual encounters.
+```{r, eval=FALSE}
+?longitudinal
+```
 
 ```{r}
-data_org[c("TrainCode", "ValidCode")]
+head(longitudinal)
+table(longitudinal$code)
+```
+
+## Follow-up Time Data with the training/validation indicator
+One subject has one record in this data. The variable `train_valid` indicates which cohort each subject belong to, training (1) or validation (2).  
+```{r, eval=FALSE}
+?follow_up_time
+```
+
+```{r}
+head(follow_up_time)
 ```
 
 ## Time-to-Event Data
+One subject has one record in this data. The variable `event_ind` indicates whether the subject has an event (1) or not (0). For those who do not have event (i.e., `event_ind=0`), `event_time` in this data set should be the same as the `fu_time` in follow_up_time.
+The current version of the MASTA package requires that at least one baseline predictor is included in this data.   
 
-Together with the features derived from longitudinal encounter data, `TrainCode` and `ValidCode` will be used in Step II of the MASTA algorithm to train and evaluate risk prediction models with survival outcomes.
+```{r, eval=FALSE}
+?survival
+```
 
 ```{r}
-data_org[c("TrainSurv", "ValidSurv")]
+head(survival)
 ```
