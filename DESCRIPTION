@@ -4,7 +4,8 @@ Title: Multi-modal Automated Survival Time Annotation
 Version: 0.2.1.9000
 Authors@R: c(
     person("Liang", "Liang", role = "aut"),
-    person("Hajime", "Uno", role = c("aut", "cre"), email = "huno@jimmy.harvard.edu"),
+    person("Hajime", "Uno", role = c("aut", "cre"), email = "huno@ds.dfci.harvard.edu"),
+    person("Xin", "Xiong", role = "aut"),
     person("Ming", "Yang", role = "aut"),
     person("Tianxi", "Cai", role = "aut")
     )
