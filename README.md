@@ -39,21 +39,16 @@ Load the package into R.
 library(MASTA)
 ```
 
-    ## Loading required package: survival
-
+<!--
 ## Documentation
+- [Input Data for the MASTA Algorithm](https://celehs.github.io/MASTA/articles/data.html)
 
-  - [Input Data for the MASTA
-    Algorithm](https://celehs.github.io/MASTA/articles/data.html)
+- [Step I. Feature Extraction with Functional PCA](https://celehs.github.io/MASTA/articles/step1.html)
 
-  - [Step I. Feature Extraction with Functional
-    PCA](https://celehs.github.io/MASTA/articles/step1.html)
+- [Step II. Model Estimation with B-Splines](https://celehs.github.io/MASTA/articles/step2.html)
 
-  - [Step II. Model Estimation with
-    B-Splines](https://celehs.github.io/MASTA/articles/step2.html)
-
-  - [Acceleration with Multicore Parallel
-    Computing](https://celehs.github.io/MASTA/articles/multicore.html)
+- [Acceleration with Multicore Parallel Computing](https://celehs.github.io/MASTA/articles/multicore.html)
+-->
 
 ## References
 

@@ -48,7 +48,7 @@ digraph flowchart {
 ```
 
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 library(MASTA)
 ```
 

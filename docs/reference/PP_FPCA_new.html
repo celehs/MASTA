@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mean Density and Covariance Functions for FPCA — FPC.Kern.S • MASTA</title>
+<title>Functional Principal Component Analysis (FPCA) — PP_FPCA_new • MASTA</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Mean Density and Covariance Functions for FPCA — FPC.Kern.S" />
-<meta property="og:description" content="Compute mean density function and covariance function for
-functional principal components analysis (FPCA)" />
+<meta property="og:title" content="Functional Principal Component Analysis (FPCA) — PP_FPCA_new" />
+<meta property="og:description" content="Performs FPCA to estimate the density function for each subject." />
 
 
 
@@ -124,44 +123,78 @@ functional principal components analysis (FPCA)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean Density and Covariance Functions for FPCA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/celehs/MASTA/blob/master/R/fpca-kern.R'><code>R/fpca-kern.R</code></a></small>
-    <div class="hidden name"><code>FPC.Kern.S.Rd</code></div>
+    <h1>Functional Principal Component Analysis (FPCA)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/celehs/MASTA/blob/master/R/fpca-main_new.R'><code>R/fpca-main_new.R</code></a></small>
+    <div class="hidden name"><code>PP_FPCA_new.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Compute mean density function and covariance function for
-functional principal components analysis (FPCA)</p>
+    <p>Performs FPCA to estimate the density function for each subject.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>FPC.Kern.S</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>t</span>, <span class='va'>N</span>, h1 <span class='op'>=</span> <span class='cn'>NULL</span>, h2 <span class='op'>=</span> <span class='cn'>NULL</span>, bw <span class='op'>=</span> <span class='st'>"ucv"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>PP_FPCA_new</span><span class='op'>(</span>
+  <span class='va'>t</span>,
+  h1 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  h2 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  N <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bw <span class='op'>=</span> <span class='st'>"ucv"</span>,
+  Tend <span class='op'>=</span> <span class='fl'>1</span>,
+  ngrid <span class='op'>=</span> <span class='fl'>101</span>,
+  K.select <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PropVar"</span>, <span class='st'>"PPIC"</span><span class='op'>)</span>,
+  Kmax <span class='op'>=</span> <span class='fl'>10</span>,
+  propvar <span class='op'>=</span> <span class='fl'>0.85</span>,
+  density.method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"kernel"</span>, <span class='st'>"local linear"</span><span class='op'>)</span>,
+  polybinx <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  derivatives <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>time grid between 0 and 1</p></td>
+      <th>t</th>
+      <td><p>named vector; standardized longitudinal encounter times for a code with the corresponding patient name. They should be less than or equal to 1.</p></td>
     </tr>
     <tr>
-      <th>t</th>
-      <td><p>observed event times of all the individuals, can have duplicates</p></td>
+      <th>h1, h2</th>
+      <td><p>integers; bandwidth used to estimate the mean intensity function and the covariance function. Default=null.</p></td>
     </tr>
     <tr>
       <th>N</th>
-      <td><p>vector, contains num of observed event of each patient</p></td>
-    </tr>
-    <tr>
-      <th>h1</th>
-      <td><p>bandwidth for mean density function</p></td>
-    </tr>
-    <tr>
-      <th>h2</th>
-      <td><p>bandwidth for covariance function</p></td>
+      <td><p>named vector; the number of observed event with the corresponding patient name.</p></td>
     </tr>
     <tr>
       <th>bw</th>
-      <td><p>bandwidth selection method</p></td>
+      <td><p>a character string; bandwidth estimating method when h1 and h2 are null. Default="ucv", but can also be "nrd0", "nrd", "bcv","SJ-dpi" and "SJ-ste".</p></td>
+    </tr>
+    <tr>
+      <th>Tend</th>
+      <td><p>numeric; the upper bound of the encounter time for the estimated density function. Default=1.</p></td>
+    </tr>
+    <tr>
+      <th>K.select</th>
+      <td><p>characters indicating which method to choose the number of principal components K.
+Default is K.select="PropVar", and K.select="PPIC" is also available.</p></td>
+    </tr>
+    <tr>
+      <th>propvar</th>
+      <td><p>a proportion of variation used to select number of FPCs. Default is <code>0.85</code>.</p></td>
+    </tr>
+    <tr>
+      <th>density.method</th>
+      <td><p>a character string; the method of estimating density function when <code>K.select</code>="PPIC". Default is "kernal", but can also be "local linear".</p></td>
+    </tr>
+    <tr>
+      <th>polybinx</th>
+      <td><p>logical; if use the same partition (x) for the polynomial regression when <code>density.method</code>="local linear". Default is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>derivatives</th>
+      <td><p>logical; whether to estimate the first derivatives of the density function. Default is TRUE.</p></td>
+    </tr>
+    <tr>
+      <th>n.grid</th>
+      <td><p>an integer value for grid points used in estimating covariance function g. Default is <code>101</code>.</p></td>
     </tr>
     </table>
 

@@ -20,7 +20,7 @@ For the details of the data preparation, please see the vignette for it.
 
 Load the package into R.
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 library(MASTA)
 ```
 
@@ -39,17 +39,13 @@ nrow(survival)
 
 ## Run Step I (feature selections)
 ```{r}
-ptm = proc.time()
-Z <- fpca.combine(longitudinal, follow_up_time, K.select = "PropVar")
-print(proc.time() - ptm)
+system.time(Z <- fpca.combine(longitudinal, follow_up_time, K.select = "PropVar"))
 ```
 
 ## Run Step II (fitting)
-Using the object drived from `fpca.combine` and the two data files (`survival'
+Using the object derived from `fpca.combine` and the two data files (`survival'
 ```{r}
-ptm = proc.time()
-b <- masta.fit(Z, survival, follow_up_time, Tend=1, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 100)
+system.time(b <- masta.fit(Z, survival, follow_up_time, Tend=1, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 100))
 b
-print(proc.time() - ptm)
 ```
 

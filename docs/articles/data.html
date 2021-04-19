@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -54,10 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a class="dropdown-item" href="../articles/data.html">Input Data</a>
+      <a href="../articles/data.html">Input Data</a>
     </li>
     <li>
-      <a class="dropdown-item" href="../articles/masta.html">MASTA</a>
+      <a href="../articles/masta.html">MASTA</a>
     </li>
   </ul>
 </li>
@@ -65,7 +65,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/celehs/MASTA/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -79,8 +79,7 @@
 
       
 
-      </header><link href="data_files/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet">
-<script src="data_files/anchor-sections-1.0.1/anchor-sections.js"></script><script src="data_files/htmlwidgets-1.5.2/htmlwidgets.js"></script><script src="data_files/viz-1.8.2/viz.js"></script><link href="data_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+      </header><script src="data_files/accessible-code-block-0.0.1/empty-anchor.js"></script><script src="data_files/htmlwidgets-1.5.3/htmlwidgets.js"></script><script src="data_files/viz-1.8.2/viz.js"></script><link href="data_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
 <script src="data_files/grViz-binding-1.0.6.1/grViz.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -94,123 +93,71 @@
 
     
     
-<p>The MASTA algorithm is a semi-supervised learning method and it requires two sources of input data.</p>
+<div id="overview" class="section level2">
+<h2 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h2>
+<p>The MASTA algorithm is a semi-supervised learning method and it requires three input data files.</p>
 <ul>
-<li><p>A labeled data with time-to-event outcomes and baseline covariates.</p></li>
-<li><p>A unlabeled data with longitudinal encounter records.</p></li>
+<li><p>A long form longitudinal data for predicting the time-to-event outcomes [<code>longitudinal</code>]</p></li>
+<li><p>A follow up time data to inform the length of follow-up time for each patient [<code>follow_up_time</code>]</p></li>
+<li><p>A labeled data with time-to-event outcomes and baseline predictors [<code>survival</code>]</p></li>
 </ul>
-<div id="htmlwidget-7a5990e4a89bef86eb12" style="width:480px;height:288px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7a5990e4a89bef86eb12">{"x":{"diagram":"\ndigraph flowchart {\n  node [fontname = Helvetica, shape = rectangle]        \n  tab1 [label = \"Input Data\"]\n  tab2 [label = \"Labeled (n = 1,100)\"]\n  tab3 [label = \"Unlabeled (N = 20,000)\"]\n  tab4 [label = \"Training (600)\"]\n  tab5 [label = \"Validation (500)\"]\n  tab1 -> tab2;\n  tab1 -> tab3;\n  tab2 -> tab4;\n  tab2 -> tab5;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><p>The <code>MASTA</code> package contains a sample data called <code>data_org</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://celehs.github.io/MASTA/">MASTA</a></span><span class="op">)</span>
-<span class="co">## Loading required package: survival</span></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="op">?</span><span class="va">data_org</span> <span class="co"># view data documentation</span></pre></div>
-<p><code>data_org</code> is a list with four components (<code>TrainSurv</code>, <code>ValidSurv</code>, <code>TrainCode</code>, <code>ValidCode</code>).</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">data_org</span><span class="op">)</span>
-<span class="co">## List of 4</span>
-<span class="co">##  $ TrainSurv:Classes 'data.table' and 'data.frame':  600 obs. of  7 variables:</span>
-<span class="co">##   ..$ id        : int [1:600] 1 2 3 4 5 6 7 8 9 10 ...</span>
-<span class="co">##   ..$ event_ind : int [1:600] 1 0 0 0 0 1 0 0 0 0 ...</span>
-<span class="co">##   ..$ event_time: num [1:600] 9.36 13.93 12.55 14.85 80.66 ...</span>
-<span class="co">##   ..$ fu_time   : num [1:600] 49.4 13.9 12.6 14.9 80.7 ...</span>
-<span class="co">##   ..$ cov_1     : int [1:600] 79 81 55 72 83 47 86 40 85 58 ...</span>
-<span class="co">##   ..$ cov_2     : int [1:600] 1 0 1 1 1 1 0 0 1 0 ...</span>
-<span class="co">##   ..$ cov_3     : int [1:600] 0 0 1 0 1 0 1 0 0 1 ...</span>
-<span class="co">##   ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; </span>
-<span class="co">##  $ ValidSurv:Classes 'data.table' and 'data.frame':  500 obs. of  7 variables:</span>
-<span class="co">##   ..$ id        : int [1:500] 90001 90002 90003 90004 90005 90006 90007 90008 90009 90010 ...</span>
-<span class="co">##   ..$ event_ind : int [1:500] 0 0 1 1 0 0 0 0 0 0 ...</span>
-<span class="co">##   ..$ event_time: num [1:500] 71.72 70.37 9.49 17.77 98.63 ...</span>
-<span class="co">##   ..$ fu_time   : num [1:500] 71.7 70.4 14.9 33.8 98.6 ...</span>
-<span class="co">##   ..$ cov_1     : int [1:500] 39 36 68 59 38 53 88 60 40 33 ...</span>
-<span class="co">##   ..$ cov_2     : int [1:500] 1 0 1 0 1 0 0 1 0 0 ...</span>
-<span class="co">##   ..$ cov_3     : int [1:500] 0 1 1 0 0 0 1 0 0 0 ...</span>
-<span class="co">##   ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; </span>
-<span class="co">##  $ TrainCode:Classes 'data.table' and 'data.frame':  810624 obs. of  6 variables:</span>
-<span class="co">##   ..$ id     : int [1:810624] 1 1 1 1 1 1 1 1 1 1 ...</span>
-<span class="co">##   ..$ fu_time: num [1:810624] 49.4 49.4 49.4 49.4 49.4 ...</span>
-<span class="co">##   ..$ month  : int [1:810624] 0 1 2 3 4 5 6 7 8 9 ...</span>
-<span class="co">##   ..$ pred1  : int [1:810624] 0 0 0 0 0 0 0 0 0 0 ...</span>
-<span class="co">##   ..$ pred2  : int [1:810624] 0 0 0 0 0 0 0 0 0 0 ...</span>
-<span class="co">##   ..$ pred3  : int [1:810624] 0 0 0 0 0 0 0 0 0 0 ...</span>
-<span class="co">##   ..- attr(*, ".internal.selfref")=&lt;externalptr&gt; </span>
-<span class="co">##  $ ValidCode:Classes 'data.table' and 'data.frame':  20768 obs. of  6 variables:</span>
-<span class="co">##   ..$ id     : int [1:20768] 90001 90001 90001 90001 90001 90001 90001 90001 90001 90001 ...</span>
-<span class="co">##   ..$ fu_time: num [1:20768] 71.7 71.7 71.7 71.7 71.7 ...</span>
-<span class="co">##   ..$ month  : int [1:20768] 0 1 2 3 4 5 6 7 8 9 ...</span>
-<span class="co">##   ..$ pred1  : int [1:20768] 0 0 0 0 0 0 0 0 0 1 ...</span>
-<span class="co">##   ..$ pred2  : int [1:20768] 0 0 0 0 0 0 0 0 0 0 ...</span>
-<span class="co">##   ..$ pred3  : int [1:20768] 0 0 0 0 0 0 0 0 0 0 ...</span>
-<span class="co">##   ..- attr(*, ".internal.selfref")=&lt;externalptr&gt;</span></pre></div>
+<p>In Step I of the MASTA algorithm, <code>longitudinal</code> and <code>follow_up_time</code> will be used to extract features from estimated subject-specific intensity functions of individual encounters. In Step II of the MASTA algorithm, <code>survival</code> and <code>follow_up_time</code> will be used to train and evaluate risk prediction models with survival outcomes. The <code>MASTA</code> package contains these three data files as a sample.</p>
+<div id="htmlwidget-efebafa856a9e63bdc1f" style="width:480px;height:288px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-efebafa856a9e63bdc1f">{"x":{"diagram":"\ndigraph flowchart {\n  node [fontname = Helvetica, shape = rectangle]        \n  tab1 [label = \"Input Data\"]\n  tab2 [label = \"Labeled (n = 1,100)\"]\n  tab3 [label = \"Unlabeled (N = 20,000)\"]\n  tab4 [label = \"Training (600)\"]\n  tab5 [label = \"Validation (500)\"]\n  tab1 -> tab2;\n  tab1 -> tab3;\n  tab2 -> tab4;\n  tab2 -> tab5;\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://celehs.github.io/MASTA/">MASTA</a></span><span class="op">)</span>
+<span class="co">## Loading required package: survival</span></code></pre></div>
+</div>
 <div id="longitudinal-encounter-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#longitudinal-encounter-data" class="anchor"></a>Longitudinal Encounter Data</h2>
-<p><code>TrainCode</code> and <code>ValidCode</code> will be used in Step I of the MASTA algorithm to extract features from estimated subject-specific intensity functions of individual encounters.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">data_org</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TrainCode"</span>, <span class="st">"ValidCode"</span><span class="op">)</span><span class="op">]</span>
-<span class="co">## $TrainCode</span>
-<span class="co">##            id  fu_time month pred1 pred2 pred3</span>
-<span class="co">##      1:     1 49.41273     0     0     0     0</span>
-<span class="co">##      2:     1 49.41273     1     0     0     0</span>
-<span class="co">##      3:     1 49.41273     2     0     0     0</span>
-<span class="co">##      4:     1 49.41273     3     0     0     0</span>
-<span class="co">##      5:     1 49.41273     4     0     0     0</span>
-<span class="co">##     ---                                       </span>
-<span class="co">## 810620: 20600 24.70637    20     0     0     0</span>
-<span class="co">## 810621: 20600 24.70637    21     0     0     0</span>
-<span class="co">## 810622: 20600 24.70637    22     0     0     0</span>
-<span class="co">## 810623: 20600 24.70637    23     0     0     1</span>
-<span class="co">## 810624: 20600 24.70637    24     0     0     2</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">?</span><span class="va">longitudinal</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">longitudinal</span><span class="op">)</span>
+<span class="co">##   code id time</span>
+<span class="co">## 1    1  4    1</span>
+<span class="co">## 2    1  4    1</span>
+<span class="co">## 3    1  4    1</span>
+<span class="co">## 4    1  4    2</span>
+<span class="co">## 5    1  5    4</span>
+<span class="co">## 6    1  5    4</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">longitudinal</span><span class="op">$</span><span class="va">code</span><span class="op">)</span>
 <span class="co">## </span>
-<span class="co">## $ValidCode</span>
-<span class="co">##           id  fu_time month pred1 pred2 pred3</span>
-<span class="co">##     1: 90001 71.72074     0     0     0     0</span>
-<span class="co">##     2: 90001 71.72074     1     0     0     0</span>
-<span class="co">##     3: 90001 71.72074     2     0     0     0</span>
-<span class="co">##     4: 90001 71.72074     3     0     0     0</span>
-<span class="co">##     5: 90001 71.72074     4     0     0     0</span>
-<span class="co">##    ---                                       </span>
-<span class="co">## 20764: 90500 29.30595    25     0     0     0</span>
-<span class="co">## 20765: 90500 29.30595    26     0     0     0</span>
-<span class="co">## 20766: 90500 29.30595    27     0     0     0</span>
-<span class="co">## 20767: 90500 29.30595    28     0     0     0</span>
-<span class="co">## 20768: 90500 29.30595    29     0     0     0</span></pre></div>
+<span class="co">##      1      2      3 </span>
+<span class="co">## 168374  68242  21501</span></code></pre></div>
+</div>
+<div id="follow-up-time-data-with-the-trainingvalidation-indicator" class="section level2">
+<h2 class="hasAnchor">
+<a href="#follow-up-time-data-with-the-trainingvalidation-indicator" class="anchor"></a>Follow-up Time Data with the training/validation indicator</h2>
+<p>One subject has one record in this data. The variable <code>train_valid</code> indicates which cohort each subject belong to, training (1) or validation (2).</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">?</span><span class="va">follow_up_time</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">follow_up_time</span><span class="op">)</span>
+<span class="co">##   id  fu_time train_valid</span>
+<span class="co">## 1  1 49.41273           1</span>
+<span class="co">## 2  2 13.93018           1</span>
+<span class="co">## 3  3 12.55031           1</span>
+<span class="co">## 4  4 14.85010           1</span>
+<span class="co">## 5  5 80.65708           1</span>
+<span class="co">## 6  6 42.64476           1</span></code></pre></div>
 </div>
 <div id="time-to-event-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#time-to-event-data" class="anchor"></a>Time-to-Event Data</h2>
-<p>Together with the features derived from longitudinal encounter data, <code>TrainCode</code> and <code>ValidCode</code> will be used in Step II of the MASTA algorithm to train and evaluate risk prediction models with survival outcomes.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">data_org</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TrainSurv"</span>, <span class="st">"ValidSurv"</span><span class="op">)</span><span class="op">]</span>
-<span class="co">## $TrainSurv</span>
-<span class="co">##       id event_ind event_time   fu_time cov_1 cov_2 cov_3</span>
-<span class="co">##   1:   1         1   9.363450 49.412731    79     1     0</span>
-<span class="co">##   2:   2         0  13.930185 13.930185    81     0     0</span>
-<span class="co">##   3:   3         0  12.550308 12.550308    55     1     1</span>
-<span class="co">##   4:   4         0  14.850103 14.850103    72     1     0</span>
-<span class="co">##   5:   5         0  80.657084 80.657084    83     1     1</span>
-<span class="co">##  ---                                                     </span>
-<span class="co">## 596: 596         0   8.443532  8.443532    66     1     0</span>
-<span class="co">## 597: 597         0  38.833676 38.833676    79     1     1</span>
-<span class="co">## 598: 598         0  42.743326 42.743326    74     1     0</span>
-<span class="co">## 599: 599         0  31.474333 31.474333    84     0     1</span>
-<span class="co">## 600: 600         0   7.523614  7.523614    80     0     1</span>
-<span class="co">## </span>
-<span class="co">## $ValidSurv</span>
-<span class="co">##         id event_ind event_time  fu_time cov_1 cov_2 cov_3</span>
-<span class="co">##   1: 90001         0  71.720739 71.72074    39     1     0</span>
-<span class="co">##   2: 90002         0  70.373717 70.37372    36     0     1</span>
-<span class="co">##   3: 90003         1   9.494867 14.94867    68     1     1</span>
-<span class="co">##   4: 90004         1  17.774127 33.80698    59     0     0</span>
-<span class="co">##   5: 90005         0  98.628337 98.62834    38     1     0</span>
-<span class="co">##  ---                                                      </span>
-<span class="co">## 496: 90496         0  35.581109 35.58111    47     0     0</span>
-<span class="co">## 497: 90497         0  27.367556 27.36756    59     1     0</span>
-<span class="co">## 498: 90498         0  24.607803 24.60780    56     0     0</span>
-<span class="co">## 499: 90499         0  27.170431 27.17043    82     0     1</span>
-<span class="co">## 500: 90500         0  29.305955 29.30595    82     1     1</span></pre></div>
+<p>One subject has one record in this data. The variable <code>event_ind</code> indicates whether the subject has an event (1) or not (0). For those who do not have event (i.e., <code>event_ind=0</code>), <code>event_time</code> in this data set should be the same as the <code>fu_time</code> in follow_up_time. The current version of the MASTA package requires that at least one baseline predictor is included in this data.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="op">?</span><span class="va">survival</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">survival</span><span class="op">)</span>
+<span class="co">##   id event_ind event_time cov_1 cov_2 cov_3</span>
+<span class="co">## 1  1         1    9.36345    79     1     0</span>
+<span class="co">## 2  2         0   13.93018    81     0     0</span>
+<span class="co">## 3  3         0   12.55031    55     1     1</span>
+<span class="co">## 4  4         0   14.85010    72     1     0</span>
+<span class="co">## 5  5         0   80.65708    83     1     1</span>
+<span class="co">## 6  6         1   15.70431    47     1     0</span></code></pre></div>
 </div>
   </div>
 
