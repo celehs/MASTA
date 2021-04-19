@@ -8,11 +8,12 @@ library(tidyverse)
     ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
 
     ## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-    ## ✓ tibble  3.0.6     ✓ dplyr   1.0.2
+    ## ✓ tibble  3.0.5     ✓ dplyr   1.0.3
     ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
     ## ✓ readr   1.4.0     ✓ forcats 0.5.0
 
     ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ## x tidyr::chop()   masks uno1misc::chop()
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -142,25 +143,24 @@ longitudinal
 
 ``` r
 survival <- bind_rows(
-  bind_cols(TrainSurv, train_valid = 1), 
-  bind_cols(ValidSurv, train_valid = 2)) %>%
-  distinct() 
+  TrainSurv[,-4], 
+  ValidSurv[,-4])
 survival
 ```
 
-    ## # A tibble: 1,100 x 8
-    ##       id event_ind event_time fu_time cov_1 cov_2 cov_3 train_valid
-    ##    <dbl>     <dbl>      <dbl>   <dbl> <dbl> <dbl> <dbl>       <dbl>
-    ##  1     1         1       9.36   49.4     79     1     0           1
-    ##  2     2         0      13.9    13.9     81     0     0           1
-    ##  3     3         0      12.6    12.6     55     1     1           1
-    ##  4     4         0      14.9    14.9     72     1     0           1
-    ##  5     5         0      80.7    80.7     83     1     1           1
-    ##  6     6         1      15.7    42.6     47     1     0           1
-    ##  7     7         0      13.7    13.7     86     0     1           1
-    ##  8     8         0      21.0    21.0     40     0     0           1
-    ##  9     9         0       5.16    5.16    85     1     0           1
-    ## 10    10         0       6.60    6.60    58     0     1           1
+    ## # A tibble: 1,100 x 6
+    ##       id event_ind event_time cov_1 cov_2 cov_3
+    ##    <dbl>     <dbl>      <dbl> <dbl> <dbl> <dbl>
+    ##  1     1         1       9.36    79     1     0
+    ##  2     2         0      13.9     81     0     0
+    ##  3     3         0      12.6     55     1     1
+    ##  4     4         0      14.9     72     1     0
+    ##  5     5         0      80.7     83     1     1
+    ##  6     6         1      15.7     47     1     0
+    ##  7     7         0      13.7     86     0     1
+    ##  8     8         0      21.0     40     0     0
+    ##  9     9         0       5.16    85     1     0
+    ## 10    10         0       6.60    58     0     1
     ## # … with 1,090 more rows
 
 ``` r
@@ -173,7 +173,7 @@ write_csv(survival, "survival.csv")
 usethis::use_data(follow_up_time, overwrite = TRUE)
 ```
 
-    ## ✓ Setting active project to '/home/ubuntu/github/celehs/MASTA'
+    ## ✓ Setting active project to '/Users/hajime/GitHub/MASTA'
 
     ## ✓ Saving 'follow_up_time' to 'data/follow_up_time.rda'
 
@@ -198,4 +198,4 @@ proc.time()
 ```
 
     ##    user  system elapsed 
-    ##   4.088   0.196   4.268
+    ##   3.400   0.225   3.740
