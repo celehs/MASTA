@@ -52,9 +52,8 @@ longitudinal
 
 ```{r}
 survival <- bind_rows(
-  bind_cols(TrainSurv, train_valid = 1), 
-  bind_cols(ValidSurv, train_valid = 2)) %>%
-  distinct() 
+  TrainSurv[,-4], 
+  ValidSurv[,-4])
 survival
 ```
 

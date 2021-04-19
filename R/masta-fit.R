@@ -1,36 +1,38 @@
 #' @title Main function implementing the MASTA algorithm
 #' @description This function builds an algorithm to identify the occurrence of event outcome from trajectories of several predictors.
-#' @param object results returned by the \code{masta.fpca} function
+#' @param object The object returned by the \code{fpca.combine} function
+#' @param survival the labeled data. The columns should be 1) id, 2) event indicator, 3) event time, followed by baseline predictors.
+#' @param follow_up_time the follow-up data
 #' @param cov_group a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.
 #' @param thresh a default is \code{0.7}, which means if there are codes with >70\% patients no codes, only use first code time.
 #' @param PCAthresh a threshold value for PCA. Default is \code{0.9}.
-#' @param seed random seed used for the sampling. Default is \code{1234}.
-#' @param seed2 random seed used for the sampling. Default is \code{100}.
+#' @param seed random seed used for the sampling. Default is \code{100}.
 #' @return A list with components:
 #' @return \item{bgbbest_FromChengInit_BFGS}{Details of the fitted model}
 #' @return \item{Cstat_BrierSc_ChengInit_BFGS}{Performance of the derived algorithm. C-statistics, etc.}
 #' @return \item{group}{A vector of consecutive integers describing the grouping coefficients}
 #' @export
-masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 1234, seed2 = 100) {
+masta.fit <- function(object, survival, follow_up_time, Tend=1, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 100) {
 
-  # cov_group = NULL; thresh = 0.7; PCAthresh = 0.9; seed = 1234; seed2 = 100 ;
-  # cov_group = NULL; thresh = 1.0; PCAthresh = 0.9; seed = 1234; seed2 = 100 ;
-  # object=Z
+  aa = merge(survival, follow_up_time, by="id")
+  
+  TrainSurv=aa[aa$train_valid==1,-ncol(aa)]
+  ValidSurv=aa[aa$train_valid==2,-ncol(aa)]
+  npred = ncol(aa)-5
+  codes <- paste0("pred", 1:npred)
+  colnames(TrainSurv) <- colnames(ValidSurv) <- c("case", "delta", "sx",  paste0("base_pred", 1:npred), "sc")
+  nn <- nrow(TrainSurv)
+  TrainSurv_pred_org <- TrainSurv[, grep("base_pred",names(TrainSurv))] #--- baseline predictors
+  ValidSurv_pred_org <- ValidSurv[, grep("base_pred",names(ValidSurv))] #--- baseline predictors
 
-  nn <- object$nn
-  codes <- object$codes
-  Tend <- object$Tend
-  TrainSurv <- object$TrainSurv
-  ValidSurv <- object$ValidSurv
-  TrainSurv_pred_org <- object$TrainSurv_pred_org
-  ValidSurv_pred_org <- object$ValidSurv_pred_org
   TrainN <- object$TrainN
   ValidN <- object$ValidN
   TrainFt <- object$TrainFt[row.names(object$TrainFt) %in% as.character(TrainSurv$case), ]
   ValidFt <- object$ValidFt
   TrainPK <- object$TrainPK[row.names(object$TrainPK) %in% as.character(TrainSurv$case), ]
   ValidPK <- object$ValidPK
-
+  
+  
   for (i in seq_along(codes)) {
     idx0 <- 5 * (i - 1)
     #--switch peak & change point if later one is bigger---    
@@ -159,7 +161,8 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   #--add grouping for covariaates and update the group vevtor--
   if (is.null(cov_group)) cov_group <- 1:length(TrainSurv_pred_org)
   group <- c(cov_group, group + cov_group[length(cov_group)])
-  corZExtreme(Z, 0.7)
+  
+  #corZExtreme(Z, 0.7)
   ### try delete ChP, feel like Pk is estimated better
 
 
@@ -175,21 +178,20 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   #-- for output 
   nparm4Bspline <- q
 
-  # ===================
-  #### Initial values
-  # ===================
-  set.seed(seed)
-
-  if (0) {
-    b_ini <- runif(ncol(Z), -0.1, 0.1)
-    b_next <- b_ini
-    b_next <- estbb.data(bb = b_next, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est
-    #### --Option I: Cheng et al (1995,1997) Not as good as NPMLE initial
-    func1 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est
-    func2 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$Jacob
-    bb <- multiroot(f = func1, start = b_ini, jacfunc = func2, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)
-    bb_Cheng <- bb.init <- bb$root
-  }
+#### ===================
+#### Initial values
+#### ===================
+#  set.seed(seed)
+#  if (0) {
+#    b_ini <- runif(ncol(Z), -0.1, 0.1)
+#    b_next <- b_ini
+#    b_next <- estbb.data(bb = b_next, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est
+#    #### --Option I: Cheng et al (1995,1997) Not as good as NPMLE initial
+#    func1 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$est
+#    func2 <- function(bb, Z, Delta, G_SX, SX) estbb.data(bb = bb, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)$Jacob
+#    bb <- multiroot(f = func1, start = b_ini, jacfunc = func2, Z = Z, Delta = Delta, G_SX = G_SX, SX = SX)
+#    bb_Cheng <- bb.init <- bb$root
+#  }
 
   bb_Cheng <- rep(0, ncol(Z))
   ht <- sapply(seq_along(tseq), function(i) {
@@ -198,8 +200,6 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   })
   ht <- sort(ht)
   bbt_Cheng <- cbind(tseq, ht)
-
-
 
   ### add more weights to origin to get better estimation there ???
   ### on original scale
@@ -304,7 +304,7 @@ masta.fit <- function(object, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, s
   tree.fit <- treefit(Delta, Z[, -(1:length(TrainSurv_pred_org))]) # ??????
 
 
-  set.seed(seed2)
+  set.seed(seed)
   train <- sample(1:nn, nn * 0.75)
   logi.fit <- logifit(Delta, Z, train, colnames(Z)[1:length(TrainSurv_pred_org)])
   #  vars <- logi.fit$vars

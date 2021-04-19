@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mean Density and Covariance Functions for FPCA — FPC.Kern.S • MASTA</title>
+<title>Extract Features by Functional Principal Component Analysis (FPCA) — fpca.combine • MASTA</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Mean Density and Covariance Functions for FPCA — FPC.Kern.S" />
-<meta property="og:description" content="Compute mean density function and covariance function for
-functional principal components analysis (FPCA)" />
+<meta property="og:title" content="Extract Features by Functional Principal Component Analysis (FPCA) — fpca.combine" />
+<meta property="og:description" content="Performs FPCA to extract features from longitudinal encounter data." />
 
 
 
@@ -124,44 +123,46 @@ functional principal components analysis (FPCA)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mean Density and Covariance Functions for FPCA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/celehs/MASTA/blob/master/R/fpca-kern.R'><code>R/fpca-kern.R</code></a></small>
-    <div class="hidden name"><code>FPC.Kern.S.Rd</code></div>
+    <h1>Extract Features by Functional Principal Component Analysis (FPCA)</h1>
+    <small class="dont-index">Source: <a href='https://github.com/celehs/MASTA/blob/master/R/FPCA_related.R'><code>R/FPCA_related.R</code></a></small>
+    <div class="hidden name"><code>fpca.combine.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Compute mean density function and covariance function for
-functional principal components analysis (FPCA)</p>
+    <p>Performs FPCA to extract features from longitudinal encounter data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>FPC.Kern.S</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>t</span>, <span class='va'>N</span>, h1 <span class='op'>=</span> <span class='cn'>NULL</span>, h2 <span class='op'>=</span> <span class='cn'>NULL</span>, bw <span class='op'>=</span> <span class='st'>"ucv"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>fpca.combine</span><span class='op'>(</span>
+  <span class='va'>time_code</span>,
+  <span class='va'>follow_up_time</span>,
+  K.select <span class='op'>=</span> <span class='st'>"PropVar"</span>,
+  n.grid <span class='op'>=</span> <span class='fl'>401</span>,
+  propvar <span class='op'>=</span> <span class='fl'>0.85</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>time grid between 0 and 1</p></td>
+      <th>time_code</th>
+      <td><p>longitudinal encounter times. See an example as <code>longitudinal</code> data.</p></td>
     </tr>
     <tr>
-      <th>t</th>
-      <td><p>observed event times of all the individuals, can have duplicates</p></td>
+      <th>follow_up_time</th>
+      <td><p>follow-up time information. See an example as <code>follow_up_time</code>.</p></td>
     </tr>
     <tr>
-      <th>N</th>
-      <td><p>vector, contains num of observed event of each patient</p></td>
+      <th>K.select</th>
+      <td><p>characters indicating which method to choose the number of principal components K.
+Default is K.select="PropVar", and K.select="PPIC" is also available.</p></td>
     </tr>
     <tr>
-      <th>h1</th>
-      <td><p>bandwidth for mean density function</p></td>
+      <th>n.grid</th>
+      <td><p>an integer value for grid points used in estimating covariance function g. Default is <code>401</code>.</p></td>
     </tr>
     <tr>
-      <th>h2</th>
-      <td><p>bandwidth for covariance function</p></td>
-    </tr>
-    <tr>
-      <th>bw</th>
-      <td><p>bandwidth selection method</p></td>
+      <th>propvar</th>
+      <td><p>a proportion of variation used to select number of FPCs. Default is <code>0.85</code>.</p></td>
     </tr>
     </table>
 

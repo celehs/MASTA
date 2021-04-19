@@ -20,17 +20,7 @@ GetPK <- function(id, t, tseq, fu) {
   PK
 }
 
-#' @title Functional Principal Component Analysis (FPCA)
-#' @description Performs FPCA to extract features from longitudinal encounter data.
-#' @param time longitudinal encounter times. They should be greater than or equal to 1.
-#' @param fu_train follow-up time (training)
-#' @param fu_valid follow-up time (validation)
-#' @param PPIC_K a logical indicating whether you want to use Pseudo-Poisson Information Criterion to choose
-#' the number of principal components K (K.select="PPIC") \code{TRUE} or another criterion to choose
-#' K (K.select="PropVar") \code{FALSE} in the PP_FPCA_Parallel function (hidden). Default is \code{FALSE}.
-#' @param n.grid an integer value for grid points used in estimating covariance function g. Default is \code{401}.
-#' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
-#' @export
+
 fpca <- function(time, fu_train, fu_valid,
                  PPIC_K = FALSE, n.grid = 401, propvar = 0.85) {
 

@@ -81,7 +81,7 @@ PP_FPCA <- function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1, # assume i
       f_locpoly <- sapply(1:n, function(j) {
         tmp <- density(t[{
           cumsumN2[j] + 1
-        }:cumsumN2[j + 1]], bw = "nrd")
+        }:cumsumN2[j + 1]], bw = "nrd0") # nrd or nrd0?
         tmp$y[sapply(t[{
           cumsumN2[j] + 1
         }:cumsumN2[j + 1]], function(s) which.min(abs(s - tmp$x)))]
