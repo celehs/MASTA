@@ -37,7 +37,7 @@ PP_FPCA_new <- function(t,
                         polybinx = FALSE, derivatives = TRUE) {
   ## generate appropriate parameters
   Tend = 1
-  par = gen.par(N,h1,h2,bw,ngrid,Tend)
+  par = gen.par(t,N,h1,h2,bw,ngrid,Tend)
   N = par$N; h1 = par$h1; h2 = par$h2; x = par$x
 
   ## get f_i and G

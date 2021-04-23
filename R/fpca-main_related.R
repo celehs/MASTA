@@ -1,4 +1,4 @@
-gen.par <- function(N, h1, h2, bw, ngrid, Tend){
+gen.par <- function(t, N, h1, h2, bw, ngrid, Tend){
   ## eliminate patients with 0 observed event
   if (is.null(N)){
     N <- tapply(t, names(t), function(x){length(x)})
