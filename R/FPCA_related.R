@@ -146,7 +146,7 @@ fpca.summary <- function(data, tmp, fu_train, fu_valid){
 fpca.combine <- function(longitudinal, follow_up_time, 
                          K.select = "PropVar", n.grid = 401, propvar = 0.85){
   longitudinal$code = as.numeric(longitudinal$code)
-  codes = unique(longitudinal$code)
+  codes = sort(unique(longitudinal$code))
   if(min(codes)!=1) stop("Codes should start from 1.")
   
   diff.index = codes[2:length(codes)] - codes[1:(length(codes)-1)]
