@@ -39,6 +39,6 @@ out = data.frame(out)
 colnames(out)=c("code","id","time")
 longitudinal_data = out
 head(longitudinal_data)
-  
+
 system.time(Z <- fpca.combine(longitudinal_data, follow_up_time_data, K.select = "PropVar"))
   
