@@ -54,7 +54,7 @@ fpca.check <- function(time, fu_train, fu_valid){
   time_df_max = data.frame("id" = names(time_df_max),
                        "obs_max" = time_df_max)
   follow = merge(follow, time_df_max,by="id")
-  if (sum(follow$obs_max>follow$follow)>0) stop("Data Entry Issue: in longitudinal data, Some subjects have encounters later than the follow up time.")
+  if (sum(follow$obs_max>follow$follow)>0) stop("Data Entry Issue: in longitudinal data, some subjects have encounters later than the follow up time.")
 }
 
 
