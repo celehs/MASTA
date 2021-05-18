@@ -125,7 +125,7 @@ fpca.Kadj.f <- function(K, Kmax, ngrid, derivatives,
     n = length(N)
     colnames(fi) <- paste0("f", seq(1, n))
     scores <- data.frame(
-      id = as.character(seq(1, n)),
+      id = as.character(names(N)),
       scores, stringsAsFactors = FALSE
     )
   }

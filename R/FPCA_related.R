@@ -61,7 +61,7 @@ fpca.check <- function(time, fu_train, fu_valid){
 
 
 #' @export
-fpca.pre <- function(time, fu_train, fu_valid, Tend, as_int, least_c=1, least_uc=1){
+fpca.pre <- function(time, fu_train, fu_valid=NULL, Tend, as_int, least_c=1, least_uc=1){
   fu <- c(fu_train, fu_valid)
   uni.count <- tapply(time, names(time), function(x){length(unique(x))})
   count <- tapply(time, names(time), function(x){length(x)})
@@ -144,7 +144,7 @@ fpca.summary <- function(data, tmp, fu_train, fu_valid){
 #' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
 #' @export
 fpca.combine <- function(longitudinal, follow_up_time, 
-                         K.select = "PropVar", n.grid = 401, propvar = 0.85){
+                         K.select = "PropVar", K.max = 5, n.grid = 401, propvar = 0.85){
   longitudinal$code = as.numeric(longitudinal$code)
   codes = sort(unique(longitudinal$code))
   if(min(codes)!=1) stop("Codes should start from 1.")
@@ -175,7 +175,8 @@ fpca.combine <- function(longitudinal, follow_up_time,
 
   for (i in 1:length(codes)) {
     time <- D[[i]]
-    ans <- fpca.new(time, fu_train, fu_valid, K.select = "PropVar") 
+    ans <- fpca.new(time, fu_train, fu_valid, K.select = "PropVar",
+                    K.max = K.max) 
     #--- create an object for fitting --
     Ft_name <- colnames(ans$TrainFt)
     Ft_name <- paste0(Ft_name, codes[i])

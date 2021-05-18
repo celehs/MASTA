@@ -1,6 +1,6 @@
 
 fpca.new <- function(time, fu_train, fu_valid,
-                     K.select = "PropVar", n.grid = 401, propvar = 0.85) {
+                     K.select = "PropVar", Kmax = 5, n.grid = 401, propvar = 0.85) {
   
   #--- check input ---
   fpca.check(time, fu_train, fu_valid)
@@ -14,7 +14,7 @@ fpca.new <- function(time, fu_train, fu_valid,
   tmp <- PP_FPCA_new(
     data$time_std, h1 = h1, h2 = h2,
     data$count, bw = "nrd", ngrid = n.grid, Tend = 1,
-    K.select = K.select, propvar = propvar,
+    K.select = K.select, Kmax = Kmax, propvar = propvar,
     #density.method = "local linear",
     derivatives = TRUE
   )
