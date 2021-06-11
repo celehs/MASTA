@@ -382,16 +382,8 @@ BrierScore2 <- function(tt = NULL, bg, bb, ST, SX, SC, Delta, Z, knots, Boundary
   })
 
   #------------------------------------------------------------------
-  #--- fix 2021-06-11 (make the weight 0 after the end of follow-up)
+  #--- fix 2021-06-11
   #------------------------------------------------------------------
-  # -- Liang's weight (wt_old) had a non-zero value even after the end of followup 
-  wt_old = wt
-  chk <- apply(outer(SC, tseq, FUN = function(x, y) abs(x - y)), 1, which.min)
-  idx1 = VTM(1:ncol(wt),nrow(wt))
-  idx2 = t(VTM(chk,ncol(wt)))
-  idx3 = idx1 > idx2 
-  wt[idx3] = 0
-  
   tmp <- h.fun(tseq, knots, Boundary.knots, bg)
   tmp <- log(tmp)
   # tmp   = log(cumsum(exp(B%*%bg)))+log(diff(tseq)[1])
@@ -402,9 +394,12 @@ BrierScore2 <- function(tt = NULL, bg, bb, ST, SX, SC, Delta, Z, knots, Boundary
   tmpp <- outer(tmpp2, tmp, FUN = "pmin")
   cbind(tmp, t(tmpp[1:4,]))
   tmp2 <- outer(ST, tseq, FUN = "<=") * Delta # 1(T<= min(t,C))
+
+  tmpp3=VTM(tmp,nrow(Z))
   aa <- apply(
     {
-      tmp2[, tseq %in% tt] - g_fun(as.numeric(Z %*% bb) + tmpp[, tseq %in% tt])
+    # tmp2[, tseq %in% tt] - g_fun(as.numeric(Z %*% bb) + tmpp[, tseq %in% tt])
+      tmp2[, tseq %in% tt] - g_fun(as.numeric(Z %*% bb) + tmpp3[, tseq %in% tt])
     }^2 * wt,
     2,
     mean
@@ -430,7 +425,6 @@ BrierScore2 <- function(tt = NULL, bg, bb, ST, SX, SC, Delta, Z, knots, Boundary
   # u=u+1
   ##----> wt_old was fixed ---
   
-  tmpp3=VTM(tmp,nrow(Z))
   pred_surv <- g_fun(as.numeric(Z %*% bb) + tmpp3[, tseq %in% tt])
   # u=1
   # plot(1:ncol(pred_surv), pred_surv[u,], ylim=c(0,1)) ; 
@@ -438,6 +432,7 @@ BrierScore2 <- function(tt = NULL, bg, bb, ST, SX, SC, Delta, Z, knots, Boundary
   # text(50,0.9,tmpp1[u])
   # u=u+1
   
+  #--- making NA after the end of follow-up
   idx1 = VTM(1:ncol(pred_surv),nrow(pred_surv))
   idx2 = t(VTM(tmpp1,ncol(pred_surv)))
   idx3 = idx1 > idx2 
