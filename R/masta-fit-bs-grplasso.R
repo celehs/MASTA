@@ -381,14 +381,26 @@ BrierScore2 <- function(tt = NULL, bg, bb, ST, SX, SC, Delta, Z, knots, Boundary
     } / Gt[tseq == t]
   })
 
+  #------------------------------------------------------------------
+  #--- fix 2021-06-11 (make the weight 0 after the end of follow-up)
+  #------------------------------------------------------------------
+  # -- Liang's weight (wt_old) had a non-zero value even after the end of followup 
+  wt_old = wt
+  chk <- apply(outer(SC, tseq, FUN = function(x, y) abs(x - y)), 1, which.min)
+  idx1 = VTM(1:ncol(wt),nrow(wt))
+  idx2 = t(VTM(chk,ncol(wt)))
+  idx3 = idx1 > idx2 
+  wt[idx3] = 0
+  
   tmp <- h.fun(tseq, knots, Boundary.knots, bg)
   tmp <- log(tmp)
   # tmp   = log(cumsum(exp(B%*%bg)))+log(diff(tseq)[1])
-
-  #--- peak time point?
-  tmpp <- apply(outer(SC, tseq, FUN = function(x, y) abs(x - y)), 1, which.min)
-  tmpp <- tmp[tmpp]
-  tmpp <- outer(tmpp, tmp, FUN = "pmin")
+  
+  tmpp1 <- apply(outer(SC, tseq, FUN = function(x, y) abs(x - y)), 1, which.min)
+  tmpp2 <- tmp[tmpp1]
+  cbind(SC, tmpp1, tmpp2)
+  tmpp <- outer(tmpp2, tmp, FUN = "pmin")
+  cbind(tmp, t(tmpp[1:4,]))
   tmp2 <- outer(ST, tseq, FUN = "<=") * Delta # 1(T<= min(t,C))
   aa <- apply(
     {
@@ -398,9 +410,44 @@ BrierScore2 <- function(tt = NULL, bg, bb, ST, SX, SC, Delta, Z, knots, Boundary
     mean
   )
   #--- returning ave[I(T>t) - S(t)]^2 for all t.
-  #--- predicted survival function: 
-  pred_surv <- g_fun(as.numeric(Z %*% bb) + tmpp[, tseq %in% tt])
-
+  
+  
+  #----------------------------------
+  #--- predicted incidence prob.
+  #----------------------------------
+  # length(tmp)
+  # dim(tmpp)
+  # chk=tmp2[, tseq %in% tt]; dim(chk)
+  # pred_surv_old <- g_fun(as.numeric(Z %*% bb) + tmpp[, tseq %in% tt])
+  # u=1
+  # plot(1:ncol(pred_surv_old), pred_surv_old[u,], ylim=c(0,1)) ; 
+  # lines(1:ncol(pred_surv_old), pred_surv_old[u,]*as.numeric(wt_old[u,]!=0), col="red") ;
+  # lines(1:ncol(pred_surv_old), chk[u,], col="blue", lwd=2) ; 
+  # text(50,0.9,tmpp1[u])
+  # text(10,0.9,u)
+  # text(100,0.9,SX[u])
+  # text(130,0.9,Delta[u])
+  # u=u+1
+  ##----> wt_old was fixed ---
+  
+  tmpp3=VTM(tmp,nrow(Z))
+  pred_surv <- g_fun(as.numeric(Z %*% bb) + tmpp3[, tseq %in% tt])
+  # u=1
+  # plot(1:ncol(pred_surv), pred_surv[u,], ylim=c(0,1)) ; 
+  # lines(1:ncol(pred_surv), pred_surv_old[u,], col="red") ;
+  # text(50,0.9,tmpp1[u])
+  # u=u+1
+  
+  idx1 = VTM(1:ncol(pred_surv),nrow(pred_surv))
+  idx2 = t(VTM(tmpp1,ncol(pred_surv)))
+  idx3 = idx1 > idx2 
+  pred_surv[idx3]=NA
+  # u=1
+  # plot(1:ncol(pred_surv), pred_surv[u,], ylim=c(0,1)) ; 
+  # lines(1:ncol(pred_surv), pred_surv_old[u,], col="red") ;
+  # text(50,0.9,tmpp1[u])
+  # u=u+1
+  
   # return(cbind(tt,aa))
   out <- list()
   out$BrierSore_tt <- cbind(tt, aa)
