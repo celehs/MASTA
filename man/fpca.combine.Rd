@@ -5,15 +5,16 @@
 \title{Extract Features by Functional Principal Component Analysis (FPCA)}
 \usage{
 fpca.combine(
-  time_code,
+  longitudinal,
   follow_up_time,
   K.select = "PropVar",
+  K.max = 5,
   n.grid = 401,
   propvar = 0.85
 )
 }
 \arguments{
-\item{time_code}{longitudinal encounter times. See an example as \code{longitudinal} data.}
+\item{longitudinal}{longitudinal encounter times. See an example as \code{longitudinal} data.}
 
 \item{follow_up_time}{follow-up time information. See an example as \code{follow_up_time}.}
 

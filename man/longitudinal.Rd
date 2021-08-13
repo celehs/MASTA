@@ -4,14 +4,12 @@
 \name{longitudinal}
 \alias{longitudinal}
 \title{Sample Data of the MASTA Pacakge}
-\format{
-A data.frame with 3 columns:
+\format{A data.frame with 3 columns:
 \describe{
   \item{code}{integer indicator for the type of codes. It must be incremental and start from 1, which contains no skipping number.}
   \item{id}{patient id.}
   \item{time}{encounter time with the code. One patient can encounter with different types of codes multiple times.}
-}
-}
+}}
 \usage{
 longitudinal
 }

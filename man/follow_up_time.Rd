@@ -4,14 +4,12 @@
 \name{follow_up_time}
 \alias{follow_up_time}
 \title{Sample Data of the MASTA Pacakge}
-\format{
-A data.frame with 3 columns:
+\format{A data.frame with 3 columns:
 \describe{
   \item{id}{patient id.}
   \item{fu_time}{the follow up time for the patient.}
   \item{train_valid}{indicator for patients in the training data set; 1=training, 0=test}
-}
-}
+}}
 \usage{
 follow_up_time
 }

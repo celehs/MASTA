@@ -1,3 +1,5 @@
+#--- development branch  as of August 6 2021
+
 ### All functions need in simulations
 ### Survival likelihood; Ridge, Glasso; Prediction Accuracy; Rule based algorithm (comparison)
 
@@ -19,7 +21,7 @@
 h.fun <- function(t, knots, Boundary.knots, bg, a = NULL, b = NULL, k = NULL) {
   allknots <- c(Boundary.knots[1], knots, Boundary.knots[2])
   q <- length(allknots)
-
+  
   if (is.null(a)) {
     a <- {
       allknots[-1] * bg[-q] - allknots[-q] * bg[-1]
@@ -32,18 +34,18 @@ h.fun <- function(t, knots, Boundary.knots, bg, a = NULL, b = NULL, k = NULL) {
   }
   if (is.null(k)) k <- sapply(t, function(s) k <- sum(s > allknots))
   c <- ifelse(bg[-q] == bg[-1],
-    exp(bg[-q]) * {
-      allknots[-1] - allknots[-q]
-    },
-    {
-      allknots[-1] - allknots[-q]
-    } /
-      {
-        bg[-1] - bg[-q]
-      } *
-      {
-        exp(a[-q] + b[-q] * allknots[-1]) - exp(bg[-q])
-      }
+              exp(bg[-q]) * {
+                allknots[-1] - allknots[-q]
+              },
+              {
+                allknots[-1] - allknots[-q]
+              } /
+                {
+                  bg[-1] - bg[-q]
+                } *
+                {
+                  exp(a[-q] + b[-q] * allknots[-1]) - exp(bg[-q])
+                }
   )
   c <- c * exp(bg[1])
   c[1] <- {
@@ -51,7 +53,7 @@ h.fun <- function(t, knots, Boundary.knots, bg, a = NULL, b = NULL, k = NULL) {
   } / bg[2] * exp(bg[1]) * {
     exp(bg[2]) - 1
   }
-
+  
   sapply(seq_along(t), function(i) {
     if (k[i] == 1) {
       tmp <- {
@@ -80,7 +82,7 @@ h.fun <- function(t, knots, Boundary.knots, bg, a = NULL, b = NULL, k = NULL) {
 dh.fun <- function(t, knots, Boundary.knots, bg, a = NULL, b = NULL, k = NULL) {
   allknots <- c(Boundary.knots[1], knots, Boundary.knots[2])
   q <- length(allknots)
-
+  
   if (is.null(a)) {
     a <- {
       allknots[-1] * bg[-q] - allknots[-q] * bg[-1]
@@ -92,16 +94,16 @@ dh.fun <- function(t, knots, Boundary.knots, bg, a = NULL, b = NULL, k = NULL) {
     } / (allknots[-1] - allknots[-q])
   }
   if (is.null(k)) k <- sapply(t, function(s) k <- sum(s > allknots))
-
+  
   dh <- matrix(0, nrow = length(t), ncol = length(bg))
   dh[, 1] <- h.fun(t, knots, Boundary.knots, bg, a = NULL, b = NULL, k = NULL)
   dh[k == 1, 2] <- exp(bg[1]) * {
     {
       bg[2] * (t[k == 1] - allknots[1]) - (allknots[2] - allknots[1])
     } / bg[2]^2 * exp(bg[2] *
-      {
-        t[k == 1] - allknots[1]
-      } / (allknots[2] - allknots[1])) +
+                        {
+                          t[k == 1] - allknots[1]
+                        } / (allknots[2] - allknots[1])) +
       (allknots[2] - allknots[1]) / bg[2]^2
   }
   dh[k == 2, 2] <- exp(bg[1]) * {
@@ -171,10 +173,10 @@ SurvLoglik <- function(bg, bb, knots, Boundary.knots, Delta, SX, Z,
                        likelihood = TRUE, gradient = FALSE) {
   allknots <- c(Boundary.knots[1], knots, Boundary.knots[2])
   q <- length(allknots)
-
+  
   BX <- bs(SX, knots = knots, degree = 1, Boundary.knots = Boundary.knots, intercept = FALSE)
   BX <- cbind(1, BX)
-
+  
   a <- {
     allknots[-1] * bg[-q] - allknots[-q] * bg[-1]
   } / (allknots[-1] - allknots[-q])
@@ -182,17 +184,17 @@ SurvLoglik <- function(bg, bb, knots, Boundary.knots, Delta, SX, Z,
     bg[-1] - bg[-q]
   } / (allknots[-1] - allknots[-q])
   kk <- sapply(SX, function(s) k <- sum(s > allknots))
-
+  
   hX <- h.fun(SX, knots, Boundary.knots, bg, a, b, kk)
-
+  
   l <- NULL
-
+  
   if (likelihood) {
     l$likelihood <- -mean(Delta * as.numeric({
       BX %*% bg + Z %*% bb
     }) - (1 + Delta) * log(1 + hX * exp(as.numeric(Z %*% bb))))
   }
-
+  
   if (gradient) {
     dhX <- dh.fun(SX, knots, Boundary.knots, bg, a, b, kk)
     tmp <- exp(Z %*% bb) / (1 + hX * exp(Z %*% bb))
@@ -205,7 +207,7 @@ SurvLoglik <- function(bg, bb, knots, Boundary.knots, Delta, SX, Z,
     lbb <- apply(t(VTM(Delta - (1 + Delta) * hX * tmp, ncol(Z))) * Z, 2, mean)
     l$gradient <- -c(lbg, lbb)
   }
-
+  
   return(l)
 }
 
@@ -221,28 +223,28 @@ SurvLoglik.nz <- function(bg, bb, nzpar, knots, Boundary.knots, Delta, SX, Z,
 
 gglasso.Approx.BSNP <- function(bg, bb, knots, Boundary.knots, Delta, SX, Z, lam.rid, lam.glasso, group) {
   nn <- length(SX)
-
+  
   hX <- h.fun(SX, knots, Boundary.knots, bg)
   tmp <- as.numeric(hX * exp(Z %*% bb))
   tmp <- tmp / (1 + tmp)^2
   d2l <- t(Z) %*% diag((1 + Delta) * tmp / nn) %*% Z + lam.rid * diag(rep(1, length(bb)))
-
+  
   d2l <- svd(d2l)
   d2l.sqrt <- d2l$u %*% diag(sqrt(d2l$d)) %*% t(d2l$v)
   ynew <- d2l.sqrt %*% bb
-
+  
   pf_glasso <- 1 / sqrt(aggregate(bb^2, by = list(group), FUN = sum)[, 2])
   pf_glasso[is.infinite(pf_glasso)] <- max(pf_glasso[!is.infinite(pf_glasso)])
   tmp <- gglasso(d2l.sqrt, ynew,
-    group = group, loss = "ls",
-    lambda = lam.glasso, pf = pf_glasso,
-    intercept = FALSE
+                 group = group, loss = "ls",
+                 lambda = lam.glasso, pf = pf_glasso,
+                 intercept = FALSE
   )
-
+  
   tmp2 <- apply((c(ynew) - d2l.sqrt %*% tmp$beta)^2, 2, sum)
   AIC.LSA <- tmp2 + tmp$df * 2 / nn
   BIC.LSA <- tmp2 + tmp$df * log(nn) / nn
-
+  
   tmp2 <- unlist(sapply(seq_along(lam.glasso), function(i) {
     SurvLoglik(
       bg, tmp$beta[, i], knots, Boundary.knots,
@@ -251,7 +253,7 @@ gglasso.Approx.BSNP <- function(bg, bb, knots, Boundary.knots, Delta, SX, Z, lam
   }))
   AIC.Orig <- tmp2 + tmp$df * 2 / nn
   BIC.Orig <- tmp2 + tmp$df * log(nn) / nn
-
+  
   tmp2 <- list(
     AIC.LSA = AIC.LSA, BIC.LSA = BIC.LSA, AIC.Orig = AIC.Orig, BIC.Orig = BIC.Orig,
     LL = apply((c(ynew) - d2l.sqrt %*% tmp$beta)^2, 2, sum),
@@ -262,7 +264,7 @@ gglasso.Approx.BSNP <- function(bg, bb, knots, Boundary.knots, Delta, SX, Z, lam
       )
     }))
   )
-
+  
   return(c(tmp, tmp2))
 }
 
@@ -272,12 +274,12 @@ OrigSc <- function(bgbbest, mean, sd, bgbbbm = NULL) {
   bgbbest2 <- bgbbest[, -1]
   bgbbest2[1, ] <- bgbbest2[1, ] - apply(bgbbest2[-c(1:q), ] * mean / sd, 2, sum)
   bgbbest2[-c(1:q), ] <- bgbbest2[-c(1:q), ] / sd
-
+  
   if (!is.null(bgbbbm)) {
     bgbbest2 <- cbind(bgbbbm, bgbbest2)
     colnames(bgbbest2)[1] <- "BM"
   }
-
+  
   bgbbest2
 }
 
@@ -293,7 +295,7 @@ GetResultAll <- function(bgbm.init, knots, Boundary.knots, q,
     gr = function(x) SurvLoglik(bg = x[1:q], bb = x[-c(1:q)], knots, Boundary.knots, Delta, SX, Z, likelihood = FALSE, gradient = TRUE)$gradient,
     method = "BFGS", control = list(maxit = 3000)
   )[c("par", "convergence")]
-
+  
   ## group lasso with L2 approximation; no penalty on BS part
   bgbm.optim.glasso <- gglasso.Approx.BSNP(bgbm.optim$par[1:q], bgbm.optim$par[-c(1:q)], knots, Boundary.knots, Delta, SX, Z, 0, lam.glasso, group)
   # AIC
@@ -316,15 +318,15 @@ GetResultAll <- function(bgbm.init, knots, Boundary.knots, q,
     )$par
     tmp
   })
-
+  
   colnames(bgbm.optim.glasso) <- c("AIC", "BIC", "AIC.Orig", "BIC.Orig")
-
+  
   bgbbest <- cbind(bgbm.init, bgbm.optim$par, bgbm.optim.glasso)
   colnames(bgbbest) <- c(
     "BM", "MLE",
     paste0("Glasso.", c("AIC", "BIC", "AIC.Orig", "BIC.Orig"))
   )
-
+  
   bgbbest
 }
 
@@ -347,7 +349,7 @@ BrierScore2 <- function(tt = NULL, bg, bb, ST, SX, SC, Delta, Z, knots, Boundary
   #  tt=tseq[tseq<=endF]; bg=x[1:q]; bb=x[-c(1:q)] ; ST=SX;
   # == ST SX SC Delta Z knots Boundary.knots tseq ;
   #  GX=G_SX; Gt=G_tseq ;
-
+  
   if (is.null(GX) & is.null(Gt)) {
     G_fit <- survfit(Surv(SX, 1 - Delta) ~ 1, type = "kaplan-meier")
     GX <- sapply(SX, function(s) {
@@ -367,7 +369,7 @@ BrierScore2 <- function(tt = NULL, bg, bb, ST, SX, SC, Delta, Z, knots, Boundary
       }
     })
   }
-
+  
   if (is.null(tt)) tt <- tseq[Gt != 0]
   tmp <- sapply(tt, function(t) {
     {
@@ -380,27 +382,77 @@ BrierScore2 <- function(tt = NULL, bg, bb, ST, SX, SC, Delta, Z, knots, Boundary
       SX > t
     } / Gt[tseq == t]
   })
-
+  
   tmp <- h.fun(tseq, knots, Boundary.knots, bg)
   tmp <- log(tmp)
   # tmp   = log(cumsum(exp(B%*%bg)))+log(diff(tseq)[1])
-
-  #--- peak time point?
-  tmpp <- apply(outer(SC, tseq, FUN = function(x, y) abs(x - y)), 1, which.min)
-  tmpp <- tmp[tmpp]
-  tmpp <- outer(tmpp, tmp, FUN = "pmin")
+  
+  #------------------------------------------------------------------
+  # (2021-08-13) Bug fix in calculaion of Brier score 
+  #------------------------------------------------------------------
+  # - issue - the predicted curve after the end of follow-up was wrong for those who had event.
+  # -- it was a constant after the end of follo-up (claims data)
+  # -- it should be the predicted curve because those contribute the Brier score after the event.
+  #------------------------------------------------------------------
+  tmpp1 <- apply(outer(SC, tseq, FUN = function(x, y) abs(x - y)), 1, which.min)
+  tmpp2 <- tmp[tmpp1]
+  cbind(SC, tmpp1, tmpp2)
+  tmpp <- outer(tmpp2, tmp, FUN = "pmin")
+  cbind(tmp, t(tmpp[1:4,]))
   tmp2 <- outer(ST, tseq, FUN = "<=") * Delta # 1(T<= min(t,C))
+  
+  tmpp3=VTM(tmp,nrow(Z))
   aa <- apply(
     {
-      tmp2[, tseq %in% tt] - g_fun(as.numeric(Z %*% bb) + tmpp[, tseq %in% tt])
+    # tmp2[, tseq %in% tt] - g_fun(as.numeric(Z %*% bb) + tmpp[, tseq %in% tt])
+      tmp2[, tseq %in% tt] - g_fun(as.numeric(Z %*% bb) + tmpp3[, tseq %in% tt])
     }^2 * wt,
     2,
     mean
   )
   #--- returning ave[I(T>t) - S(t)]^2 for all t.
-  #--- predicted survival function: 
-  pred_surv <- g_fun(as.numeric(Z %*% bb) + tmpp[, tseq %in% tt])
+  
+  
+  #------------------------------------------------------------------
+  # (2021-08-13) Bug fix in reporing the predicted incidence rates
+  #------------------------------------------------------------------
+  # - issue - the predicted curve after the end of follow-up was wrong for both event and non-event subjects
+  # -- it was a constant after the end of follo-up (claims data)
+  # -- For those who had event, it should be the predicted curve because those contribute the Brier score after the event.
+  # -- For those who did not have event, it should be trunacated  at the end of the follow-up (claims) and make it NA after that
+  #------------------------------------------------------------------
+  # length(tmp)
+  # dim(tmpp)
+  # chk=tmp2[, tseq %in% tt]; dim(chk)
+  # pred_surv_old <- g_fun(as.numeric(Z %*% bb) + tmpp[, tseq %in% tt])
+  # u=1
+  # plot(1:ncol(pred_surv_old), pred_surv_old[u,], ylim=c(0,1)) ; 
+  # lines(1:ncol(pred_surv_old), pred_surv_old[u,]*as.numeric(wt_old[u,]!=0), col="red") ;
+  # lines(1:ncol(pred_surv_old), chk[u,], col="blue", lwd=2) ; 
+  # text(50,0.9,tmpp1[u])
+  # text(10,0.9,u)
+  # text(100,0.9,SX[u])
+  # text(130,0.9,Delta[u])
+  # u=u+1
 
+  pred_surv <- g_fun(as.numeric(Z %*% bb) + tmpp3[, tseq %in% tt])
+  # u=1
+  # plot(1:ncol(pred_surv), pred_surv[u,], ylim=c(0,1)) ; 
+  # lines(1:ncol(pred_surv), pred_surv_old[u,], col="red") ;
+  # text(50,0.9,tmpp1[u])
+  # u=u+1
+  
+  #--- making NA after the end of follow-up
+  idx1 = VTM(1:ncol(pred_surv),nrow(pred_surv))
+  idx2 = t(VTM(tmpp1,ncol(pred_surv)))
+  idx3 = idx1 > idx2 
+  pred_surv[idx3]=NA
+  # u=1
+  # plot(1:ncol(pred_surv), pred_surv[u,], ylim=c(0,1)) ; 
+  # lines(1:ncol(pred_surv), pred_surv_old[u,], col="red") ;
+  # text(50,0.9,tmpp1[u])
+  # u=u+1
+  
   # return(cbind(tt,aa))
   out <- list()
   out$BrierSore_tt <- cbind(tt, aa)
@@ -414,19 +466,19 @@ GetPrecAll <- function(bgbbest, ST, SX, SC, Delta, Z, tseq, t.grid,
                        knots, Boundary.knots, GX, Gt, endF, Tend) {
   # bgbbest,SX,SX,SC,Delta,Z,tseq,t.grid,knots,Boundary.knots,G_SX,G_tseq,endF,Tend
   # ST=SX; GX=G_SX; Gt=G_tseq ;
-
+  
   q <- length(knots) + 2
-
+  
   #--- this does not use the b-spline part. Using only predictors (does not use intercept) 
   Cstat.CV <- apply(bgbbest, 2, function(x) {
     Est.Cval(cbind(SX, Delta, Z %*% x[-c(1:q)]), tau = endF, nofit = TRUE)$Dhat
   })
-
+  
   #--- risk score -- 
   risk_score <- apply(bgbbest, 2, function(x) {
     Z %*% x[-c(1:q)]
   })
-
+  
   ### Brier Score ###
   #-- for each parameter, get the brier score from 0 to endF ;
   BrierS.CV <- apply(bgbbest, 2, function(x) {
@@ -437,10 +489,10 @@ GetPrecAll <- function(bgbbest, ST, SX, SC, Delta, Z, tseq, t.grid,
   })
   #-- average over the time from 0 to endF ??
   BrierS.CV <- apply(BrierS.CV, 2, mean)
-
+  
   CB <- rbind(Cstat.CV, BrierS.CV)
   row.names(CB) <- c("Cstat", "BrierSc.Adj")
-
+  
   #--- retrun predicted survival function ---
   # chk=BrierScore2(tseq[tseq<=endF],bgbbest[1:q,3],bgbbest[-c(1:q),3],ST,SX,SC,Delta,Z,knots,Boundary.knots,tseq,GX,Gt)$pred_surv
   pred_surv <- list()
@@ -453,8 +505,8 @@ GetPrecAll <- function(bgbbest, ST, SX, SC, Delta, Z, tseq, t.grid,
     rownames(pred_surv[[kk]]) <- paste0("case", 1:nrow(Z))
     colnames(pred_surv[[kk]]) <- tmp$BrierSore_tt[, 1]
   }
-
-
+  
+  
   # return(CB)
   out <- list()
   out$CB <- CB
@@ -498,7 +550,7 @@ BrierScore.tree2 <- function(tt = NULL, ST, SX, Delta, Z,
       SX > t
     } / Gt[tseq == t]
   })
-
+  
   tmp <- outer(SX.tree, tseq, FUN = "<=") * Delta.tree
   tmp2 <- outer(ST, tseq, FUN = "<=") * Delta
   aa <- apply(
@@ -535,10 +587,10 @@ GetPrecAll.tree <- function(tree.fit, ST, SX, SC, Delta, Z, FirstCode, tseq, t.g
     )[, 2])
   )
   names(BrierS.CV) <- c("TreeTN", "TreeAll")
-
+  
   CB <- rbind(Cstat.CV, BrierS.CV)
   row.names(CB) <- c("Cstat", "BrierSc.Adj")
-
+  
   return(CB)
 }
 
@@ -559,10 +611,10 @@ treefit <- function(Delta, Z) {
 
 treepred <- function(fit, SC, Z, FirstCode, type = c("terminal nodes", "all vars")) {
   type <- match.arg(type)
-
+  
   Delta.tree <- as.numeric(predict(fit, data.frame(Z), type = "class")) - 1
   SX.tree <- SC
-
+  
   if (nrow(fit$frame) > 1) {
     tmp <- rpart.subrules.table(fit)
     if (type == "all vars") {
@@ -596,7 +648,7 @@ treepred <- function(fit, SC, Z, FirstCode, type = c("terminal nodes", "all vars
       SX.tree[is.na(SX.tree)] <- SC[is.na(SX.tree)] / 2
     }
   }
-
+  
   return(data.frame(Delta.tree, SX.tree))
 }
 
@@ -609,27 +661,27 @@ logifit <- function(Delta, Z, train, baseline) {
   df <- data.frame(Delta, Z)
   tmp <- glm(Delta ~ ., data = df[train, ], family = binomial)
   fit <- cv.glmnet(Z[train, ], Delta[train],
-    family = "binomial", alpha = 1,
-    penalty.factor = abs(1 / tmp$coefficient), standardize = FALSE
+                   family = "binomial", alpha = 1,
+                   penalty.factor = abs(1 / tmp$coefficient), standardize = FALSE
   )
   cc <- as.numeric(coef(fit, s = "lambda.min"))
   fm <- as.formula(paste0("Delta~", paste0(colnames(Z)[cc[-1] != 0], collapse = "+")))
   fit <- glm(fm, data = df[train, ], family = binomial)
-
+  
   fit$vars <- colnames(Z)[cc[-1] != 0 & {
     !colnames(Z) %in% baseline
   }]
-
+  
   pp <- predict(fit, newdata = df[-train, ], type = "response")
-
+  
   fit$thresh <- as.numeric(optimize(f = function(c) {
     sum(abs(Delta[-train] - {
       pp >= c
     }))
   }, interval = c(0, 1))$minimum)
-
+  
   fit$Delta <- predict(fit, newdata = df, type = "response") > fit$thresh
-
+  
   return(fit)
 }
 
@@ -637,7 +689,7 @@ logifit <- function(Delta, Z, train, baseline) {
 GetWei <- function(PK, vars, Delta, SX) {
   tmp <- Delta == 1
   lv <- length(vars)
-
+  
   if (lv == 1) {
     wei <- 1
     adj <- median(PK[tmp, vars] - SX[tmp], na.rm = TRUE)
@@ -649,7 +701,7 @@ GetWei <- function(PK, vars, Delta, SX) {
     wei <- wei / sum(wei)
     adj <- apply(PK[tmp, vars] - SX[tmp], 2, median, na.rm = TRUE)
   }
-
+  
   list(wei = wei, adj = adj) # add adj
 }
 
@@ -658,9 +710,9 @@ GetSX <- function(PK, wei, adj, logi.fit, vars, Z, SC, Tend) { ## add adj
   df <- data.frame(Z)
   nn <- nrow(Z)
   Delta.fit <- predict(logi.fit, newdata = df, type = "response") >= logi.fit$thresh
-
+  
   PK[, vars] <- PK[, vars] - VTM(adj, nn)
-
+  
   PK[is.na(PK)] <- 0
   SX.fit <- SC
   # if(any(Delta.fit==1)){
@@ -675,9 +727,9 @@ GetSX <- function(PK, wei, adj, logi.fit, vars, Z, SC, Tend) { ## add adj
       matrix(PK[Delta.fit, vars] != 0, ncol = length(vars)) %*% wei
     }
   }
-
+  
   SX.fit[is.na(SX.fit)] <- Tend
-
+  
   return(data.frame(Delta = as.numeric(Delta.fit), SX = SX.fit))
 }
 
@@ -694,7 +746,7 @@ GetPrecAll.logi <- function(logi.fit, vars, wei, adj, PKTS, ST, SX, SC, Delta, Z
   )[, 2])
   CB <- c(Cstat.CV, BrierS.CV)
   names(CB) <- c("Cstat", "BrierSc.Adj")
-
+  
   return(CB)
 }
 
@@ -711,23 +763,23 @@ GetPrecAll.Comb <- function(bgbbest, bb_Cheng, bbt_Cheng,
     bgbbest, ST, SX, SC, Delta, Z, tseq, t.grid,
     knots, Boundary.knots, GX, Gt, endF, Tend
   )
-
+  
   ### Cheng
   tmp <- NPMLE.Pred(bb_Cheng, bbt_Cheng, ST, SX, SC, Delta, Z, tseq, t.grid, GX, Gt, endF)
   CB.CV <- cbind(CB.CV, NPMLE = tmp)
-
+  
   ### NPMLE
   tmp <- NPMLE.Pred(bb, bbt, ST, SX, SC, Delta, Z, tseq, t.grid, GX, Gt, endF)
   CB.CV <- cbind(CB.CV, NPMLE = tmp)
-
+  
   ### decision tree
   tmp <- GetPrecAll.tree(tree.fit, ST, SX, SC, Delta, Z, FirstCode, tseq, t.grid, GX, Gt, endF)
   CB.CV <- cbind(CB.CV, tmp)
-
+  
   ### logistic reg
   tmp <- GetPrecAll.logi(logi.fit, vars, wei, adj, PKTS, ST, SX, SC, Delta, Z, tseq, t.grid, GX, Gt, endF, Tend)
   CB.CV <- cbind(CB.CV, logi = tmp)
-
+  
   return(CB.CV)
 }
 
@@ -753,17 +805,17 @@ BrierScore.KM2 <- function(tt = NULL, ST, SX, SC, Delta, tseq, GX = NULL, Gt = N
       SX > t
     } / Gt[tseq == t]
   })
-
+  
   KM <- survfit(Surv(SX, Delta) ~ 1, type = "kaplan-meier")
   tmp <- 1 - summary(KM, times = tseq, extend = TRUE)$surv
   tmpp <- apply(outer(SC, tseq, FUN = function(x, y) abs(x - y)), 1, which.min)
   tmpp <- tmp[tmpp]
   tmpp <- outer(tmpp, tmp, FUN = "pmin")
-
+  
   # ## exact result, too slow
   # tmpp  = t(sapply(SC,function(x) pmin(x,tseq)))
   # tmpp  = 1-t(apply(tmpp,1,function(x) summary(G_fit,times=x,extend=TRUE)$surv))
-
+  
   tmp2 <- outer(ST, tseq, FUN = "<=") * Delta # 1(T<= min(t,C))
   aa <- apply(
     {

@@ -175,8 +175,7 @@ fpca.combine <- function(longitudinal, follow_up_time,
 
   for (i in 1:length(codes)) {
     time <- D[[i]]
-    ans <- fpca.new(time, fu_train, fu_valid, K.select = "PropVar",
-                    K.max = K.max) 
+    ans <- fpca.new(time, fu_train, fu_valid, K.select = "PropVar", Kmax = K.max) 
     #--- create an object for fitting --
     Ft_name <- colnames(ans$TrainFt)
     Ft_name <- paste0(Ft_name, codes[i])
@@ -205,5 +204,9 @@ fpca.combine <- function(longitudinal, follow_up_time,
   Z$ValidPK <- ValidPK
   Z$TrainN <- TrainN
   Z$ValidN <- ValidN
+  
+  #-- for masta.validation() --   
+  Z$data = list(longitudinal=longitudinal, follow_up_time=follow_up_time)
+  Z$parm = list(K.select = K.select, K.max = K.max , n.grid = n.grid, propvar = propvar)
   return(Z)
 }

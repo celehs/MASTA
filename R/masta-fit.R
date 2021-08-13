@@ -388,9 +388,14 @@ masta.fit <- function(object, survival, follow_up_time, Tend=1, cov_group = NULL
   out$result_valid <- cstats
   #---- predicted score (validation data)
   out$risk_score_valid <- eval$risk_score
-  # out$pred_surv_valid = eval$pred_surv
+  out$pred_surv_valid = eval$pred_surv
 
-  #-- add class to the return object --
+  #---- for masta.validation()
+  out$fpca_obj <- object
+  out$data_survival <- survival
+  out$parm = list(Tend=Tend, cov_group = cov_group, thresh = thresh, PCAthresh = PCAthresh, seed = seed)
+
+    #-- add class to the return object --
   class(out) <- "masta"
 
   return(out)
