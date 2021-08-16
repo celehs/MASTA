@@ -144,7 +144,7 @@ fpca.summary <- function(data, tmp, fu_train, fu_valid){
 #' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
 #' @export
 fpca.combine <- function(longitudinal, follow_up_time, 
-                         K.select = "PropVar", K.max = 5, n.grid = 401, propvar = 0.85){
+                         K.select = "PropVar", Kmax = 5, n.grid = 401, propvar = 0.85){
   longitudinal$code = as.numeric(longitudinal$code)
   codes = sort(unique(longitudinal$code))
   if(min(codes)!=1) stop("Codes should start from 1.")
@@ -175,7 +175,7 @@ fpca.combine <- function(longitudinal, follow_up_time,
 
   for (i in 1:length(codes)) {
     time <- D[[i]]
-    ans <- fpca.new(time, fu_train, fu_valid, K.select = "PropVar", Kmax = K.max) 
+    ans <- fpca.new(time, fu_train, fu_valid, K.select = "PropVar", Kmax = Kmax) 
     #--- create an object for fitting --
     Ft_name <- colnames(ans$TrainFt)
     Ft_name <- paste0(Ft_name, codes[i])
@@ -207,6 +207,6 @@ fpca.combine <- function(longitudinal, follow_up_time,
   
   #-- for masta.validation() --   
   Z$data = list(longitudinal=longitudinal, follow_up_time=follow_up_time)
-  Z$parm = list(K.select = K.select, K.max = K.max , n.grid = n.grid, propvar = propvar)
+  Z$parm = list(K.select = K.select, Kmax = Kmax , n.grid = n.grid, propvar = propvar)
   return(Z)
 }

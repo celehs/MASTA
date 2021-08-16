@@ -9,53 +9,56 @@
 #' @return \item{risk_score_valid}{Predcited Score}
 #' @return \item{pred_surv_valid}{Predicted incidence curves}
 #' @export
-masta.validation <- function(object, new_longitudinal, new_follow_up_time, new_survival) {
+masta_validation <- function(object, new_longitudinal, new_follow_up_time, new_survival) {
 
-   #--- data derivation 
-    org_longitudinal = object$fpca_obj$data$longitudinal
-    org_follow_up_time = object$fpca_obj$data$follow_up_time
-    org_survival=object$data_survival
+#--- data derivation -- 
+   org_longitudinal <- object$fpca_obj$data$longitudinal
+   org_follow_up_time <- object$fpca_obj$data$follow_up_time
+   org_survival <- object$data_survival
 
-    # trainign data
-    train_id = org_follow_up_time$id[org_follow_up_time$train_valid == 1]
+   # trainign data
+   train_id <- org_follow_up_time$id[org_follow_up_time$train_valid == 1]
 
-    # replace the validaiton data with the new data
-    new_follow_up_time$train_valid=0
-    follow_up_time_val = rbidn(org_follow_up_time[org_follow_up_time$id %in% train_id,], new_follow_up_time)
-    longitudinal_val = rbind(org_longitudinal[org_longitudinal$id %in% train_id,], new_longitudinal)
-    survival_val = rbind(new_survival[new_survival$id %in% train_id,], new_survival)
+   # replace the validaiton data with the new data
+   new_follow_up_time$train_valid <- 0
+   follow_up_time_val <- rbind(org_follow_up_time[org_follow_up_time$id %in% train_id, ], new_follow_up_time)
+   longitudinal_val <- rbind(org_longitudinal[org_longitudinal$id %in% train_id, ], new_longitudinal)
+   survival_val <- rbind(org_survival[org_survival$id %in% train_id, ], new_survival)
 
   #--- parameters used for FPCA and Fit
-  # list(K.select = K.select, K.max = K.max , n.grid = n.grid, propvar = propvar)
-  # list(Tend=Tend, cov_group = cov_group, thresh = thresh, PCAthresh = PCAthresh, seed = seed)
+  #- list(K.select = K.select, Kmax = Kmax , n.grid = n.grid, propvar = propvar)
+  #- list(Tend=Tend, cov_group = cov_group, thresh = thresh, PCAthresh = PCAthresh, seed = seed)
   
-  Z=fpca.combine(longitudinal_val, 
-                 follow_up_time_val,
-                 K.select = object$fpca_obj$parm$K.select, 
-                 K.max = object$fpca_obj$parm$K.max , 
-                 n.grid = object$fpca_obj$parm$n.grid, 
-                 propvar = object$fpca_obj$parm$propvar)
+  fp <- fpca.combine(
+    longitudinal_val,
+    follow_up_time_val,
+    K.select = object$fpca_obj$parm$K.select,
+    Kmax = object$fpca_obj$parm$Kmax,
+    n.grid = object$fpca_obj$parm$n.grid,
+    propvar = object$fpca_obj$parm$propvar
+  )
   
-  b = masta.fit(Z, 
-                survival_val, 
-                follow_up_time_val, 
-                Tend=object$parm$Tend, 
-                cov_group = object$parm$cov_group, 
-                thresh = object$parm$thresh, 
-                PCAthresh = object$parm$PCAthresh, 
-                seed = object$parm$seed)
-  
+  b <- masta.fit(
+    fp,
+    survival_val,
+    follow_up_time_val,
+    Tend = object$parm$Tend,
+    cov_group = object$parm$cov_group,
+    thresh = object$parm$thresh,
+    PCAthresh = object$parm$PCAthresh,
+    seed = object$parm$seed
+  )
   # ================
   # Output
   # ================
   out <- list()
 
-  #--- result with the validation data 
-  out$result_valid <- b$result_valid
+ #--- result with the validation data 
+ out$result_valid <- b$result_valid
 
-  #---- predicted score (validation data)
-  out$risk_score_valid = b$risk_score_valid
-  out$pred_surv_valid = b$pred_surv_valid
-  
-  return(out)
+ #---- predicted score (validation data)
+ out$risk_score_valid <- b$risk_score_valid
+ out$pred_surv_valid <- b$pred_surv_valid
+ 
+ return(out)
 }
