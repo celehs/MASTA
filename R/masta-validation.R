@@ -16,11 +16,11 @@ masta_validation <- function(object, new_longitudinal, new_follow_up_time, new_s
    org_follow_up_time <- object$fpca_obj$data$follow_up_time
    org_survival <- object$data_survival
 
-   # trainign data
+   # trainig data
    train_id <- org_follow_up_time$id[org_follow_up_time$train_valid == 1]
 
-   # replace the validaiton data with the new data
-   new_follow_up_time$train_valid <- 0
+   # replace the validation data with the new data
+   new_follow_up_time$train_valid <- 2
    follow_up_time_val <- rbind(org_follow_up_time[org_follow_up_time$id %in% train_id, ], new_follow_up_time)
    longitudinal_val <- rbind(org_longitudinal[org_longitudinal$id %in% train_id, ], new_longitudinal)
    survival_val <- rbind(org_survival[org_survival$id %in% train_id, ], new_survival)
@@ -53,12 +53,11 @@ masta_validation <- function(object, new_longitudinal, new_follow_up_time, new_s
   # ================
   out <- list()
 
- #--- result with the validation data 
- out$result_valid <- b$result_valid
+  #--- result with the validation data 
+  out$result_valid <- b$result_valid
 
- #---- predicted score (validation data)
- out$risk_score_valid <- b$risk_score_valid
- out$pred_surv_valid <- b$pred_surv_valid
- 
+  #---- predicted score (validation data)
+  out$risk_score_valid <- b$risk_score_valid
+  out$pred_surv_valid <- b$pred_surv_valid
  return(out)
 }

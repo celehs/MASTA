@@ -8,7 +8,7 @@ fpca.combine(
   longitudinal,
   follow_up_time,
   K.select = "PropVar",
-  K.max = 5,
+  Kmax = 5,
   n.grid = 401,
   propvar = 0.85
 )

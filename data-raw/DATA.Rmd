@@ -69,6 +69,27 @@ usethis::use_data(longitudinal, overwrite = TRUE)
 usethis::use_data(survival, overwrite = TRUE)
 ```
 
+# sample data for the validation with a new data set
+```{r}
+set.seed(123)
+sid = sample(follow_up_time$id, size=300)
+wk1 = follow_up_time[follow_up_time$id %in% sid,]
+new_follow_up_time=data.frame(id=wk1$id + 100000,fu_time=wk1$fu_time)
+
+new_longitudinal = longitudinal[longitudinal$id %in% sid,]
+new_longitudinal$id = new_longitudinal$id  + 100000
+
+new_survival = survival[survival$id %in% sid,]
+new_survival$id = new_survival$id  + 100000
+
+```
+
+```{r}
+usethis::use_data(new_follow_up_time, overwrite = TRUE)
+usethis::use_data(new_longitudinal, overwrite = TRUE)
+usethis::use_data(new_survival, overwrite = TRUE)
+```
+
 ```{r}
 proc.time()
 ```
