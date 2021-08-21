@@ -16,7 +16,7 @@ masta_validation <- function(object, new_longitudinal, new_follow_up_time, new_s
    org_follow_up_time <- object$fpca_obj$data$follow_up_time
    org_survival <- object$data_survival
 
-   # trainig data
+   # training data
    train_id <- org_follow_up_time$id[org_follow_up_time$train_valid == 1]
 
    # replace the validation data with the new data

@@ -1,9 +1,13 @@
-predict.fpca <- function(object, newdata) {
+predict_fpca <- function(object, newdata) {
+
   FPCA <- object$FPCA
+
   fu <- newdata$fu
   time <- newdata$time
-  time_std <- newdata$time_std
   names_time <- names(time)
+  time_std <- time / fu[names_time]
+  #- time_std <- newdata$time_std
+
   count <- tapply(time, names_time, length) 
   NN <- rep(0, length(fu))
   N <- data.frame(id = as.character(names(fu)), pred_total = NN[names(fu)])

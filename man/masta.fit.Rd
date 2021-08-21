@@ -22,6 +22,8 @@ masta.fit(
 
 \item{follow_up_time}{the follow-up data}
 
+\item{Tend}{a scalar value. NA in SX is replaced by this. The default is 1.}
+
 \item{cov_group}{a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.}
 
 \item{thresh}{a default is \code{0.7}, which means if there are codes with >70\% patients no codes, only use first code time.}

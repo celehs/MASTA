@@ -72,7 +72,9 @@ usethis::use_data(survival, overwrite = TRUE)
 # sample data for the validation with a new data set
 ```{r}
 set.seed(123)
-sid = sample(follow_up_time$id, size=300)
+tmp = follow_up_time$id[follow_up_time$train_valid == 2]
+sid = sample(tmp, size=350)
+
 wk1 = follow_up_time[follow_up_time$id %in% sid,]
 new_follow_up_time=data.frame(id=wk1$id + 100000,fu_time=wk1$fu_time)
 

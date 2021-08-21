@@ -3,6 +3,7 @@
 #' @param object The object returned by the \code{fpca.combine} function
 #' @param survival the labeled data. The columns should be 1) id, 2) event indicator, 3) event time, followed by baseline predictors.
 #' @param follow_up_time the follow-up data
+#' @param Tend a scalar value. NA in SX is replaced by this. The default is 1.
 #' @param cov_group a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.
 #' @param thresh a default is \code{0.7}, which means if there are codes with >70\% patients no codes, only use first code time.
 #' @param PCAthresh a threshold value for PCA. Default is \code{0.9}.
@@ -14,11 +15,11 @@
 #' @export
 masta.fit <- function(object, survival, follow_up_time, Tend=1, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 100) {
 
-  aa = merge(survival, follow_up_time, by="id")
+  aa <- merge(survival, follow_up_time, by = "id")
   
-  TrainSurv=aa[aa$train_valid==1,-ncol(aa)]
-  ValidSurv=aa[aa$train_valid==2,-ncol(aa)]
-  npred = ncol(aa)-5
+  TrainSurv <- aa[aa$train_valid==1,-ncol(aa)]
+  ValidSurv <- aa[aa$train_valid==2,-ncol(aa)]
+  npred <- ncol(aa)-5
   codes <- paste0("pred", 1:npred)
   colnames(TrainSurv) <- colnames(ValidSurv) <- c("case", "delta", "sx",  paste0("base_pred", 1:npred), "sc")
   nn <- nrow(TrainSurv)
@@ -31,7 +32,6 @@ masta.fit <- function(object, survival, follow_up_time, Tend=1, cov_group = NULL
   ValidFt <- object$ValidFt
   TrainPK <- object$TrainPK[row.names(object$TrainPK) %in% as.character(TrainSurv$case), ]
   ValidPK <- object$ValidPK
-  
   
   for (i in seq_along(codes)) {
     idx0 <- 5 * (i - 1)
@@ -121,7 +121,7 @@ masta.fit <- function(object, survival, follow_up_time, Tend=1, cov_group = NULL
     tmp <- (x - 1) * 5 + 1:5
     tmp <- tmp[!tmp %in% codes0]
   })
-  # Z <- as.matrix(cbind(TrainSurv[, paste0("base_pred", 1:length(TrainSurv_pred_org))], TrainFt))
+  # - Z <- as.matrix(cbind(TrainSurv[, paste0("base_pred", 1:length(TrainSurv_pred_org))], TrainFt))
   Z <- as.matrix(cbind(TrainSurv[, grep("base_pred", names(TrainSurv))], TrainFt))
   ### standardize Z
   meanZ <- apply(Z, 2, mean)
@@ -388,12 +388,12 @@ masta.fit <- function(object, survival, follow_up_time, Tend=1, cov_group = NULL
   out$result_valid <- cstats
   #---- predicted score (validation data)
   out$risk_score_valid <- eval$risk_score
-  out$pred_surv_valid = eval$pred_surv
+  out$pred_surv_valid <-  eval$pred_surv
 
   #---- for masta.validation()
   out$fpca_obj <- object
   out$data_survival <- survival
-  out$parm = list(Tend=Tend, cov_group = cov_group, thresh = thresh, PCAthresh = PCAthresh, seed = seed)
+  out$parm <-  list(Tend=Tend, cov_group = cov_group, thresh = thresh, PCAthresh = PCAthresh, seed = seed)
 
     #-- add class to the return object --
   class(out) <- "masta"
