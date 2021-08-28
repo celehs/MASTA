@@ -96,7 +96,7 @@ fpca.Kadj.f <- function(K, Kmax, ngrid, derivatives,
                         x, N, delta, f_mu, G.eigen, xi){
   if (K == 1) {
     fi <- f_mu + outer(G.eigen$u[, 1], xi[1, ]) / delta # density functions
-    scores <- data.frame(t(xi[1:min(K, Kmax), ]))
+    scores <- data.frame(xi[1:min(K, Kmax), ])
   } else {
     fi <- f_mu + (G.eigen$u[, 1:K] / delta) %*% xi[1:K, ] # density functions
     scores <- data.frame(t(xi[1:min(K, Kmax), ]))
