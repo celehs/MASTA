@@ -27,7 +27,7 @@ PPIC <- function(K, f_locpoly, t, N, f_mu, G.eigen_v, xi, xgrid, delta) {
 den_locpoly <- function(partition, t, N) {
   n <- length(N)
   l <- length(partition)
-  partition_x <- (artition[-1] + partition[-l]) / 2
+  partition_x <- (partition[-1] + partition[-l]) / 2
   cumsumN <- c(0, cumsum(N))
   f_locpoly <- lapply(seq(1, n), function(i) {
     a <- (cumsumN[i] + 1) : cumsumN[i + 1]
