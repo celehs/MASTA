@@ -2,7 +2,7 @@
 title: "MASTA Validation"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Validation of MASTA}
+  %\VignetteIndexEntry{MASTA Validation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

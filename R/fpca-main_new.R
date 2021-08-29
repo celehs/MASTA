@@ -21,9 +21,10 @@
 #' @param bw a character string; bandwidth estimating method when h1 and h2 are null. Default="ucv", but can also be "nrd0", "nrd", "bcv","SJ-dpi" and "SJ-ste".
 #' @param Tend numeric; the upper bound of the encounter time for the estimated density function. Default=1.
 #' @param N named vector; the number of observed event with the corresponding patient name.
-#' @param n.grid an integer value for grid points used in estimating covariance function g. Default is \code{101}.
+#' @param ngrid an integer value for grid points used in estimating covariance function g. Default is \code{101}.
 #' @param K.select characters indicating which method to choose the number of principal components K.
 #'  Default is K.select="PropVar", and K.select="PPIC" is also available.
+#' @param Kmax an integer value. The max of the principle components K. Default is \code{10}.
 #' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
 #' @param density.method a character string; the method of estimating density function when \code{K.select}="PPIC". Default is "kernal", but can also be "local linear".
 #' @param polybinx logical; if use the same partition (x) for the polynomial regression when \code{density.method}="local linear". Default is FALSE.

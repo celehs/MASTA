@@ -21,6 +21,8 @@ fpca.combine(
 \item{K.select}{characters indicating which method to choose the number of principal components K.
 Default is K.select="PropVar", and K.select="PPIC" is also available.}
 
+\item{Kmax}{an integer value. The max of the principle components K. Default is \code{5}.}
+
 \item{n.grid}{an integer value for grid points used in estimating covariance function g. Default is \code{401}.}
 
 \item{propvar}{a proportion of variation used to select number of FPCs. Default is \code{0.85}.}

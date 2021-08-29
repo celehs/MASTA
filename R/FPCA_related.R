@@ -23,7 +23,6 @@ GetPK <- function(id, t, tseq, fu) {
 
 
 
-#' @export
 fpca.check <- function(time, fu_train, fu_valid){
   #-1-- minimum in "time" should be greater than or equal to 1
   if (!is.vector(time)) stop("Data Entry Issue: 'time' should be a vector")
@@ -60,7 +59,6 @@ fpca.check <- function(time, fu_train, fu_valid){
 
 
 
-#' @export
 fpca.pre <- function(time, fu_train, fu_valid=NULL, Tend, as_int, least_c=1, least_uc=1){
   fu <- c(fu_train, fu_valid)
   uni.count <- tapply(time, names(time), function(x){length(unique(x))})
@@ -140,6 +138,7 @@ fpca.summary <- function(data, tmp, fu_train, fu_valid){
 #' @param follow_up_time follow-up time information. See an example as \code{follow_up_time}.
 #' @param K.select characters indicating which method to choose the number of principal components K.
 #'  Default is K.select="PropVar", and K.select="PPIC" is also available.
+#' @param Kmax an integer value. The max of the principle components K. Default is \code{5}.
 #' @param n.grid an integer value for grid points used in estimating covariance function g. Default is \code{401}.
 #' @param propvar a proportion of variation used to select number of FPCs. Default is \code{0.85}.
 #' @export
