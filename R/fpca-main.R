@@ -98,13 +98,13 @@ PP_FPCA <- function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1, # assume i
   ## get density functions
   if (K == 1) {
     tmp <- f_mu + outer(G.eigen$u[, 1], xi[1, ]) / delta # density functions
-    scores <- data.frame(xi[1:max(K, Kmax), ])
+    scores <- data.frame(xi[1:min(K, Kmax), ])
   } else {
     tmp <- f_mu +
       {
         G.eigen$u[, 1:K] / delta
       } %*% xi[1:K, ] # density functions
-    scores <- data.frame(t(xi[1:max(K, Kmax), ]))
+    scores <- data.frame(t(xi[1:min(K, Kmax), ]))
   }
   ## make adjustments to get valid density functions (nonnegative+integrate to 1)
   tmp <- apply(tmp, 2, function(x) {
@@ -113,9 +113,9 @@ PP_FPCA <- function(t, h1 = NULL, h2 = NULL, N, bw = "ucv", Tend = 1, # assume i
     return(x)
   })
   tmp <- tmp / delta^2
-  names(scores) <- paste0("score_", seq(1:max(K, Kmax))) # FPC scores
-  basis <- data.frame(cbind(x, G.eigen$u[, 1:max(K, Kmax)] / delta))
-  names(basis) <- c("x", paste0("basis_", seq(1:max(K, Kmax)))) # FPC eigenfunctions
+  names(scores) <- paste0("score_", seq(1:min(K, Kmax))) # FPC scores
+  basis <- data.frame(cbind(x, G.eigen$u[, 1:min(K, Kmax)] / delta))
+  names(basis) <- c("x", paste0("basis_", seq(1:min(K, Kmax)))) # FPC eigenfunctions
   ## name the density functions
   if (exists("N.index")) {
     colnames(tmp) <- paste0("f", which(N.index))

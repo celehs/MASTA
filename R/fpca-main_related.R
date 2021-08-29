@@ -96,10 +96,10 @@ fpca.Kadj.f <- function(K, Kmax, ngrid, derivatives,
                         x, N, delta, f_mu, G.eigen, xi){
   if (K == 1) {
     fi <- f_mu + outer(G.eigen$u[, 1], xi[1, ]) / delta # density functions
-    scores <- data.frame(xi[1:max(K, Kmax), ])
+    scores <- data.frame(xi[1:min(K, Kmax), ])
   } else {
     fi <- f_mu + (G.eigen$u[, 1:K] / delta) %*% xi[1:K, ] # density functions
-    scores <- data.frame(t(xi[1:max(K, Kmax), ]))
+    scores <- data.frame(t(xi[1:min(K, Kmax), ]))
   }
   
   ## make adjustments to get valid density functions (nonnegative+integrate to 1)
@@ -110,9 +110,9 @@ fpca.Kadj.f <- function(K, Kmax, ngrid, derivatives,
   })
   fi <- fi / delta^2
   
-  names(scores) <- paste0("score_", seq(1:max(K, Kmax))) # FPC scores
-  basis <- data.frame(cbind(x, G.eigen$u[, 1:max(K, Kmax)] / delta))
-  names(basis) <- c("x", paste0("basis_", seq(1:max(K, Kmax)))) # FPC eigenfunctions
+  names(scores) <- paste0("score_", seq(1:min(K, Kmax))) # FPC scores
+  basis <- data.frame(cbind(x, G.eigen$u[, 1:min(K, Kmax)] / delta))
+  names(basis) <- c("x", paste0("basis_", seq(1:min(K, Kmax)))) # FPC eigenfunctions
   
   ## name the density functions
   if (exists("N.index")) {
