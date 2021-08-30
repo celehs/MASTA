@@ -43,9 +43,9 @@ system.time(Z <- fpca.combine(longitudinal, follow_up_time, K.select = "PropVar"
 ```
 
 ## Run Step II (fitting)
-Using the object derived from `fpca.combine` and the two data files (`survival'
+Using the object derived from `fpca.combine` and the two data files -- `survival` and `follow_up_time`
 ```{r}
 system.time(b <- masta.fit(Z, survival, follow_up_time, Tend=1, cov_group = NULL, thresh = 0.7, PCAthresh = 0.9, seed = 100))
-b
+names(b)
 ```
 

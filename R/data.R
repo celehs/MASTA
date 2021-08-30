@@ -35,13 +35,42 @@ NULL
 
 #' @title Sample Data of the MASTA Pacakge
 #' @description Survival data for illustrating the use of the MASTA algorithm
-#' @format A data.frame with 8 columns:
+#' @format A data.frame with 6 columns:
 #' \describe{
 #'   \item{id}{patient id.}
 #'   \item{event_ind}{indicator for events; 1=event, 0=cencoring}
 #'   \item{event_time}{the event time if \code{event_ind}=1.}
-#'   \item{fu_time}{the follow up time for the patient.}
 #'   \item{cov_1,cov_2,cov_3}{3 covariates used in a survival regression model.}
-#'   \item{train_valid}{indicator for patients in the training data set; 1=training, 0=test}
 #' }
 "survival"
+
+
+#' @title Sample Data of the MASTA Pacakge
+#' @description A long form longitudinal data for illustrating how to validate the MASTA algorithm with a new data
+#' @format A data.frame with 3 columns:
+#' \describe{
+#'   \item{code}{integer indicator for the type of codes. It must be incremental and start from 1, which contains no skipping number.}
+#'   \item{id}{patient id.}
+#'   \item{time}{encounter time with the code. One patient can encounter with different types of codes multiple times.}
+#' }
+"new_longitudinal"
+
+#' @title Sample Data of the MASTA Pacakge
+#' @description The follow up time of training and validation data for illustrating how to validate the MASTA algorithm with a new data
+#' @format A data.frame with 2 columns:
+#' \describe{
+#'   \item{id}{patient id.}
+#'   \item{fu_time}{the follow up time for the patient.}
+#' }
+"new_follow_up_time"
+
+#' @title Sample Data of the MASTA Pacakge
+#' @description Survival data for illustrating how to validate the MASTA algorithm with a new data
+#' @format A data.frame with 6 columns:
+#' \describe{
+#'   \item{id}{patient id.}
+#'   \item{event_ind}{indicator for events; 1=event, 0=cencoring}
+#'   \item{event_time}{the event time if \code{event_ind}=1.}
+#'   \item{cov_1,cov_2,cov_3}{3 covariates used in a survival regression model.}
+#' }
+"new_survival"

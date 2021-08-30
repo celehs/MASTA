@@ -5,20 +5,23 @@
 \title{Extract Features by Functional Principal Component Analysis (FPCA)}
 \usage{
 fpca.combine(
-  time_code,
+  longitudinal,
   follow_up_time,
   K.select = "PropVar",
+  Kmax = 5,
   n.grid = 401,
   propvar = 0.85
 )
 }
 \arguments{
-\item{time_code}{longitudinal encounter times. See an example as \code{longitudinal} data.}
+\item{longitudinal}{longitudinal encounter times. See an example as \code{longitudinal} data.}
 
 \item{follow_up_time}{follow-up time information. See an example as \code{follow_up_time}.}
 
 \item{K.select}{characters indicating which method to choose the number of principal components K.
 Default is K.select="PropVar", and K.select="PPIC" is also available.}
+
+\item{Kmax}{an integer value. The max of the principle components K. Default is \code{5}.}
 
 \item{n.grid}{an integer value for grid points used in estimating covariance function g. Default is \code{401}.}
 

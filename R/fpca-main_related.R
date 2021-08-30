@@ -72,6 +72,7 @@ fpca.est.K <- function(K.select = c("PropVar", "PPIC"), Kmax,
       }
     } else {
       cumsumN2 <- c(0, cumsum(N))
+      n <- length(N)
       f_locpoly <- sapply(1:n, function(j) {
         tmp <- density(t[{
           cumsumN2[j] + 1
@@ -115,20 +116,13 @@ fpca.Kadj.f <- function(K, Kmax, ngrid, derivatives,
   names(basis) <- c("x", paste0("basis_", seq(1:min(K, Kmax)))) # FPC eigenfunctions
   
   ## name the density functions
-  if (exists("N.index")) {
-    colnames(fi) <- paste0("f", which(N.index))
-    scores <- data.frame(
-      id = as.character(which(N.index)),
-      scores, stringsAsFactors = FALSE
-    ) # add id to scores
-  } else {
-    n = length(N)
-    colnames(fi) <- paste0("f", seq(1, n))
-    scores <- data.frame(
-      id = as.character(names(N)),
-      scores, stringsAsFactors = FALSE
-    )
-  }
+  n = length(N)
+  colnames(fi) <- paste0("f", seq(1, n))
+  scores <- data.frame(
+    id = as.character(names(N)),
+    scores, stringsAsFactors = FALSE
+  )
+  
   fi <- as.data.frame(fi)
   fi <- data.frame(x = x, fi)
   

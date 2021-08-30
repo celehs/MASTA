@@ -6,15 +6,23 @@
 \usage{
 masta.fit(
   object,
+  survival,
+  follow_up_time,
+  Tend = 1,
   cov_group = NULL,
   thresh = 0.7,
   PCAthresh = 0.9,
-  seed = 1234,
-  seed2 = 100
+  seed = 100
 )
 }
 \arguments{
-\item{object}{results returned by the \code{masta.fpca} function}
+\item{object}{The object returned by the \code{fpca.combine} function}
+
+\item{survival}{the labeled data. The columns should be 1) id, 2) event indicator, 3) event time, followed by baseline predictors.}
+
+\item{follow_up_time}{the follow-up data}
+
+\item{Tend}{a scalar value. NA in SX is replaced by this. The default is 1.}
 
 \item{cov_group}{a vector of consecutive integers describing the grouping only for covariates. When \code{NULL} is specified (default), each covariate will be in different group.}
 
@@ -22,9 +30,7 @@ masta.fit(
 
 \item{PCAthresh}{a threshold value for PCA. Default is \code{0.9}.}
 
-\item{seed}{random seed used for the sampling. Default is \code{1234}.}
-
-\item{seed2}{random seed used for the sampling. Default is \code{100}.}
+\item{seed}{random seed used for the sampling. Default is \code{100}.}
 }
 \value{
 A list with components:

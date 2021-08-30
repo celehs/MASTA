@@ -2,10 +2,9 @@
 
 export(FPC.Kern.S)
 export(PP_FPCA_new)
-export(fpca.check)
 export(fpca.combine)
-export(fpca.pre)
 export(masta.fit)
+export(masta_validation)
 import(data.table)
 import(doParallel)
 import(foreach)

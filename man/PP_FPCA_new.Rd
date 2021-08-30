@@ -31,8 +31,12 @@ PP_FPCA_new(
 
 \item{Tend}{numeric; the upper bound of the encounter time for the estimated density function. Default=1.}
 
+\item{ngrid}{an integer value for grid points used in estimating covariance function g. Default is \code{101}.}
+
 \item{K.select}{characters indicating which method to choose the number of principal components K.
 Default is K.select="PropVar", and K.select="PPIC" is also available.}
+
+\item{Kmax}{an integer value. The max of the principle components K. Default is \code{10}.}
 
 \item{propvar}{a proportion of variation used to select number of FPCs. Default is \code{0.85}.}
 
@@ -41,8 +45,6 @@ Default is K.select="PropVar", and K.select="PPIC" is also available.}
 \item{polybinx}{logical; if use the same partition (x) for the polynomial regression when \code{density.method}="local linear". Default is FALSE.}
 
 \item{derivatives}{logical; whether to estimate the first derivatives of the density function. Default is TRUE.}
-
-\item{n.grid}{an integer value for grid points used in estimating covariance function g. Default is \code{101}.}
 }
 \description{
 Performs FPCA to estimate the density function for each subject.
